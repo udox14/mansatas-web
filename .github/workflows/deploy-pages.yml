@@ -28,6 +28,9 @@ jobs:
         env:
           NEXT_PUBLIC_API_URL: ${{ vars.NEXT_PUBLIC_API_URL }}
 
+      - name: Copy Functions to Output
+        run: cp -r apps/web/functions apps/web/out/functions
+
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
