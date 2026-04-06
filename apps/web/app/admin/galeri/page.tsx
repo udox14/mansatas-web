@@ -5,9 +5,12 @@ import { Plus, Trash2, Loader2 } from 'lucide-react'
 import AdminLayout from '@/components/admin/admin-layout'
 import ImageUploader from '@/components/admin/image-uploader'
 import { api } from '@/lib/api'
+import { toast } from 'sonner'
+import { useConfirm } from '@/hooks/use-confirm'
 import type { GalleryImage } from '@/types'
 
 export default function AdminGalleryPage() {
+  const confirm = useConfirm()
   const [images, setImages] = useState<GalleryImage[]>([])
   const [loading, setLoading] = useState(true)
   const [newUrl, setNewUrl] = useState('')
@@ -22,19 +25,30 @@ export default function AdminGalleryPage() {
   useEffect(() => { fetch() }, [])
 
   const add = async () => {
-    if (!newUrl) return alert('Upload gambar terlebih dahulu.')
+    if (!newUrl) return toast.error('Upload gambar terlebih dahulu.')
     try {
       await api.post('/api/admin/gallery', { image_url: newUrl, caption: newCaption || null, sort_order: images.length })
       setNewUrl('')
       setNewCaption('')
+      toast.success('Foto berhasil ditambahkan.')
       fetch()
-    } catch { alert('Gagal menambah foto.') }
+    } catch { toast.error('Gagal menambah foto.') }
   }
 
   const remove = async (id: string) => {
-    if (!confirm('Hapus foto ini?')) return
-    await api.delete(`/api/admin/gallery/${id}`)
-    fetch()
+    const ok = await confirm({
+      title: 'Hapus Foto',
+      message: 'Apakah Anda yakin ingin menghapus foto ini?',
+      variant: 'danger',
+    })
+    if (!ok) return
+    try {
+      await api.delete(`/api/admin/gallery/${id}`)
+      toast.success('Foto berhasil dihapus.')
+      fetch()
+    } catch {
+      toast.error('Gagal menghapus foto.')
+    }
   }
 
   const toggle = async (img: GalleryImage) => {

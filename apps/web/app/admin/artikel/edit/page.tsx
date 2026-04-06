@@ -8,6 +8,7 @@ import AdminLayout from '@/components/admin/admin-layout'
 import TiptapEditor from '@/components/admin/tiptap-editor'
 import ImageUploader from '@/components/admin/image-uploader'
 import { api } from '@/lib/api'
+import { toast } from 'sonner'
 
 export default function EditArticlePage() {
   return (
@@ -39,7 +40,7 @@ function EditArticleContent() {
         setThumbnail(a.thumbnail_url || '')
         setStatus(a.status)
       })
-      .catch(() => alert('Artikel tidak ditemukan.'))
+      .catch(() => toast.error('Artikel tidak ditemukan.'))
       .finally(() => setLoading(false))
   }, [id])
 
@@ -63,15 +64,15 @@ function EditArticleContent() {
   }
 
   const save = async () => {
-    if (!title.trim()) return alert('Judul wajib diisi.')
+    if (!title.trim()) return toast.error('Judul wajib diisi.')
     setSaving(true)
     try {
       await api.put(`/api/admin/articles/${id}`, {
         title, excerpt, content, thumbnail_url: thumbnail || null, status,
       })
-      alert('Artikel berhasil diperbarui!')
+      toast.success('Artikel berhasil diperbarui!')
     } catch (err: unknown) {
-      alert(err instanceof Error ? err.message : 'Gagal menyimpan.')
+      toast.error(err instanceof Error ? err.message : 'Gagal menyimpan artikel.')
     } finally { setSaving(false) }
   }
 

@@ -6,9 +6,12 @@ import { Plus, Search, Trash2, RotateCcw, Eye, EyeOff, Pencil, Loader2 } from 'l
 import AdminLayout from '@/components/admin/admin-layout'
 import { api } from '@/lib/api'
 import { formatDate, cn } from '@/lib/utils'
+import { toast } from 'sonner'
+import { useConfirm } from '@/hooks/use-confirm'
 import type { ArticleListItem } from '@/types'
 
 export default function AdminArticlesPage() {
+  const confirm = useConfirm()
   const [articles, setArticles] = useState<(ArticleListItem & { is_deleted?: boolean })[]>([])
   const [meta, setMeta] = useState({ page: 1, totalPages: 1, total: 0 })
   const [search, setSearch] = useState('')
@@ -35,19 +38,33 @@ export default function AdminArticlesPage() {
 
   const toggleStatus = async (id: string, current: string) => {
     const newStatus = current === 'published' ? 'draft' : 'published'
-    await api.patch(`/api/admin/articles/${id}/status`, { status: newStatus })
-    fetchArticles()
+    try {
+      await api.patch(`/api/admin/articles/${id}/status`, { status: newStatus })
+      toast.success(`Artikel berhasil diubah ke ${newStatus}.`)
+      fetchArticles()
+    } catch { toast.error('Gagal mengubah status artikel.') }
   }
 
   const softDelete = async (id: string) => {
-    if (!confirm('Hapus artikel ini?')) return
-    await api.delete(`/api/admin/articles/${id}`)
-    fetchArticles()
+    const ok = await confirm({
+      title: 'Hapus Artikel',
+      message: 'Apakah Anda yakin ingin menghapus artikel ini?',
+      variant: 'danger',
+    })
+    if (!ok) return
+    try {
+      await api.delete(`/api/admin/articles/${id}`)
+      toast.success('Artikel berhasil dihapus.')
+      fetchArticles()
+    } catch { toast.error('Gagal menghapus artikel.') }
   }
 
   const restore = async (id: string) => {
-    await api.patch(`/api/admin/articles/${id}/restore`, {})
-    fetchArticles()
+    try {
+      await api.patch(`/api/admin/articles/${id}/restore`, {})
+      toast.success('Artikel berhasil dipulihkan.')
+      fetchArticles()
+    } catch { toast.error('Gagal memulihkan artikel.') }
   }
 
   return (

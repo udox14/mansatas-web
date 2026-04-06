@@ -5,9 +5,12 @@ import { Mail, MailOpen, Trash2, Loader2, ChevronLeft } from 'lucide-react'
 import AdminLayout from '@/components/admin/admin-layout'
 import { api } from '@/lib/api'
 import { formatDate, cn } from '@/lib/utils'
+import { toast } from 'sonner'
+import { useConfirm } from '@/hooks/use-confirm'
 import type { ContactMessage } from '@/types'
 
 export default function AdminInboxPage() {
+  const confirm = useConfirm()
   const [messages, setMessages] = useState<ContactMessage[]>([])
   const [selected, setSelected] = useState<ContactMessage | null>(null)
   const [loading, setLoading] = useState(true)
@@ -27,14 +30,24 @@ export default function AdminInboxPage() {
       setSelected(res.data)
       setMessages(messages.map((m) => m.id === msg.id ? { ...m, is_read: true } : m))
       if (!msg.is_read) setUnreadCount((c) => Math.max(0, c - 1))
-    } catch { alert('Gagal membuka pesan.') }
+    } catch { toast.error('Gagal membuka pesan.') }
   }
 
   const remove = async (id: string) => {
-    if (!confirm('Hapus pesan ini?')) return
-    await api.delete(`/api/admin/inbox/${id}`)
-    if (selected?.id === id) setSelected(null)
-    fetch()
+    const ok = await confirm({
+      title: 'Hapus Pesan',
+      message: 'Apakah Anda yakin ingin menghapus pesan ini?',
+      variant: 'danger',
+    })
+    if (!ok) return
+    try {
+      await api.delete(`/api/admin/inbox/${id}`)
+      toast.success('Pesan berhasil dihapus.')
+      if (selected?.id === id) setSelected(null)
+      fetch()
+    } catch {
+      toast.error('Gagal menghapus pesan.')
+    }
   }
 
   if (loading) return <AdminLayout><div className="flex justify-center py-20"><Loader2 className="animate-spin text-primary-500" size={32} /></div></AdminLayout>

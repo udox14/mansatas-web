@@ -7,6 +7,7 @@ import AdminLayout from '@/components/admin/admin-layout'
 import TiptapEditor from '@/components/admin/tiptap-editor'
 import ImageUploader from '@/components/admin/image-uploader'
 import { api } from '@/lib/api'
+import { toast } from 'sonner'
 
 export default function NewArticlePage() {
   const [title, setTitle] = useState('')
@@ -37,16 +38,16 @@ export default function NewArticlePage() {
   }
 
   const save = async () => {
-    if (!title.trim()) return alert('Judul wajib diisi.')
+    if (!title.trim()) return toast.error('Judul wajib diisi.')
     setSaving(true)
     try {
       const res = await api.post<{ data: { id: string; slug: string } }>('/api/admin/articles', {
         title, excerpt, content, thumbnail_url: thumbnail || null, status,
       })
-      alert('Artikel berhasil disimpan!')
+      toast.success('Artikel berhasil disimpan!')
       window.location.href = `/admin/artikel/edit?id=${res.data.id}`
     } catch (err: unknown) {
-      alert(err instanceof Error ? err.message : 'Gagal menyimpan.')
+      toast.error(err instanceof Error ? err.message : 'Gagal menyimpan artikel.')
     } finally { setSaving(false) }
   }
 

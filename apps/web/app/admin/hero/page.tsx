@@ -6,9 +6,12 @@ import AdminLayout from '@/components/admin/admin-layout'
 import ImageUploader from '@/components/admin/image-uploader'
 import { api } from '@/lib/api'
 import { cn } from '@/lib/utils'
+import { toast } from 'sonner'
+import { useConfirm } from '@/hooks/use-confirm'
 import type { HeroSlide, HeroSettings } from '@/types'
 
 export default function AdminHeroPage() {
+  const confirm = useConfirm()
   const [settings, setSettings] = useState<HeroSettings>({
     id: 'default',
     text_mode: 'static',
@@ -35,8 +38,8 @@ export default function AdminHeroPage() {
     setSaving(true)
     try {
       await api.put('/api/admin/hero/settings', settings)
-      alert('Pengaturan hero berhasil disimpan!')
-    } catch { alert('Gagal menyimpan.') }
+      toast.success('Pengaturan hero berhasil disimpan!')
+    } catch { toast.error('Gagal menyimpan pengaturan.') }
     finally { setSaving(false) }
   }
 
@@ -52,7 +55,8 @@ export default function AdminHeroPage() {
         button_text: null, button_url: null, order: slides.length, is_active: true,
         sort_order: slides.length, created_at: new Date().toISOString(),
       } as any])
-    } catch { alert('Gagal menambah slide.') }
+      toast.success('Slide berhasil ditambahkan.')
+    } catch { toast.error('Gagal menambah slide.') }
   }
 
   const updateSlide = async (id: string, data: Partial<HeroSlide>) => {
@@ -63,11 +67,17 @@ export default function AdminHeroPage() {
   }
 
   const deleteSlide = async (id: string) => {
-    if (!confirm('Hapus slide ini?')) return
+    const ok = await confirm({
+      title: 'Hapus Slide',
+      message: 'Apakah Anda yakin ingin menghapus slide hero ini?',
+      variant: 'danger',
+    })
+    if (!ok) return
     try {
       await api.delete(`/api/admin/hero/slides/${id}`)
       setSlides(slides.filter((s) => s.id !== id))
-    } catch { alert('Gagal hapus slide.') }
+      toast.success('Slide berhasil dihapus.')
+    } catch { toast.error('Gagal menghapus slide.') }
   }
 
   if (loading) return <AdminLayout><div className="flex justify-center py-20"><Loader2 className="animate-spin text-primary-500" size={32} /></div></AdminLayout>

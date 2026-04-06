@@ -44,6 +44,9 @@ const darkModeScript = `
   })();
 `
 
+import { Toaster } from 'sonner'
+import { ConfirmProvider } from '@/hooks/use-confirm'
+
 export default function RootLayout({
   children,
 }: {
@@ -59,7 +62,17 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: darkModeScript }} />
       </head>
       <body className="font-body antialiased bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100 min-h-screen">
-        {children}
+        <ConfirmProvider>
+          {children}
+          <Toaster 
+            position="top-center" 
+            richColors 
+            closeButton
+            toastOptions={{
+              className: 'rounded-xl font-body border-slate-200 dark:border-slate-800 shadow-lg',
+            }}
+          />
+        </ConfirmProvider>
       </body>
     </html>
   )

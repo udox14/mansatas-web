@@ -5,9 +5,12 @@ import { Plus, UserCheck, UserX, Loader2 } from 'lucide-react'
 import AdminLayout from '@/components/admin/admin-layout'
 import { api } from '@/lib/api'
 import { formatDate, cn } from '@/lib/utils'
+import { toast } from 'sonner'
+import { useConfirm } from '@/hooks/use-confirm'
 import type { User } from '@/types'
 
 export default function AdminUsersPage() {
+  const confirm = useConfirm()
   const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
@@ -22,22 +25,36 @@ export default function AdminUsersPage() {
 
   useEffect(() => { fetch() }, [])
 
-  const toggleUser = async (id: string) => {
-    await api.patch(`/api/admin/users/${id}/toggle`, {})
-    fetch()
+  const toggleUser = async (user: User) => {
+    const isDeactivating = user.is_active
+    const ok = await confirm({
+      title: isDeactivating ? 'Nonaktifkan Pengguna' : 'Aktifkan Pengguna',
+      message: `Apakah Anda yakin ingin ${isDeactivating ? 'menonaktifkan' : 'mengaktifkan'} pengguna ${user.name}?`,
+      variant: isDeactivating ? 'danger' : 'primary',
+    })
+    if (!ok) return
+
+    try {
+      await api.patch(`/api/admin/users/${user.id}/toggle`, {})
+      toast.success(`Pengguna berhasil ${isDeactivating ? 'dinonaktifkan' : 'diaktifkan'}.`)
+      fetch()
+    } catch {
+      toast.error('Gagal mengubah status pengguna.')
+    }
   }
 
   const createUser = async () => {
-    if (!form.name.trim() || !form.email.trim() || !form.password) return alert('Semua field wajib diisi.')
-    if (form.password.length < 8) return alert('Password minimal 8 karakter.')
+    if (!form.name.trim() || !form.email.trim() || !form.password) return toast.error('Semua field wajib diisi.')
+    if (form.password.length < 8) return toast.error('Password minimal 8 karakter.')
     setSaving(true)
     try {
       await api.post('/api/auth/register', form)
       setShowForm(false)
       setForm({ name: '', email: '', password: '', role: 'editor' })
+      toast.success('Pengguna berhasil dibuat.')
       fetch()
     } catch (err: unknown) {
-      alert(err instanceof Error ? err.message : 'Gagal membuat user.')
+      toast.error(err instanceof Error ? err.message : 'Gagal membuat user.')
     } finally { setSaving(false) }
   }
 
@@ -107,7 +124,7 @@ export default function AdminUsersPage() {
                 </span>
                 <span className="text-xs text-slate-400 hidden sm:block">{formatDate(u.created_at)}</span>
                 {u.role !== 'superadmin' && (
-                  <button onClick={() => toggleUser(u.id)}
+                  <button onClick={() => toggleUser(u)}
                     className={cn('p-1.5 rounded-lg', u.is_active ? 'text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30' : 'text-green-500 hover:bg-green-50 dark:hover:bg-green-950/30')}
                     title={u.is_active ? 'Nonaktifkan' : 'Aktifkan'}>
                     {u.is_active ? <UserX size={16} /> : <UserCheck size={16} />}

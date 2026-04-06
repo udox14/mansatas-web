@@ -5,11 +5,14 @@ import { Plus, Save, Trash2, Loader2 } from 'lucide-react'
 import AdminLayout from '@/components/admin/admin-layout'
 import ImageUploader from '@/components/admin/image-uploader'
 import { api } from '@/lib/api'
+import { toast } from 'sonner'
+import { useConfirm } from '@/hooks/use-confirm'
 import type { Program } from '@/types'
 
 const ICONS = ['BookOpen', 'FlaskConical', 'Globe', 'Trophy', 'GraduationCap', 'Microscope', 'Palette', 'Users', 'Star', 'Laptop']
 
 export default function AdminProgramPage() {
+  const confirm = useConfirm()
   const [programs, setPrograms] = useState<Program[]>([])
   const [loading, setLoading] = useState(true)
   const [editing, setEditing] = useState<Program | null>(null)
@@ -34,22 +37,34 @@ export default function AdminProgramPage() {
   }
 
   const save = async () => {
-    if (!form.title.trim() || !form.description.trim()) return alert('Judul dan deskripsi wajib.')
+    if (!form.title.trim() || !form.description.trim()) return toast.error('Judul dan deskripsi wajib diisi.')
     try {
       if (editing) {
         await api.put(`/api/admin/programs/${editing.id}`, { ...form, image_url: form.image_url || null })
+        toast.success('Program berhasil diperbarui.')
       } else {
         await api.post('/api/admin/programs', { ...form, image_url: form.image_url || null })
+        toast.success('Program berhasil ditambahkan.')
       }
       resetForm()
       fetch()
-    } catch { alert('Gagal menyimpan.') }
+    } catch { toast.error('Gagal menyimpan program.') }
   }
 
   const remove = async (id: string) => {
-    if (!confirm('Hapus program ini?')) return
-    await api.delete(`/api/admin/programs/${id}`)
-    fetch()
+    const ok = await confirm({
+      title: 'Hapus Program',
+      message: 'Apakah Anda yakin ingin menghapus program ini?',
+      variant: 'danger',
+    })
+    if (!ok) return
+    try {
+      await api.delete(`/api/admin/programs/${id}`)
+      toast.success('Program berhasil dihapus.')
+      fetch()
+    } catch {
+      toast.error('Gagal menghapus program.')
+    }
   }
 
   if (loading) return <AdminLayout><div className="flex justify-center py-20"><Loader2 className="animate-spin text-primary-500" size={32} /></div></AdminLayout>

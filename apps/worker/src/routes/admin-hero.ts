@@ -97,8 +97,8 @@ adminHero.post('/slides', async (c) => {
     sort_order?: number
   }>()
 
-  if (!body.image_url?.trim()) {
-    return c.json({ success: false, message: 'image_url wajib diisi.' }, 400)
+  if (body.image_url === undefined) {
+    return c.json({ success: false, message: 'image_url wajib dikirim (walau kosong).' }, 400)
   }
 
   const id = crypto.randomUUID()
