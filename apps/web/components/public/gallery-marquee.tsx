@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { api } from '@/lib/api'
+import { api, API_URL } from '@/lib/api'
 import type { GalleryImage } from '@/types'
 
 export default function GalleryMarquee() {
@@ -19,7 +19,6 @@ export default function GalleryMarquee() {
 
   // Duplikasi gambar untuk efek infinite
   const duplicated = [...images, ...images]
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || ''
 
   return (
     <section id="galeri" className="py-20 bg-slate-50 dark:bg-slate-900 overflow-hidden">
@@ -62,7 +61,7 @@ export default function GalleryMarquee() {
           className="flex gap-4"
         >
           {duplicated.map((img, i) => (
-            <MarqueeCard key={`row1-${i}`} image={img} apiUrl={apiUrl} />
+            <MarqueeCard key={`row1-${i}`} image={img} />
           ))}
         </motion.div>
       </div>
@@ -78,7 +77,7 @@ export default function GalleryMarquee() {
             className="flex gap-4"
           >
             {[...duplicated].reverse().map((img, i) => (
-              <MarqueeCard key={`row2-${i}`} image={img} apiUrl={apiUrl} />
+              <MarqueeCard key={`row2-${i}`} image={img} />
             ))}
           </motion.div>
         </div>
@@ -87,9 +86,9 @@ export default function GalleryMarquee() {
   )
 }
 
-function MarqueeCard({ image, apiUrl }: { image: GalleryImage; apiUrl: string }) {
+function MarqueeCard({ image }: { image: GalleryImage }) {
   const src = image.image_url.startsWith('/')
-    ? `${apiUrl}${image.image_url}`
+    ? `${API_URL}${image.image_url}`
     : image.image_url
 
   return (

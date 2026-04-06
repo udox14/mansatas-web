@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react'
 import { Upload, X, Loader2 } from 'lucide-react'
-import { api } from '@/lib/api'
+import { api, API_URL } from '@/lib/api'
 import { cn } from '@/lib/utils'
 
 interface Props {
@@ -15,7 +15,6 @@ interface Props {
 export default function ImageUploader({ value, onChange, folder = 'uploads', className }: Props) {
   const [uploading, setUploading] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || ''
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -35,7 +34,7 @@ export default function ImageUploader({ value, onChange, folder = 'uploads', cla
   }
 
   const preview = value
-    ? value.startsWith('/') ? `${apiUrl}${value}` : value
+    ? value.startsWith('/') ? `${API_URL}${value}` : value
     : null
 
   return (

@@ -14,7 +14,7 @@ import {
   Star,
   Laptop,
 } from 'lucide-react'
-import { api } from '@/lib/api'
+import { api, API_URL } from '@/lib/api'
 import { cn } from '@/lib/utils'
 import type { Program } from '@/types'
 
@@ -92,7 +92,7 @@ export default function BentoGrid() {
             const isLarge = gridClass.includes('col-span-2') && gridClass.includes('row-span-2')
             const bgImage = program.image_url
               ? program.image_url.startsWith('/')
-                ? `${process.env.NEXT_PUBLIC_API_URL}${program.image_url}`
+                ? `${API_URL}${program.image_url}`
                 : program.image_url
               : null
 

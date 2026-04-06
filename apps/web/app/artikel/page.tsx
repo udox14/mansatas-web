@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
 import { Search, Loader2, ChevronLeft, ChevronRight } from 'lucide-react'
 import PublicLayout from '@/components/public/public-layout'
-import { api } from '@/lib/api'
+import { api, API_URL } from '@/lib/api'
 import { formatDate, truncate } from '@/lib/utils'
 import type { ArticleListItem, PaginatedResponse } from '@/types'
 
@@ -43,8 +43,6 @@ export default function ArticlesPage() {
   useEffect(() => {
     fetchArticles()
   }, [fetchArticles])
-
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || ''
 
   return (
     <PublicLayout>
@@ -102,7 +100,7 @@ export default function ArticlesPage() {
                 {articles.map((article) => {
                   const thumb = article.thumbnail_url
                     ? article.thumbnail_url.startsWith('/')
-                      ? `${apiUrl}${article.thumbnail_url}`
+                      ? `${API_URL}${article.thumbnail_url}`
                       : article.thumbnail_url
                     : null
 

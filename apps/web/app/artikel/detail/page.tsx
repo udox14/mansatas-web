@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { ArrowLeft, Calendar, User, Loader2 } from 'lucide-react'
 import DOMPurify from 'dompurify'
 import PublicLayout from '@/components/public/public-layout'
-import { api } from '@/lib/api'
+import { api, API_URL } from '@/lib/api'
 import { formatDate } from '@/lib/utils'
 import type { Article, ApiResponse } from '@/types'
 
@@ -34,8 +34,6 @@ function ArticleDetailContent() {
       .catch(() => setError(true))
       .finally(() => setLoading(false))
   }, [slug])
-
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || ''
 
   return (
     <PublicLayout>
@@ -80,7 +78,7 @@ function ArticleDetailContent() {
                   <img
                     src={
                       article.thumbnail_url.startsWith('/')
-                        ? `${apiUrl}${article.thumbnail_url}`
+                        ? `${API_URL}${article.thumbnail_url}`
                         : article.thumbnail_url
                     }
                     alt={article.title}

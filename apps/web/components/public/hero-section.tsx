@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { api } from '@/lib/api'
+import { api, API_URL } from '@/lib/api'
 import type { HeroSlide, HeroSettings } from '@/types'
 
 interface HeroData {
@@ -53,7 +53,7 @@ export default function HeroSection() {
   // Fallback jika belum ada data / slides kosong
   const bgImage = slide?.image_url
     ? slide.image_url.startsWith('/')
-      ? `${process.env.NEXT_PUBLIC_API_URL}${slide.image_url}`
+      ? `${API_URL}${slide.image_url}`
       : slide.image_url
     : null
 

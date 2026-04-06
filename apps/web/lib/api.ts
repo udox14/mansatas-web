@@ -1,4 +1,4 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://man1tasik-api.drudox.workers.dev'
+export const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://man1tasik-api.drudox.workers.dev'
 
 interface ApiError {
   message: string

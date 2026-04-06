@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { Plus, Trash2, Loader2 } from 'lucide-react'
 import AdminLayout from '@/components/admin/admin-layout'
 import ImageUploader from '@/components/admin/image-uploader'
-import { api } from '@/lib/api'
+import { api, API_URL } from '@/lib/api'
 import { toast } from 'sonner'
 import { useConfirm } from '@/hooks/use-confirm'
 import type { GalleryImage } from '@/types'
@@ -56,8 +56,6 @@ export default function AdminGalleryPage() {
     fetch()
   }
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || ''
-
   if (loading) return <AdminLayout><div className="flex justify-center py-20"><Loader2 className="animate-spin text-primary-500" size={32} /></div></AdminLayout>
 
   return (
@@ -77,7 +75,7 @@ export default function AdminGalleryPage() {
         {/* Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {images.map((img) => {
-            const src = img.image_url.startsWith('/') ? `${apiUrl}${img.image_url}` : img.image_url
+            const src = img.image_url.startsWith('/') ? `${API_URL}${img.image_url}` : img.image_url
             return (
               <div key={img.id} className={`relative rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 group ${!img.is_active ? 'opacity-50' : ''}`}>
                 <img src={src} alt={img.caption || ''} className="w-full h-36 object-cover" />

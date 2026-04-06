@@ -16,6 +16,7 @@ import {
   Trash2, Plus, Rows3, Columns3,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { API_URL } from '@/lib/api'
 
 interface Props {
   content: string
@@ -50,8 +51,7 @@ export default function TiptapEditor({ content, onChange, onUploadImage }: Props
     if (onUploadImage) {
       const url = await onUploadImage()
       if (url) {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || ''
-        const src = url.startsWith('/') ? `${apiUrl}${url}` : url
+        const src = url.startsWith('/') ? `${API_URL}${url}` : url
         editor.chain().focus().setImage({ src }).run()
       }
     } else {
