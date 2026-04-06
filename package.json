@@ -1,0 +1,15 @@
+{
+  "name": "man1tasik",
+  "private": true,
+  "workspaces": ["apps/*"],
+  "scripts": {
+    "dev:web": "npm run dev -w apps/web",
+    "dev:worker": "npm run dev -w apps/worker",
+    "build:web": "npm run build -w apps/web",
+    "deploy:worker": "npm run deploy -w apps/worker",
+    "db:generate": "npm run db:generate -w apps/worker",
+    "db:migrate:local": "npm run db:migrate:local -w apps/worker",
+    "db:migrate:prod": "npm run db:migrate:prod -w apps/worker",
+    "tail": "npm run tail -w apps/worker"
+  }
+}

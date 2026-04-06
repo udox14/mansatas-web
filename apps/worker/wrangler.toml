@@ -1,0 +1,26 @@
+name = "man1tasik-api"
+main = "src/index.ts"
+compatibility_date = "2025-03-01"
+compatibility_flags = ["nodejs_compat"]
+
+# ============================================
+# D1 Database
+# ============================================
+[[d1_databases]]
+binding = "DB"
+database_name = "mansatas-web"
+database_id = "35359c70-f269-4826-8c1f-f687cb4184c3" # <-- isi setelah: wrangler d1 create mansatas-web
+
+# ============================================
+# R2 Storage (images)
+# ============================================
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "mansatas-media"
+
+# ============================================
+# Environment Variables
+# ============================================
+[vars]
+JWT_SECRET = "ef6281f25ef34a99abfd26a6e79750cf60abac36d9475bbd15df40b7de46fc4e"
+CORS_ORIGIN = "http://localhost:3000,https://mansatas.pages.dev"

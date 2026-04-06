@@ -1,0 +1,10 @@
+node_modules
+.next
+.wrangler
+dist
+.env.local
+.env
+*.local
+.d1
+.turbo
+out
