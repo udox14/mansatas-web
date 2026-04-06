@@ -64,50 +64,65 @@
    ============================================ */
 @layer components {
   .prose table {
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     width: 100%;
     margin: 1.5rem 0;
-    border-radius: 0.5rem;
+    border-radius: 0.75rem;
     overflow: hidden;
-    box-shadow: 0 0 0 1px var(--color-primary-200);
-    table-layout: fixed;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
+    border: 1px solid var(--color-primary-100);
+    table-layout: auto;
   }
 
-  .prose table th,
-  .prose table td {
-    border: 1px solid var(--color-primary-200);
-    padding: 0.75rem 1rem;
-    vertical-align: top;
-    min-width: 1em;
-    position: relative;
-  }
-
-  .prose.dark\:prose-invert table th,
-  .prose.dark\:prose-invert table td {
-    border-color: var(--color-primary-800);
-  }
-
-  .prose th {
-    background-color: var(--color-primary-50);
-    font-weight: bold;
-    text-align: left;
-  }
-
-  .prose.dark\:prose-invert th {
+  .prose table th {
     background-color: var(--color-primary-900);
-    color: var(--color-primary-50);
+    color: white !important;
+    font-weight: 600;
+    text-align: left;
+    padding: 0.6rem 1rem;
+    border: none;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 
-  .prose tbody tr:nth-child(even) {
-    background-color: #f8fafc;
+  .prose table td {
+    padding: 0.6rem 1rem;
+    vertical-align: middle;
+    border: none;
+    border-bottom: 1px solid var(--color-primary-50);
+    color: #334155;
+    font-size: 0.875rem;
+    background-color: white;
   }
 
-  .prose.dark\:prose-invert tbody tr:nth-child(even) {
+  .prose.dark\:prose-invert table td {
     background-color: #0f172a;
+    color: #cbd5e1;
+    border-bottom-color: #1e293b;
+  }
+
+  .prose.dark\:prose-invert table th {
+    background-color: var(--color-primary-950);
+    border-bottom: 1px solid var(--color-primary-900);
+  }
+
+  /* Row pastel effect (Zebra) */
+  .prose tbody tr:nth-child(even) td {
+    background-color: var(--color-primary-50);
+  }
+
+  .prose.dark\:prose-invert tbody tr:nth-child(even) td {
+    background-color: #1e293b / 0.3;
+  }
+
+  .prose tr:last-child td {
+    border-bottom: none;
   }
 
   /* Specific fix for Tiptap selected cells */
   .prose table .selectedCell > * {
-    background-color: rgba(200, 200, 255, 0.4);
+    background-color: rgba(20, 184, 166, 0.1);
   }
 }

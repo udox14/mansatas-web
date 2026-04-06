@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     template: '%s | MAN 1 Tasikmalaya',
   },
   description: 'Website Resmi Madrasah Aliyah Negeri 1 Tasikmalaya — Singaparna. Unggul dalam Iman, Ilmu, dan Amal.',
-  keywords: ['MAN 1 Tasikmalaya', 'Madrasah Aliyah', 'Singaparna', 'Sekolah Islam', 'PPDB'],
+  keywords: ['MAN 1 Tasikmalaya', 'Madrasah Aliyah', 'Singaparna', 'Sekolah Islam', 'PMB'],
   openGraph: {
     title: 'MAN 1 Tasikmalaya',
     description: 'Madrasah Aliyah Negeri 1 Tasikmalaya — Singaparna',

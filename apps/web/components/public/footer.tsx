@@ -23,8 +23,8 @@ export default function Footer() {
           {/* Col 1: Identitas */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-lg bg-primary-500 flex items-center justify-center text-white font-bold text-sm">
-                M1
+              <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center p-1.5 shadow-md">
+                <img src="/logokemenag.png" alt="Kemenag" className="w-full h-full object-contain" />
               </div>
               <div>
                 <p className="font-heading font-bold text-white text-sm">MAN 1 Tasikmalaya</p>

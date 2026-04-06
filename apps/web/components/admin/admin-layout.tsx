@@ -67,8 +67,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       >
         {/* Logo */}
         <div className="h-16 flex items-center gap-3 px-5 border-b border-slate-100 dark:border-slate-800 shrink-0">
-          <div className="w-8 h-8 rounded-lg bg-primary-500 flex items-center justify-center text-white font-bold text-xs">
-            M1
+          <div className="w-9 h-9 rounded-xl bg-white border border-slate-100 dark:border-slate-800 flex items-center justify-center p-1 shadow-sm">
+            <img src="/logokemenag.png" alt="Kemenag" className="w-full h-full object-contain" />
           </div>
           <div>
             <p className="font-heading font-bold text-sm text-slate-900 dark:text-white">Admin Panel</p>

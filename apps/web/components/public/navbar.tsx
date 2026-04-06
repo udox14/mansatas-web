@@ -39,8 +39,8 @@ export default function Navbar() {
         <div className="flex h-16 items-center justify-between">
           {/* Logo & Name */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-9 h-9 rounded-lg bg-primary-500 flex items-center justify-center text-white font-bold text-sm shadow-md group-hover:shadow-primary-500/30 transition-shadow">
-              M1
+            <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center p-1 shadow-md group-hover:shadow-primary-500/30 transition-all duration-300">
+              <img src="/logokemenag.png" alt="Kemenag" className="w-full h-full object-contain" />
             </div>
             <div className="hidden sm:block">
               <p className={cn(
@@ -148,11 +148,11 @@ export default function Navbar() {
               ))}
               <li className="pt-2">
                 <Link
-                  href="/ppdb"
+                  href="/pmb"
                   onClick={() => setMobileOpen(false)}
-                  className="block text-center px-4 py-2.5 text-sm font-semibold bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
+                  className="block text-center px-6 py-2.5 bg-primary-500 text-white text-sm font-semibold rounded-xl hover:bg-primary-600 shadow-lg shadow-primary-500/20 active:scale-95 transition-all"
                 >
-                  Portal PPDB
+                  Portal PMB
                 </Link>
               </li>
             </ul>
