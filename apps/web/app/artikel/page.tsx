@@ -2,19 +2,28 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
-import { Search, Loader2, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Search, Loader2, ChevronLeft, ChevronRight, Tag } from 'lucide-react'
 import PublicLayout from '@/components/public/public-layout'
 import { api, API_URL } from '@/lib/api'
-import { formatDate, truncate } from '@/lib/utils'
-import type { ArticleListItem, PaginatedResponse } from '@/types'
+import { cn, formatDate, truncate } from '@/lib/utils'
+import type { ArticleListItem, PaginatedResponse, Category } from '@/types'
 
 export default function ArticlesPage() {
   const [articles, setArticles] = useState<ArticleListItem[]>([])
   const [meta, setMeta] = useState({ page: 1, totalPages: 1, total: 0 })
+  const [categories, setCategories] = useState<Category[]>([])
+  const [selectedCategory, setSelectedCategory] = useState('')
   const [search, setSearch] = useState('')
   const [debouncedSearch, setDebouncedSearch] = useState('')
   const [loading, setLoading] = useState(true)
   const [page, setPage] = useState(1)
+
+  // Fetch categories
+  useEffect(() => {
+    api.get<{ data: Category[] }>('/api/categories')
+      .then((res) => setCategories(res.data))
+      .catch(() => setCategories([]))
+  }, [])
 
   // Debounce search 400ms
   useEffect(() => {
@@ -30,6 +39,7 @@ export default function ArticlesPage() {
     try {
       const params = new URLSearchParams({ page: String(page), limit: '9' })
       if (debouncedSearch) params.set('search', debouncedSearch)
+      if (selectedCategory) params.set('category', selectedCategory)
       const res = await api.get<PaginatedResponse<ArticleListItem>>(`/api/articles?${params}`)
       setArticles(res.data)
       setMeta(res.meta)
@@ -38,7 +48,7 @@ export default function ArticlesPage() {
     } finally {
       setLoading(false)
     }
-  }, [page, debouncedSearch])
+  }, [page, debouncedSearch, selectedCategory])
 
   useEffect(() => {
     fetchArticles()
@@ -58,21 +68,33 @@ export default function ArticlesPage() {
             </p>
           </div>
 
-          {/* Search Bar */}
-          <div className="max-w-md mx-auto mb-10">
-            <div className="relative">
-              <Search
-                size={18}
-                className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
-              />
-              <input
-                type="text"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Cari artikel..."
-                className="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-400 transition-colors"
-              />
-            </div>
+          {/* Category Filter */}
+          <div className="flex items-center justify-center gap-2 mb-10 overflow-x-auto pb-2 scrollbar-none no-scrollbar">
+            <button
+              onClick={() => { setSelectedCategory(''); setPage(1); }}
+              className={cn(
+                "px-4 py-2 rounded-full text-sm font-semibold transition-all whitespace-nowrap",
+                selectedCategory === '' 
+                  ? "bg-primary-500 text-white shadow-lg shadow-primary-500/20" 
+                  : "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800"
+              )}
+            >
+              Semua
+            </button>
+            {categories.map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => { setSelectedCategory(cat.slug); setPage(1); }}
+                className={cn(
+                  "px-4 py-2 rounded-full text-sm font-semibold transition-all whitespace-nowrap",
+                  selectedCategory === cat.slug 
+                    ? "bg-primary-500 text-white shadow-lg shadow-primary-500/20" 
+                    : "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800"
+                )}
+              >
+                {cat.name}
+              </button>
+            ))}
           </div>
 
           {/* Loading */}
@@ -126,11 +148,18 @@ export default function ArticlesPage() {
                         )}
                       </div>
                       {/* Content */}
-                      <div className="p-5">
-                        <div className="flex items-center gap-2 text-xs text-slate-400 mb-2">
-                          <span>{article.author_name}</span>
-                          <span>•</span>
-                          <time>{formatDate(article.created_at)}</time>
+                      <div className="p-5 flex flex-col flex-1">
+                        <div className="flex items-center justify-between mb-3">
+                          <div className="flex items-center gap-2 text-[10px] text-slate-400">
+                            <span>{article.author_name}</span>
+                            <span>•</span>
+                            <time>{formatDate(article.created_at)}</time>
+                          </div>
+                          {article.category_name && (
+                            <span className="px-2 py-0.5 bg-primary-50 dark:bg-primary-950/30 text-[9px] font-bold text-primary-600 dark:text-primary-400 rounded-lg">
+                              {article.category_name}
+                            </span>
+                          )}
                         </div>
                         <h3 className="font-heading font-semibold text-slate-900 dark:text-white mb-2 line-clamp-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
                           {article.title}

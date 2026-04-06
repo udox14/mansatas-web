@@ -69,6 +69,7 @@ import galleryRoutes from './routes/gallery'
 import contactRoutes from './routes/contact'
 import uploadRoutes from './routes/upload'
 import assetsRoutes from './routes/assets'
+import categoriesRoutes from './routes/categories'
 
 app.route('/api/auth', authRoutes)
 app.route('/api/hero', heroRoutes)
@@ -77,6 +78,7 @@ app.route('/api/programs', programsRoutes)
 app.route('/api/gallery', galleryRoutes)
 app.route('/api/contact', contactRoutes)
 app.route('/api/upload', uploadRoutes)
+app.route('/api/categories', categoriesRoutes)
 app.route('/assets', assetsRoutes)
 
 import adminHeroRoutes from './routes/admin-hero'
@@ -84,12 +86,14 @@ import adminArticlesRoutes from './routes/admin-articles'
 import adminProgramsRoutes from './routes/admin-programs'
 import adminGalleryRoutes from './routes/admin-gallery'
 import adminInboxRoutes from './routes/admin-inbox'
+import adminCategoriesRoutes from './routes/admin-categories'
 
 app.route('/api/admin/hero', adminHeroRoutes)
 app.route('/api/admin/articles', adminArticlesRoutes)
 app.route('/api/admin/programs', adminProgramsRoutes)
 app.route('/api/admin/gallery', adminGalleryRoutes)
 app.route('/api/admin/inbox', adminInboxRoutes)
+app.route('/api/admin/categories', adminCategoriesRoutes)
 
 import adminUsersRoutes from './routes/admin-users'
 app.route('/api/admin/users', adminUsersRoutes)

@@ -79,6 +79,9 @@ export interface Article {
   is_deleted: boolean
   author_id: string
   author_name?: string
+  category_id: string | null
+  category_name?: string
+  category_slug?: string
   created_at: string
   updated_at: string
 }
@@ -91,7 +94,24 @@ export interface ArticleListItem {
   thumbnail_url: string | null
   status: 'draft' | 'published'
   author_name: string
+  category_name: string | null
+  category_slug: string | null
   created_at: string
+}
+
+/* ============================================
+   Categories
+   ============================================ */
+export interface Category {
+  id: string
+  name: string
+  slug: string
+  created_at: string
+}
+
+export interface NewCategory {
+  name: string
+  slug: string
 }
 
 /* ============================================

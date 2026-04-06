@@ -1,7 +1,7 @@
 import { Hono } from 'hono'
 import { eq, and, desc, like, sql } from 'drizzle-orm'
 import { getDB } from '../db'
-import { articles, users } from '../db/schema'
+import { articles, users, categories } from '../db/schema'
 import { requireAuth, requireRole } from '../middleware/auth'
 import type { AppEnv } from '../index'
 
@@ -69,11 +69,14 @@ adminArticles.get('/', async (c) => {
       status: articles.status,
       is_deleted: articles.is_deleted,
       author_name: users.name,
+      category_id: articles.category_id,
+      category_name: categories.name,
       created_at: articles.created_at,
       updated_at: articles.updated_at,
     })
     .from(articles)
     .leftJoin(users, eq(articles.author_id, users.id))
+    .leftJoin(categories, eq(articles.category_id, categories.id))
     .where(where)
     .orderBy(desc(articles.updated_at))
     .limit(limit)
@@ -106,11 +109,14 @@ adminArticles.get('/:id', async (c) => {
       is_deleted: articles.is_deleted,
       author_id: articles.author_id,
       author_name: users.name,
+      category_id: articles.category_id,
+      category_name: categories.name,
       created_at: articles.created_at,
       updated_at: articles.updated_at,
     })
     .from(articles)
     .leftJoin(users, eq(articles.author_id, users.id))
+    .leftJoin(categories, eq(articles.category_id, categories.id))
     .where(eq(articles.id, id))
     .limit(1)
 
@@ -135,6 +141,7 @@ adminArticles.post('/', async (c) => {
     excerpt?: string
     thumbnail_url?: string
     status?: 'draft' | 'published'
+    category_id?: string
   }>()
 
   if (!body.title?.trim()) {
@@ -167,6 +174,7 @@ adminArticles.post('/', async (c) => {
     thumbnail_url: body.thumbnail_url?.trim() || null,
     status: body.status || 'draft',
     author_id: user.id,
+    category_id: body.category_id || null,
   })
 
   return c.json({
@@ -200,6 +208,7 @@ adminArticles.put('/:id', async (c) => {
     excerpt?: string
     thumbnail_url?: string
     status?: 'draft' | 'published'
+    category_id?: string
   }>()
 
   const updates: Record<string, unknown> = {
@@ -225,6 +234,7 @@ adminArticles.put('/:id', async (c) => {
   if (body.excerpt !== undefined) updates.excerpt = body.excerpt?.trim() || null
   if (body.thumbnail_url !== undefined) updates.thumbnail_url = body.thumbnail_url?.trim() || null
   if (body.status !== undefined) updates.status = body.status
+  if (body.category_id !== undefined) updates.category_id = body.category_id || null
 
   await db.update(articles).set(updates).where(eq(articles.id, id))
 

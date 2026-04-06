@@ -58,6 +58,18 @@ export const heroSlides = sqliteTable('hero_slides', {
 })
 
 /* ============================================
+   CATEGORIES — Dynamic article categories
+   ============================================ */
+export const categories = sqliteTable('categories', {
+  id: text('id').primaryKey(), // crypto.randomUUID()
+  name: text('name').notNull(),
+  slug: text('slug').notNull().unique(),
+  created_at: text('created_at')
+    .notNull()
+    .default(sql`(datetime('now'))`),
+})
+
+/* ============================================
    ARTICLES — Blog / berita with soft delete
    ============================================ */
 export const articles = sqliteTable('articles', {
@@ -76,6 +88,8 @@ export const articles = sqliteTable('articles', {
   author_id: text('author_id')
     .notNull()
     .references(() => users.id),
+  category_id: text('category_id')
+    .references(() => categories.id),
   created_at: text('created_at')
     .notNull()
     .default(sql`(datetime('now'))`),
@@ -139,6 +153,8 @@ export type HeroSlide = typeof heroSlides.$inferSelect
 export type NewHeroSlide = typeof heroSlides.$inferInsert
 export type Article = typeof articles.$inferSelect
 export type NewArticle = typeof articles.$inferInsert
+export type Category = typeof categories.$inferSelect
+export type NewCategory = typeof categories.$inferInsert
 export type Program = typeof programs.$inferSelect
 export type GalleryImage = typeof gallery.$inferSelect
 export type ContactMessage = typeof contactMessages.$inferSelect

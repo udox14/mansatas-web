@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
   LayoutDashboard, Image, FileText, Grid3X3, Images, Inbox,
-  Users, LogOut, Menu, X, ChevronRight, Loader2,
+  Users, LogOut, Menu, X, ChevronRight, Loader2, Tag,
 } from 'lucide-react'
 import { useAuth } from '@/hooks/use-auth'
 import { cn } from '@/lib/utils'
@@ -14,6 +14,7 @@ const SIDEBAR_ITEMS = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/admin/hero', label: 'Hero Slider', icon: Image },
   { href: '/admin/artikel', label: 'Artikel', icon: FileText },
+  { href: '/admin/kategori', label: 'Kategori', icon: Tag },
   { href: '/admin/program', label: 'Program', icon: Grid3X3 },
   { href: '/admin/galeri', label: 'Galeri', icon: Images },
   { href: '/admin/inbox', label: 'Inbox', icon: Inbox },
