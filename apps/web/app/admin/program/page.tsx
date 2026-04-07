@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { Plus, Save, Trash2, Loader2, Star, Settings } from 'lucide-react'
 import AdminLayout from '@/components/admin/admin-layout'
 import ImageUploader from '@/components/admin/image-uploader'
-import { api } from '@/lib/api'
+import { api, API_URL } from '@/lib/api'
 import { toast } from 'sonner'
 import { useConfirm } from '@/hooks/use-confirm'
 import { cn } from '@/lib/utils'
@@ -164,7 +164,7 @@ export default function AdminProgramPage() {
               </div>
               <div className="w-16 h-16 rounded-xl bg-slate-100 dark:bg-slate-800 shrink-0 overflow-hidden">
                 {p.image_url ? (
-                  <img src={p.image_url.startsWith('/') ? `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8787'}${p.image_url}` : p.image_url} className="w-full h-full object-cover" />
+                  <img src={p.image_url.startsWith('/') ? `${API_URL}${p.image_url}` : p.image_url} className="w-full h-full object-cover" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-slate-300 dark:text-slate-700">
                     <Star size={24} strokeWidth={1.5} />

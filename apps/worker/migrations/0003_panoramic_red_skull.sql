@@ -1,0 +1,1 @@
+ALTER TABLE `programs` ADD `is_featured` integer DEFAULT false NOT NULL;
