@@ -38,7 +38,7 @@ export default function Navbar() {
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
         isSolid
-          ? 'bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl shadow-sm border-b border-primary-100/50 dark:border-slate-800/50'
+          ? 'bg-white/70 dark:bg-slate-950/70 backdrop-blur-md shadow-sm border-b border-white/20 dark:border-white/10'
           : 'bg-transparent'
       )}
     >
@@ -50,13 +50,13 @@ export default function Navbar() {
             <div className="hidden sm:block">
               <p className={cn(
                 'font-heading font-bold text-sm leading-tight transition-colors',
-                isSolid ? 'text-slate-900 dark:text-white' : 'text-white'
+                isSolid ? 'text-black dark:text-white' : 'text-white'
               )}>
                 MAN 1 Tasikmalaya
               </p>
               <p className={cn(
                 'text-xs leading-tight transition-colors',
-                isSolid ? 'text-slate-500 dark:text-slate-400' : 'text-white/70'
+                isSolid ? 'text-slate-600 dark:text-slate-400' : 'text-white/70'
               )}>
                 Jawa Barat
               </p>
@@ -72,7 +72,7 @@ export default function Navbar() {
                   className={cn(
                     'relative px-3 py-2 text-sm font-medium rounded-lg transition-colors',
                     isSolid
-                      ? 'text-slate-600 hover:text-primary-600 hover:bg-primary-50 dark:text-slate-300 dark:hover:text-primary-400 dark:hover:bg-slate-800'
+                      ? 'text-slate-800 hover:text-primary-600 hover:bg-black/5 dark:text-slate-200 dark:hover:text-primary-400 dark:hover:bg-white/10'
                       : 'text-white/80 hover:text-white hover:bg-white/10'
                   )}
                 >
@@ -91,7 +91,7 @@ export default function Navbar() {
                 className={cn(
                   'p-2 rounded-lg transition-colors',
                   isSolid
-                    ? 'text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'
+                    ? 'text-slate-600 hover:bg-black/5 dark:text-slate-400 dark:hover:bg-white/10'
                     : 'text-white/70 hover:bg-white/10'
                 )}
                 aria-label="Toggle dark mode"
@@ -104,9 +104,9 @@ export default function Navbar() {
             <Link
               href="/pmb"
               className={cn(
-                'hidden sm:inline-flex items-center px-4 py-2 text-sm font-semibold rounded-lg transition-all',
+                'hidden sm:inline-flex items-center px-4 py-2 text-sm font-semibold rounded-lg transition-all shadow-sm',
                 isSolid
-                  ? 'bg-primary-500 text-white hover:bg-primary-600 shadow-sm hover:shadow-md'
+                  ? 'bg-primary-500 text-white hover:bg-primary-600'
                   : 'bg-white/15 text-white backdrop-blur-sm hover:bg-white/25 border border-white/20'
               )}
             >
@@ -119,7 +119,7 @@ export default function Navbar() {
               className={cn(
                 'md:hidden p-2 rounded-lg transition-colors',
                 isSolid
-                  ? 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
+                  ? 'text-slate-800 hover:bg-black/5 dark:text-slate-200 dark:hover:bg-white/10'
                   : 'text-white hover:bg-white/10'
               )}
               aria-label="Menu"
@@ -137,7 +137,7 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl border-t border-primary-100/50 dark:border-slate-800/50"
+            className="md:hidden bg-white/90 dark:bg-slate-950/90 backdrop-blur-xl border-t border-black/5 dark:border-white/5"
           >
             <ul className="px-4 py-3 space-y-1">
               {NAV_LINKS.map((link) => (
@@ -145,7 +145,7 @@ export default function Navbar() {
                   <Link
                     href={link.href}
                     onClick={() => setMobileOpen(false)}
-                    className="block px-3 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                    className="block px-3 py-2.5 text-sm font-medium text-slate-800 dark:text-slate-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-black/5 dark:hover:bg-white/10 rounded-lg transition-colors"
                   >
                     {link.label}
                   </Link>
