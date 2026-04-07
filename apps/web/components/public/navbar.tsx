@@ -39,7 +39,7 @@ export default function Navbar() {
         <div className="flex h-16 items-center justify-between">
           {/* Logo & Name */}
           <Link href="/" className="flex items-center gap-3 group">
-            <img src="/logokemenag.png" alt="Kemenag" className="w-10 h-10 object-contain" />
+            <img src="/logokemenag.png" alt="Kemenag" className="w-12 h-12 object-contain" />
             <div className="hidden sm:block">
               <p className={cn(
                 'font-heading font-bold text-sm leading-tight transition-colors',

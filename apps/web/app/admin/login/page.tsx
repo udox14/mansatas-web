@@ -73,7 +73,7 @@ export default function LoginPage() {
             <div className="md:col-span-12 p-8 sm:p-12">
               {/* Branding */}
               <div className="text-center mb-10">
-                <div className="w-20 h-20 rounded-3xl bg-white flex items-center justify-center p-3.5 mx-auto mb-6 shadow-xl border border-slate-100 dark:border-slate-800">
+                <div className="w-24 h-24 flex items-center justify-center mx-auto mb-6">
                   <img src="/logokemenag.png" alt="Kemenag" className="w-full h-full object-contain" />
                 </div>
                 <h1 className="text-2xl sm:text-3xl font-heading font-black text-slate-900 dark:text-white tracking-tight">
