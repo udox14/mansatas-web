@@ -59,7 +59,7 @@ export default function GalleryPage() {
                   transition={{ delay: i * 0.1 }}
                 >
                   <Link 
-                    href={`/galeri/${cat.slug}`}
+                    href={`/galeri/detail?slug=${cat.slug}`}
                     className="group block relative aspect-[4/3] rounded-3xl overflow-hidden bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:shadow-2xl transition-all duration-500"
                   >
                     {/* Folder Image/Thumbnail */}
