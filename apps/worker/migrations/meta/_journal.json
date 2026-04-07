@@ -15,6 +15,13 @@
       "when": 1775532189258,
       "tag": "0001_tough_gideon",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1775538932681,
+      "tag": "0002_perpetual_caretaker",
+      "breakpoints": true
     }
   ]
 }

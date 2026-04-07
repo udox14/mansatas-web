@@ -86,6 +86,16 @@ export interface Article {
   updated_at: string
 }
 
+export interface ArticleComment {
+  id: string
+  article_id: string
+  user_name: string
+  user_ig: string | null
+  content: string
+  is_approved: boolean
+  created_at: string
+}
+
 export interface ArticleListItem {
   id: string
   title: string

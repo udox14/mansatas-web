@@ -166,6 +166,24 @@ export const gtk = sqliteTable('gtk', {
 })
 
 /* ============================================
+   ARTICLE COMMENTS — Komentar publik (unmoderated by default)
+   ============================================ */
+export const articleComments = sqliteTable('article_comments', {
+  id: text('id').primaryKey(),
+  article_id: text('article_id')
+    .notNull()
+    .references(() => articles.id),
+  user_name: text('user_name').notNull(),
+  user_ig: text('user_ig'), // Profil IG (opsional)
+  content: text('content').notNull(),
+  is_approved: integer('is_approved', { mode: 'boolean' }).notNull().default(false),
+  is_deleted: integer('is_deleted', { mode: 'boolean' }).notNull().default(false),
+  created_at: text('created_at')
+    .notNull()
+    .default(sql`(datetime('now'))`),
+})
+
+/* ============================================
    Type exports for use across the app
    ============================================ */
 export type User = typeof users.$inferSelect
@@ -183,3 +201,5 @@ export type ContactMessage = typeof contactMessages.$inferSelect
 export type NewContactMessage = typeof contactMessages.$inferInsert
 export type Gtk = typeof gtk.$inferSelect
 export type NewGtk = typeof gtk.$inferInsert
+export type ArticleComment = typeof articleComments.$inferSelect
+export type NewArticleComment = typeof articleComments.$inferInsert

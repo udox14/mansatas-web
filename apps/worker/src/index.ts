@@ -90,6 +90,7 @@ import adminGalleryRoutes from './routes/admin-gallery'
 import adminInboxRoutes from './routes/admin-inbox'
 import adminCategoriesRoutes from './routes/admin-categories'
 import adminGtkRoutes from './routes/admin-gtk'
+import adminCommentsRoutes from './routes/admin-comments'
 
 app.route('/api/admin/hero', adminHeroRoutes)
 app.route('/api/admin/gtk', adminGtkRoutes)
@@ -98,6 +99,7 @@ app.route('/api/admin/programs', adminProgramsRoutes)
 app.route('/api/admin/gallery', adminGalleryRoutes)
 app.route('/api/admin/inbox', adminInboxRoutes)
 app.route('/api/admin/categories', adminCategoriesRoutes)
+app.route('/api/admin/comments', adminCommentsRoutes)
 
 import adminUsersRoutes from './routes/admin-users'
 app.route('/api/admin/users', adminUsersRoutes)
