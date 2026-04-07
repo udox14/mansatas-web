@@ -52,7 +52,7 @@ export default function Navbar() {
                 'text-xs leading-tight transition-colors',
                 scrolled ? 'text-slate-500 dark:text-slate-400' : 'text-white/70'
               )}>
-                Singaparna
+                Jawa Barat
               </p>
             </div>
           </Link>

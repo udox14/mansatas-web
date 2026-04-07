@@ -10,9 +10,9 @@ const QUICK_LINKS = [
 ]
 
 const SOCIAL_LINKS = [
-  { href: 'https://www.instagram.com/man1tasikmalaya', label: 'Instagram' },
-  { href: 'https://www.youtube.com/@man1tasikmalaya', label: 'YouTube' },
-  { href: 'https://www.facebook.com/man1tasikmalaya', label: 'Facebook' },
+  { href: 'https://www.instagram.com/mansatasofficial', label: 'Instagram' },
+  { href: 'https://www.youtube.com/@MansatasOfficial', label: 'YouTube' },
+  { href: 'https://www.tiktok.com/@mansatasofficial', label: 'TikTok' },
 ]
 
 export default function Footer() {
@@ -28,7 +28,7 @@ export default function Footer() {
               </div>
               <div>
                 <p className="font-heading font-bold text-white text-sm">MAN 1 Tasikmalaya</p>
-                <p className="text-xs text-slate-400">Singaparna</p>
+                <p className="text-xs text-slate-400">Jawa Barat</p>
               </div>
             </div>
             <p className="text-sm text-slate-400 leading-relaxed">
@@ -65,16 +65,12 @@ export default function Footer() {
               <li className="flex gap-3 text-sm">
                 <MapPin size={16} className="text-primary-400 mt-0.5 shrink-0" />
                 <span className="text-slate-400">
-                  Jl. Letjend. Mashudi No. 112, Singaparna, Tasikmalaya, Jawa Barat 46411
+                  Jl. Pahlawan KHZ. Musthafa Sukamanah, Sukarapih, Kec. Sukarame, Kabupaten Tasikmalaya, Jawa Barat 46461
                 </span>
               </li>
               <li className="flex gap-3 text-sm">
-                <Phone size={16} className="text-primary-400 mt-0.5 shrink-0" />
-                <span className="text-slate-400">(0265) 544717</span>
-              </li>
-              <li className="flex gap-3 text-sm">
                 <Mail size={16} className="text-primary-400 mt-0.5 shrink-0" />
-                <span className="text-slate-400">info@man1tasik.sch.id</span>
+                <span className="text-slate-400">info@man1tasikmalaya.sch.id</span>
               </li>
               <li className="flex gap-3 text-sm">
                 <Clock size={16} className="text-primary-400 mt-0.5 shrink-0" />
@@ -105,7 +101,7 @@ export default function Footer() {
             </h3>
             <div className="rounded-xl overflow-hidden border border-slate-700">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3956.0!2d108.1147!3d-7.3517!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6f57001a0a0001%3A0x3030bfbcaf770b0!2sMAN%201%20Tasikmalaya!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1233.2893755285368!2d108.13491956767561!3d-7.3777218326496685!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6f5683aaf0e91b%3A0x288e0a9b33915cff!2sMAN%201%20Tasikmalaya!5e0!3m2!1sen!2sid!4v1775534224933!5m2!1sen!2sid"
                 width="100%"
                 height="180"
                 style={{ border: 0 }}
