@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { MapPin, Phone, Mail, Clock, ExternalLink } from 'lucide-react'
+import { MapPin, Phone, Mail, Clock, ExternalLink, Instagram, Youtube, Facebook, Music2 } from 'lucide-react'
 
 const QUICK_LINKS = [
   { href: '/', label: 'Beranda' },
@@ -10,10 +10,10 @@ const QUICK_LINKS = [
 ]
 
 const SOCIAL_LINKS = [
-  { href: 'https://www.instagram.com/mansatasofficial', label: 'Instagram' },
-  { href: 'https://www.youtube.com/@MansatasOfficial', label: 'YouTube' },
-  { href: 'https://www.tiktok.com/@mansatasofficial', label: 'TikTok' },
-{ href: 'https://www.facebook.com/61585855274287/', label: 'Facebook' },
+  { href: 'https://www.instagram.com/mansatasofficial', label: 'Instagram', icon: Instagram },
+  { href: 'https://www.youtube.com/@MansatasOfficial', label: 'YouTube', icon: Youtube },
+  { href: 'https://www.tiktok.com/@mansatasofficial', label: 'TikTok', icon: Music2 },
+  { href: 'https://www.facebook.com/61585855274287/', label: 'Facebook', icon: Facebook },
 ]
 
 export default function Footer() {
@@ -32,10 +32,26 @@ export default function Footer() {
                 <p className="text-xs text-slate-400">Jawa Barat</p>
               </div>
             </div>
-            <p className="text-sm text-slate-400 leading-relaxed">
+            <p className="text-sm text-slate-400 leading-relaxed mb-6">
               Madrasah Aliyah Negeri 1 Tasikmalaya — Unggul dalam Iman, Ilmu, dan Amal. 
               Mencetak generasi yang berakhlak mulia dan berwawasan global.
             </p>
+            {/* Social */}
+            <div className="flex gap-3">
+              {SOCIAL_LINKS.map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-9 h-9 flex items-center justify-center rounded-full bg-slate-700/50 hover:bg-primary-500 text-slate-300 hover:text-white transition-all duration-300"
+                  aria-label={s.label}
+                  title={s.label}
+                >
+                  <s.icon size={18} />
+                </a>
+              ))}
+            </div>
           </div>
 
           {/* Col 2: Link Cepat */}
@@ -62,37 +78,22 @@ export default function Footer() {
             <h3 className="font-heading font-semibold text-white text-sm mb-4">
               Kontak
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-4">
               <li className="flex gap-3 text-sm">
-                <MapPin size={16} className="text-primary-400 mt-0.5 shrink-0" />
-                <span className="text-slate-400">
+                <MapPin size={18} className="text-primary-400 mt-1 shrink-0" />
+                <span className="text-slate-400 leading-relaxed">
                   Jl. Pahlawan KHZ. Musthafa Sukamanah, Sukarapih, Kec. Sukarame, Kabupaten Tasikmalaya, Jawa Barat 46461
                 </span>
               </li>
-              <li className="flex gap-3 text-sm">
-                <Mail size={16} className="text-primary-400 mt-0.5 shrink-0" />
+              <li className="flex gap-3 text-sm items-center">
+                <Mail size={18} className="text-primary-400 shrink-0" />
                 <span className="text-slate-400">info@man1tasikmalaya.sch.id</span>
               </li>
-              <li className="flex gap-3 text-sm">
-                <Clock size={16} className="text-primary-400 mt-0.5 shrink-0" />
+              <li className="flex gap-3 text-sm items-center">
+                <Clock size={18} className="text-primary-400 shrink-0" />
                 <span className="text-slate-400">Senin — Sabtu, 07.00 — 15.30 WIB</span>
               </li>
             </ul>
-            {/* Social */}
-            <div className="flex gap-3 mt-5">
-              {SOCIAL_LINKS.map((s) => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-primary-400 transition-colors"
-                >
-                  <ExternalLink size={12} />
-                  {s.label}
-                </a>
-              ))}
-            </div>
           </div>
 
           {/* Col 4: Map */}
