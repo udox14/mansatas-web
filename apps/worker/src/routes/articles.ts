@@ -38,11 +38,14 @@ articlesRoute.get('/', async (c) => {
 
   const where = and(...conditions)
 
-  // Count total
-  const [countResult] = await db
+  // Count total — Need join if filtering by category
+  let countQuery = db
     .select({ count: sql<number>`count(*)` })
     .from(articles)
+    .leftJoin(categories, eq(articles.category_id, categories.id))
     .where(where)
+
+  const [countResult] = await countQuery
 
   const total = countResult?.count || 0
 

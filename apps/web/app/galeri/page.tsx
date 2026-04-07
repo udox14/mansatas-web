@@ -22,85 +22,114 @@ export default function GalleryPage() {
 
   return (
     <PublicLayout>
-      <section className="pt-32 pb-16 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <motion.h1 
-            initial={{ opacity: 0, y: -20 }}
+      {/* Header Section */}
+      <section className="relative pt-32 pb-20 overflow-hidden bg-slate-900 border-b border-slate-800">
+        <div className="absolute inset-0 opacity-20">
+           <div className="absolute top-0 -left-20 w-96 h-96 bg-primary-600 rounded-full blur-[120px] animate-pulse" />
+           <div className="absolute bottom-0 -right-20 w-96 h-96 bg-blue-600 rounded-full blur-[120px] animate-pulse delay-1000" />
+        </div>
+        <div className="relative max-w-7xl mx-auto px-4 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-5xl font-heading font-bold text-slate-900 dark:text-white mb-4"
+            className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 backdrop-blur-md border border-white/10 rounded-full text-primary-400 text-xs font-black uppercase tracking-widest mb-6"
           >
-            Galeri Sekolah
+             Daftar Dokumentasi
+          </motion.div>
+          <motion.h1 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="text-5xl md:text-7xl font-heading font-black text-white mb-6 uppercase tracking-tight"
+          >
+            Galeri <span className="text-primary-500">Sekolah</span>
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.1 }}
-            className="text-slate-500 dark:text-slate-400 max-w-2xl mx-auto"
+            transition={{ delay: 0.2 }}
+            className="text-slate-400 max-w-2xl mx-auto text-lg leading-relaxed"
           >
-            Kumpulan dokumentasi kegiatan, sarana prasarana, dan momen-momen berharga di MAN 1 Tasikmalaya.
+            Menyimpan setiap jejak prestasi, kegiatan, dan transformasi MAN 1 Tasikmalaya dalam bingkai visual yang abadi.
           </motion.p>
         </div>
       </section>
 
-      <section className="py-20 bg-white dark:bg-slate-950">
+      {/* Categories Grid Section */}
+      <section className="py-24 bg-slate-50 dark:bg-slate-950">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-14">
             {loading ? (
               Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="aspect-[4/3] bg-slate-100 dark:bg-slate-900 rounded-3xl animate-pulse" />
+                <div key={i} className="aspect-[4/5] bg-slate-200 dark:bg-slate-900 rounded-[2.5rem] animate-pulse" />
               ))
             ) : categories.length > 0 ? (
               categories.map((cat, i) => (
                 <motion.div
                   key={cat.id}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
+                  transition={{ delay: i * 0.1, duration: 0.6 }}
+                  className="relative"
                 >
                   <Link 
                     href={`/galeri/detail?slug=${cat.slug}`}
-                    className="group block relative aspect-[4/3] rounded-3xl overflow-hidden bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:shadow-2xl transition-all duration-500"
+                    className="group relative block aspect-[4/5] rounded-[2.5rem] bg-white dark:bg-slate-900 shadow-2xl shadow-slate-200/50 dark:shadow-none transition-all duration-500 hover:-translate-y-4"
                   >
-                    {/* Folder Image/Thumbnail */}
-                    {cat.thumbnail_url ? (
-                      <img 
-                        src={cat.thumbnail_url.startsWith('/') ? `${API_URL}${cat.thumbnail_url}` : cat.thumbnail_url} 
-                        alt={cat.name}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-slate-300 dark:text-slate-700 group-hover:scale-110 transition-transform duration-500">
-                        <Folder size={64} strokeWidth={1} />
-                      </div>
-                    )}
-                    
-                    {/* Glass Overlay */}
-                    <div className="absolute inset-x-4 bottom-4 p-5 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md rounded-2xl border border-white/20 dark:border-white/10 shadow-lg transform group-hover:-translate-y-2 transition-transform duration-500">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <h3 className="text-lg font-heading font-bold text-slate-900 dark:text-white mb-0.5">
-                            {cat.name}
-                          </h3>
-                          <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-1">
-                            {cat.description || 'Lihat koleksi foto'}
-                          </p>
+                    {/* Folder Stack Effect */}
+                    <div className="absolute inset-0 bg-slate-200 dark:bg-slate-800 rounded-[2.5rem] translate-y-3 translate-x-3 rotate-3 -z-10 group-hover:rotate-6 group-hover:translate-x-5 transition-transform duration-500" />
+                    <div className="absolute inset-0 bg-slate-300 dark:bg-slate-700/50 rounded-[2.5rem] translate-y-1.5 translate-x-1.5 rotate-1 -z-20 group-hover:rotate-3 group-hover:translate-x-2 transition-transform duration-500" />
+
+                    {/* Main Image */}
+                    <div className="absolute inset-0 rounded-[2.5rem] overflow-hidden border-2 border-white dark:border-slate-800">
+                      {cat.thumbnail_url ? (
+                        <div className="w-full h-full relative">
+                          <img 
+                            src={cat.thumbnail_url.startsWith('/') ? `${API_URL}${cat.thumbnail_url}` : cat.thumbnail_url} 
+                            alt={cat.name}
+                            className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                          />
+                          {/* Gradient Overlay */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
                         </div>
-                        <div className="w-10 h-10 flex items-center justify-center bg-primary-500 text-white rounded-xl shadow-md shadow-primary-500/20 opacity-0 group-hover:opacity-100 transition-all duration-500 -translate-x-2 group-hover:translate-x-0">
-                          <ArrowRight size={18} />
+                      ) : (
+                        <div className="w-full h-full flex flex-col items-center justify-center bg-slate-100 dark:bg-slate-800 transition-colors">
+                           <div className="p-8 bg-primary-50 dark:bg-primary-950/30 rounded-full text-primary-500 mb-4 group-hover:scale-110 transition-transform">
+                              <Folder size={48} strokeWidth={1.5} />
+                           </div>
+                           <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Empty Collection</span>
                         </div>
-                      </div>
+                      )}
                     </div>
 
-                    {/* Folder Tab Effect (Decorative) */}
-                    <div className="absolute top-0 right-0 w-24 h-24 bg-primary-500/10 dark:bg-primary-500/5 -rotate-45 translate-x-12 -translate-y-12 transition-transform group-hover:scale-150" />
+                    {/* Content Glassmorphism Box */}
+                    <div className="absolute inset-x-5 bottom-5 p-6 bg-white/10 dark:bg-slate-900/40 backdrop-blur-xl border border-white/20 dark:border-white/5 rounded-[1.5rem] flex flex-col justify-end overflow-hidden group-hover:bg-primary-600 group-hover:border-primary-500 transition-colors duration-500">
+                       <h3 className="text-xl md:text-2xl font-heading font-black text-white uppercase tracking-tight mb-1 group-hover:translate-x-1 transition-transform">
+                          {cat.name}
+                       </h3>
+                       <p className="text-xs text-white/60 dark:text-slate-400 group-hover:text-white/80 line-clamp-1 italic font-medium">
+                          {cat.description || 'Jelajahi koleksi momen berharga'}
+                       </p>
+                       <div className="mt-4 flex items-center justify-between">
+                          <div className="flex items-center gap-1.5 px-3 py-1.5 bg-white/10 rounded-lg text-[10px] font-black text-white/80 uppercase tracking-widest group-hover:bg-white/20 transition-colors">
+                             <ImageIcon size={12} className="text-primary-400 group-hover:text-white" />
+                             Lihat Galeri
+                          </div>
+                          <div className="w-8 h-8 rounded-full bg-white text-primary-600 flex items-center justify-center shadow-lg group-hover:rotate-45 group-hover:scale-110 transition-all">
+                             <ChevronRight size={18} strokeWidth={3} />
+                          </div>
+                       </div>
+                    </div>
                   </Link>
                 </motion.div>
               ))
             ) : (
-              <div className="col-span-full py-20 text-center">
-                <ImageIcon className="mx-auto text-slate-300 dark:text-slate-700 mb-4" size={48} />
-                <p className="text-slate-400 italic">Belum ada kategori galeri.</p>
+              <div className="col-span-full py-32 text-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[3rem]">
+                <div className="inline-flex p-6 bg-slate-50 dark:bg-slate-800/50 rounded-full text-slate-200 dark:text-slate-700 mb-6">
+                   <Folder size={64} strokeWidth={1} />
+                </div>
+                <h3 className="text-2xl font-heading font-bold text-slate-800 dark:text-white uppercase tracking-tight mb-2">Dokumentasi Belum Diatur</h3>
+                <p className="text-slate-500 dark:text-slate-400">Tim kami sedang mempersiapkan tumpukan memori terbaik.</p>
               </div>
             )}
           </div>
