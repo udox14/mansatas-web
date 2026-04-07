@@ -44,28 +44,31 @@ function ArticleDetailContent() {
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
-    if (!slug) { setLoading(false); setError(true); return }
+    if (!slug) return // Tunggu sampai slug tersedia
     
     const fetchData = async () => {
       try {
         setLoading(true)
+        setError(false)
         // 1. Fetch Article Detail
         const articleRes = await api.get<ApiResponse<Article>>(`/api/articles/${slug}`)
         const currentArticle = articleRes.data
         setArticle(currentArticle)
 
-        // 2. Fetch Recommendations (same category if possible)
-        const recPath = currentArticle.category_slug 
-          ? `/api/articles?category=${currentArticle.category_slug}&limit=6`
-          : `/api/articles?limit=6`
-        
-        const recRes = await api.get<PaginatedResponse<ArticleListItem>>(recPath)
-        // Filter out current article
-        setRecommendations(recRes.data.filter(a => a.id !== currentArticle.id).slice(0, 5))
+        // 2 & 3. Fetch Recommendations & Comments (Secondary, don't break page if failed)
+        try {
+          const recPath = currentArticle.category_slug 
+            ? `/api/articles?category=${currentArticle.category_slug}&limit=6`
+            : `/api/articles?limit=6`
+          
+          const recRes = await api.get<PaginatedResponse<ArticleListItem>>(recPath)
+          setRecommendations(recRes.data.filter(a => a.id !== currentArticle.id).slice(0, 5))
 
-        // 3. Fetch Comments
-        const commentRes = await api.get<ApiResponse<ArticleComment[]>>(`/api/articles/${currentArticle.id}/comments`)
-        setComments(commentRes.data)
+          const commentRes = await api.get<ApiResponse<ArticleComment[]>>(`/api/articles/${currentArticle.id}/comments`)
+          setComments(commentRes.data)
+        } catch (secErr) {
+          console.error('Secondary fetch failed:', secErr)
+        }
       } catch (err) {
         console.error(err)
         setError(true)
@@ -104,7 +107,7 @@ function ArticleDetailContent() {
     }
   }
 
-  if (loading) {
+  if (loading && !article) {
     return (
       <PublicLayout>
         <div className="flex justify-center py-24 pt-32">
@@ -114,15 +117,18 @@ function ArticleDetailContent() {
     )
   }
 
-  if (error || !article) {
+  // Jika tidak ada slug atau error atau artikel null setelah loading selesai
+  if (!slug || error || !article) {
     return (
       <PublicLayout>
         <div className="pt-32 pb-20 px-4 text-center">
           <h2 className="text-2xl font-heading font-bold text-slate-900 dark:text-white mb-2">
-            Artikel Tidak Ditemukan
+            {!slug ? 'Parameter Tidak Valid' : 'Artikel Tidak Ditemukan'}
           </h2>
           <p className="text-slate-500 dark:text-slate-400 mb-6">
-            Artikel yang Anda cari tidak tersedia atau telah dihapus.
+            {!slug 
+              ? 'Silakan pilih artikel melalui daftar artikel kami.' 
+              : 'Artikel yang Anda cari tidak tersedia atau telah dihapus.'}
           </p>
           <Link href="/artikel" className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary-500 text-white text-sm font-semibold rounded-xl hover:bg-primary-600 transition-colors">
             <ArrowLeft size={16} />
