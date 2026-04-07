@@ -144,6 +144,28 @@ export const contactMessages = sqliteTable('contact_messages', {
 })
 
 /* ============================================
+   GTK — Guru & Tenaga Kependidikan
+   ============================================ */
+export const gtk = sqliteTable('gtk', {
+  id: text('id').primaryKey(),
+  name: text('name').notNull(),
+  nip: text('nip'), // NIP/NPK/PegID
+  gender: text('gender', { enum: ['L', 'P'] }).notNull().default('L'),
+  position: text('position').notNull(),
+  subject: text('subject'),
+  image_url: text('image_url'),
+  is_featured: integer('is_featured', { mode: 'boolean' }).notNull().default(false),
+  sort_order: integer('sort_order').notNull().default(0),
+  is_active: integer('is_active', { mode: 'boolean' }).notNull().default(true),
+  created_at: text('created_at')
+    .notNull()
+    .default(sql`(datetime('now'))`),
+  updated_at: text('updated_at')
+    .notNull()
+    .default(sql`(datetime('now'))`),
+})
+
+/* ============================================
    Type exports for use across the app
    ============================================ */
 export type User = typeof users.$inferSelect
@@ -159,3 +181,5 @@ export type Program = typeof programs.$inferSelect
 export type GalleryImage = typeof gallery.$inferSelect
 export type ContactMessage = typeof contactMessages.$inferSelect
 export type NewContactMessage = typeof contactMessages.$inferInsert
+export type Gtk = typeof gtk.$inferSelect
+export type NewGtk = typeof gtk.$inferInsert

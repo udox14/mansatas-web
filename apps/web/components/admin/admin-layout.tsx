@@ -16,10 +16,11 @@ const SIDEBAR_ITEMS = [
   { href: '/admin/artikel', label: 'Artikel', icon: FileText },
   { href: '/admin/kategori', label: 'Kategori', icon: Tag },
   { href: '/admin/program', label: 'Program', icon: Grid3X3 },
+  { href: '/admin/gtk', label: 'Guru & Staf', icon: Users },
   { href: '/admin/galeri', label: 'Galeri', icon: Images },
   { href: '/admin/inbox', label: 'Inbox', icon: Inbox },
   { href: '/admin/users', label: 'Pengguna', icon: Users, role: 'superadmin' },
-]
+];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const { user, loading, logout } = useAuth()

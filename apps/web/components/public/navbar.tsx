@@ -11,6 +11,7 @@ const NAV_LINKS = [
   { href: '/', label: 'Beranda' },
   { href: '/#program', label: 'Program' },
   { href: '/artikel', label: 'Artikel' },
+  { href: '/gtk', label: 'GTK' },
   { href: '/#galeri', label: 'Galeri' },
   { href: '/#kontak', label: 'Kontak' },
 ]

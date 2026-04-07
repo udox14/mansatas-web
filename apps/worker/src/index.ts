@@ -70,6 +70,7 @@ import contactRoutes from './routes/contact'
 import uploadRoutes from './routes/upload'
 import assetsRoutes from './routes/assets'
 import categoriesRoutes from './routes/categories'
+import gtkRoutes from './routes/gtk'
 
 app.route('/api/auth', authRoutes)
 app.route('/api/hero', heroRoutes)
@@ -79,6 +80,7 @@ app.route('/api/gallery', galleryRoutes)
 app.route('/api/contact', contactRoutes)
 app.route('/api/upload', uploadRoutes)
 app.route('/api/categories', categoriesRoutes)
+app.route('/api/gtk', gtkRoutes)
 app.route('/assets', assetsRoutes)
 
 import adminHeroRoutes from './routes/admin-hero'
@@ -87,8 +89,10 @@ import adminProgramsRoutes from './routes/admin-programs'
 import adminGalleryRoutes from './routes/admin-gallery'
 import adminInboxRoutes from './routes/admin-inbox'
 import adminCategoriesRoutes from './routes/admin-categories'
+import adminGtkRoutes from './routes/admin-gtk'
 
 app.route('/api/admin/hero', adminHeroRoutes)
+app.route('/api/admin/gtk', adminGtkRoutes)
 app.route('/api/admin/articles', adminArticlesRoutes)
 app.route('/api/admin/programs', adminProgramsRoutes)
 app.route('/api/admin/gallery', adminGalleryRoutes)

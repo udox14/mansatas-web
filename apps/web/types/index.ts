@@ -159,3 +159,20 @@ export interface ContactFormData {
   subject: string
   message: string
 }
+
+/* ============================================
+   GTK (Teachers & Staff)
+   ============================================ */
+export interface Gtk {
+  id: string
+  name: string
+  nip: string | null
+  gender: 'L' | 'P'
+  position: string
+  subject: string | null
+  image_url: string | null
+  is_featured: boolean
+  is_active: boolean
+  created_at: string
+  updated_at: string
+}
