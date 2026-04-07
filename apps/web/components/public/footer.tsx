@@ -13,6 +13,7 @@ const SOCIAL_LINKS = [
   { href: 'https://www.instagram.com/mansatasofficial', label: 'Instagram' },
   { href: 'https://www.youtube.com/@MansatasOfficial', label: 'YouTube' },
   { href: 'https://www.tiktok.com/@mansatasofficial', label: 'TikTok' },
+{ href: 'https://www.facebook.com/61585855274287/', label: 'Facebook' },
 ]
 
 export default function Footer() {
