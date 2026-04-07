@@ -77,6 +77,7 @@ adminGtk.post('/batch', async (c) => {
     gender: 'L' | 'P'
     position: string
     subject?: string
+    image_url?: string
   }>>()
 
   if (!Array.isArray(body) || body.length === 0) {
@@ -90,6 +91,7 @@ adminGtk.post('/batch', async (c) => {
     gender: item.gender || 'L',
     position: item.position,
     subject: item.subject || null,
+    image_url: item.image_url || null,
     is_active: true,
     is_featured: false,
     sort_order: 0,

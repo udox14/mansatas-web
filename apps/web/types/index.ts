@@ -172,6 +172,7 @@ export interface Gtk {
   subject: string | null
   image_url: string | null
   is_featured: boolean
+  sort_order: number
   is_active: boolean
   created_at: string
   updated_at: string

@@ -32,7 +32,7 @@ export default function GtkPage() {
   const filteredGtk = useMemo(() => {
     return gtkList.filter(item => {
       const matchSearch = item.name.toLowerCase().includes(search.toLowerCase()) || 
-                          (item.nip?.toLowerCase().includes(search.toLowerCase()))
+                          (item.nip?.toLowerCase() || '').includes(search.toLowerCase())
       const matchGender = !genderFilter || item.gender === genderFilter
       const matchPosition = !positionFilter || item.position === positionFilter
       const matchSubject = !subjectFilter || item.subject === subjectFilter
