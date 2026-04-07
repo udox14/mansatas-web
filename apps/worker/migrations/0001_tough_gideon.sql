@@ -1,12 +1,12 @@
-CREATE TABLE `categories` (
+CREATE TABLE IF NOT EXISTS `categories` (
 	`id` text PRIMARY KEY NOT NULL,
 	`name` text NOT NULL,
 	`slug` text NOT NULL,
 	`created_at` text DEFAULT (datetime('now')) NOT NULL
 );
 --> statement-breakpoint
-CREATE UNIQUE INDEX `categories_slug_unique` ON `categories` (`slug`);--> statement-breakpoint
-CREATE TABLE `gtk` (
+CREATE UNIQUE INDEX IF NOT EXISTS `categories_slug_unique` ON `categories` (`slug`);--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS `gtk` (
 	`id` text PRIMARY KEY NOT NULL,
 	`name` text NOT NULL,
 	`nip` text,
@@ -21,4 +21,4 @@ CREATE TABLE `gtk` (
 	`updated_at` text DEFAULT (datetime('now')) NOT NULL
 );
 --> statement-breakpoint
-ALTER TABLE `articles` ADD `category_id` text REFERENCES categories(id);
+-- ALTER TABLE `articles` ADD `category_id` text REFERENCES categories(id);
