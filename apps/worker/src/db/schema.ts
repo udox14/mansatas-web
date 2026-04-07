@@ -108,6 +108,7 @@ export const programs = sqliteTable('programs', {
   icon: text('icon').notNull().default('GraduationCap'), // Lucide icon name
   image_url: text('image_url'),
   sort_order: integer('sort_order').notNull().default(0),
+  is_featured: integer('is_featured', { mode: 'boolean' }).notNull().default(false),
   is_active: integer('is_active', { mode: 'boolean' }).notNull().default(true),
   created_at: text('created_at')
     .notNull()

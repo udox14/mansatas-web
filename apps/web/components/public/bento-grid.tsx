@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { motion } from 'framer-motion'
 import {
   BookOpen,
@@ -83,64 +84,75 @@ export default function BentoGrid() {
         </div>
 
         {/* Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-5">
-          {programs.map((program, i) => {
-            const Icon = ICON_MAP[program.icon] || GraduationCap
-            const gridClass = GRID_CLASSES[i % GRID_CLASSES.length]
-            const isLarge = gridClass.includes('col-span-2') && gridClass.includes('row-span-2')
-            const bgImage = program.image_url
-              ? program.image_url.startsWith('/')
-                ? `${API_URL}${program.image_url}`
-                : program.image_url
-              : null
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-5 mb-14">
+          {programs
+            .filter(p => p.is_featured) // Only featured on home
+            .map((program, i) => {
+              const Icon = ICON_MAP[program.icon] || GraduationCap
+              const gridClass = GRID_CLASSES[i % GRID_CLASSES.length]
+              const isLarge = gridClass.includes('col-span-2') && gridClass.includes('row-span-2')
+              const bgImage = program.image_url
+                ? (program.image_url.startsWith('/') ? `${API_URL}${program.image_url}` : program.image_url)
+                : null
 
-            return (
-              <motion.div
-                key={program.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className={cn(
-                  'group relative overflow-hidden rounded-2xl border border-primary-100/60 dark:border-slate-800 bg-white dark:bg-slate-900 transition-all duration-300 hover:shadow-lg hover:shadow-primary-500/5 hover:-translate-y-1 hover:border-primary-200 dark:hover:border-primary-800',
-                  gridClass
-                )}
-              >
-                {/* Background image (jika ada) */}
-                {bgImage && isLarge && (
-                  <div className="absolute inset-0">
-                    <img
-                      src={bgImage}
-                      alt={program.title}
-                      className="w-full h-full object-cover opacity-15 dark:opacity-10 group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
-                )}
+              return (
+                <motion.div
+                  key={program.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className={cn(
+                    'group relative overflow-hidden rounded-2xl border border-slate-100 dark:border-white/10 bg-white dark:bg-slate-900 transition-all duration-300 hover:shadow-xl hover:shadow-primary-500/10 hover:-translate-y-1',
+                    gridClass
+                  )}
+                >
+                  {/* Background photo (available for all now) */}
+                  {bgImage && (
+                    <div className="absolute inset-0">
+                      <img
+                        src={bgImage}
+                        alt={program.title}
+                        className={cn(
+                          "w-full h-full object-cover transition-transform duration-500 group-hover:scale-105",
+                          isLarge ? "opacity-20 dark:opacity-15" : "opacity-10 dark:opacity-5"
+                        )}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent dark:from-slate-900/40 dark:to-transparent" />
+                    </div>
+                  )}
 
-                <div className={cn('relative p-6 lg:p-8 h-full flex flex-col', isLarge && 'justify-end')}>
-                  <div className={cn(
-                    'w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-colors',
-                    'bg-primary-50 text-primary-600 group-hover:bg-primary-100',
-                    'dark:bg-primary-950/50 dark:text-primary-400 dark:group-hover:bg-primary-900/50'
-                  )}>
-                    <Icon size={isLarge ? 28 : 24} />
+                  <div className={cn('relative p-6 lg:p-8 h-full flex flex-col', isLarge && 'justify-end')}>
+                    <div className="mb-4 text-primary-600 dark:text-primary-400">
+                      <Icon size={isLarge ? 32 : 24} strokeWidth={1.5} />
+                    </div>
+                    <h3 className={cn(
+                      'font-heading font-bold text-slate-900 dark:text-white mb-2',
+                      isLarge ? 'text-xl lg:text-2xl' : 'text-lg'
+                    )}>
+                      {program.title}
+                    </h3>
+                    <p className={cn(
+                      'text-slate-500 dark:text-slate-400 leading-relaxed',
+                      isLarge ? 'text-base' : 'text-sm'
+                    )}>
+                      {program.description}
+                    </p>
                   </div>
-                  <h3 className={cn(
-                    'font-heading font-bold text-slate-900 dark:text-white mb-2',
-                    isLarge ? 'text-xl lg:text-2xl' : 'text-lg'
-                  )}>
-                    {program.title}
-                  </h3>
-                  <p className={cn(
-                    'text-slate-500 dark:text-slate-400 leading-relaxed',
-                    isLarge ? 'text-base' : 'text-sm'
-                  )}>
-                    {program.description}
-                  </p>
-                </div>
-              </motion.div>
-            )
-          })}
+                </motion.div>
+              )
+            })}
+        </div>
+
+        {/* View All Button */}
+        <div className="text-center">
+          <Link
+            href="/program"
+            className="inline-flex items-center gap-2.5 px-7 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-bold rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 hover:shadow-lg transition-all"
+          >
+            Lihat Semua Program & Fasilitas
+            <Icon size={18} className="text-primary-500" />
+          </Link>
         </div>
 
         {programs.length === 0 && (
@@ -150,5 +162,23 @@ export default function BentoGrid() {
         )}
       </div>
     </section>
+  )
+}
+
+function Icon({ size, className }: { size: number, className?: string }) {
+  return (
+    <svg 
+      width={size} 
+      height={size} 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="currentColor" 
+      strokeWidth="2.5" 
+      strokeLinecap="round" 
+      strokeLinejoin="round" 
+      className={className}
+    >
+      <path d="M5 12h14m-7-7 7 7-7 7"/>
+    </svg>
   )
 }

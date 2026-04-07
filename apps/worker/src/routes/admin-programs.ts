@@ -25,6 +25,7 @@ adminPrograms.post('/', async (c) => {
     icon?: string
     image_url?: string
     sort_order?: number
+    is_featured?: boolean
   }>()
 
   if (!body.title?.trim() || !body.description?.trim()) {
@@ -39,6 +40,7 @@ adminPrograms.post('/', async (c) => {
     icon: body.icon?.trim() || 'GraduationCap',
     image_url: body.image_url?.trim() || null,
     sort_order: body.sort_order ?? 0,
+    is_featured: body.is_featured ?? false,
     is_active: true,
   })
 
@@ -56,6 +58,7 @@ adminPrograms.put('/:id', async (c) => {
     image_url?: string
     sort_order?: number
     is_active?: boolean
+    is_featured?: boolean
   }>()
 
   const [existing] = await db.select({ id: programs.id }).from(programs).where(eq(programs.id, id)).limit(1)
@@ -68,6 +71,7 @@ adminPrograms.put('/:id', async (c) => {
     ...(body.image_url !== undefined && { image_url: body.image_url?.trim() || null }),
     ...(body.sort_order !== undefined && { sort_order: body.sort_order }),
     ...(body.is_active !== undefined && { is_active: body.is_active }),
+    ...(body.is_featured !== undefined && { is_featured: body.is_featured }),
   }).where(eq(programs.id, id))
 
   return c.json({ success: true, message: 'Program berhasil diperbarui.' })

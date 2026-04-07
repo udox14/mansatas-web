@@ -134,6 +134,7 @@ export interface Program {
   icon: string
   image_url: string | null
   sort_order: number
+  is_featured: boolean
   is_active: boolean
   created_at: string
 }
