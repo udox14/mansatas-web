@@ -40,8 +40,8 @@ export default function ImageUploader({ value, onChange, folder = 'uploads', cla
   return (
     <div className={cn('relative', className)}>
       {preview ? (
-        <div className="relative rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700">
-          <img src={preview} alt="Preview" className="w-full h-40 object-cover" />
+        <div className="relative rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 h-full">
+          <img src={preview} alt="Preview" className="w-full h-full object-cover" />
           <button
             type="button"
             onClick={() => onChange('')}
@@ -55,7 +55,7 @@ export default function ImageUploader({ value, onChange, folder = 'uploads', cla
           type="button"
           onClick={() => inputRef.current?.click()}
           disabled={uploading}
-          className="w-full h-40 rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center gap-2 text-slate-400 hover:border-primary-400 hover:text-primary-500 transition-colors disabled:opacity-50"
+          className="w-full h-full rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center gap-2 text-slate-400 hover:border-primary-400 hover:text-primary-500 transition-colors disabled:opacity-50"
         >
           {uploading ? <Loader2 size={24} className="animate-spin" /> : <Upload size={24} />}
           <span className="text-xs">{uploading ? 'Mengupload...' : 'Klik untuk upload gambar'}</span>

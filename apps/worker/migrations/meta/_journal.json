@@ -8,6 +8,13 @@
       "when": 1774877705088,
       "tag": "0000_slimy_angel",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1775532189258,
+      "tag": "0001_tough_gideon",
+      "breakpoints": true
     }
   ]
 }

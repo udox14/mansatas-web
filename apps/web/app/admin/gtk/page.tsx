@@ -220,7 +220,7 @@ export default function AdminGtkPage() {
                 />
               </div>
 
-              <div className="pt-2">
+              <div className="pt-6">
                 <button 
                   onClick={save} 
                   className="w-full flex items-center justify-center gap-2 px-5 py-3 bg-primary-500 text-white text-sm font-bold rounded-xl hover:bg-primary-600 shadow-lg shadow-primary-500/20 transition-all hover:-translate-y-0.5 active:scale-95"
