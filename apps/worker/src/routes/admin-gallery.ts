@@ -1,7 +1,7 @@
 import { Hono } from 'hono'
-import { eq, asc } from 'drizzle-orm'
+import { eq, asc, desc } from 'drizzle-orm'
 import { getDB } from '../db'
-import { gallery } from '../db/schema'
+import { gallery, galleryCategories } from '../db/schema'
 import { requireAuth, requireRole } from '../middleware/auth'
 import type { AppEnv } from '../index'
 
@@ -9,63 +9,70 @@ const adminGallery = new Hono<AppEnv>()
 
 adminGallery.use('*', requireAuth, requireRole('superadmin', 'admin'))
 
-/* GET — list semua */
-adminGallery.get('/', async (c) => {
+/* ============================================
+   GALLERY CATEGORIES
+   ============================================ */
+adminGallery.get('/categories', async (c) => {
   const db = getDB(c.env.DB)
-  const rows = await db.select().from(gallery).orderBy(asc(gallery.sort_order))
+  const rows = await db.select().from(galleryCategories).orderBy(asc(galleryCategories.sort_order))
   return c.json({ success: true, data: rows })
 })
 
-/* POST — tambah foto */
-adminGallery.post('/', async (c) => {
+adminGallery.post('/categories', async (c) => {
   const db = getDB(c.env.DB)
-  const body = await c.req.json<{
-    image_url: string
-    caption?: string
-    sort_order?: number
-  }>()
-
-  if (!body.image_url?.trim()) {
-    return c.json({ success: false, message: 'image_url wajib diisi.' }, 400)
-  }
-
+  const body = await c.req.json()
   const id = crypto.randomUUID()
-  await db.insert(gallery).values({
-    id,
-    image_url: body.image_url.trim(),
-    caption: body.caption?.trim() || null,
-    sort_order: body.sort_order ?? 0,
-    is_active: true,
-  })
-
-  return c.json({ success: true, message: 'Foto berhasil ditambahkan.', data: { id } })
+  await db.insert(galleryCategories).values({ ...body, id })
+  return c.json({ success: true, message: 'Kategori berhasil ditambahkan' })
 })
 
-/* PUT — update foto */
+adminGallery.put('/categories/:id', async (c) => {
+  const db = getDB(c.env.DB)
+  const id = c.req.param('id')
+  const body = await c.req.json()
+  await db.update(galleryCategories).set(body).where(eq(galleryCategories.id, id))
+  return c.json({ success: true, message: 'Kategori berhasil diperbarui' })
+})
+
+adminGallery.delete('/categories/:id', async (c) => {
+  const db = getDB(c.env.DB)
+  const id = c.req.param('id')
+  await db.delete(galleryCategories).where(eq(galleryCategories.id, id))
+  return c.json({ success: true, message: 'Kategori berhasil dihapus' })
+})
+
+/* ============================================
+   GALLERY PHOTOS
+   ============================================ */
+adminGallery.get('/', async (c) => {
+  const db = getDB(c.env.DB)
+  const rows = await db.select().from(gallery).orderBy(desc(gallery.created_at))
+  return c.json({ success: true, data: rows })
+})
+
+adminGallery.post('/', async (c) => {
+  const db = getDB(c.env.DB)
+  const body = await c.req.json()
+  const id = crypto.randomUUID()
+  await db.insert(gallery).values({
+    ...body,
+    id,
+    is_active: true,
+    is_featured: body.is_featured ?? false
+  })
+  return c.json({ success: true, message: 'Foto berhasil ditambahkan', data: { id } })
+})
+
 adminGallery.put('/:id', async (c) => {
   const db = getDB(c.env.DB)
   const id = c.req.param('id')
-  const body = await c.req.json<{
-    image_url?: string
-    caption?: string
-    sort_order?: number
-    is_active?: boolean
-  }>()
-
-  const [existing] = await db.select({ id: gallery.id }).from(gallery).where(eq(gallery.id, id)).limit(1)
-  if (!existing) return c.json({ success: false, message: 'Foto tidak ditemukan.' }, 404)
-
+  const body = await c.req.json()
   await db.update(gallery).set({
-    ...(body.image_url !== undefined && { image_url: body.image_url.trim() }),
-    ...(body.caption !== undefined && { caption: body.caption?.trim() || null }),
-    ...(body.sort_order !== undefined && { sort_order: body.sort_order }),
-    ...(body.is_active !== undefined && { is_active: body.is_active }),
+    ...body,
   }).where(eq(gallery.id, id))
-
-  return c.json({ success: true, message: 'Foto berhasil diperbarui.' })
+  return c.json({ success: true, message: 'Foto berhasil diperbarui' })
 })
 
-/* DELETE — hapus foto + R2 object */
 adminGallery.delete('/:id', async (c) => {
   const db = getDB(c.env.DB)
   const id = c.req.param('id')

@@ -1,7 +1,9 @@
 'use client'
 
 import { useEffect, useState, useRef } from 'react'
+import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { ArrowRight } from 'lucide-react'
 import { api, API_URL } from '@/lib/api'
 import type { GalleryImage } from '@/types'
 
@@ -10,6 +12,7 @@ export default function GalleryMarquee() {
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    // Only featured images from /api/gallery (handled by worker)
     api.get<{ success: boolean; data: GalleryImage[] }>('/api/gallery')
       .then((res) => setImages(res.data))
       .catch(() => {})
@@ -35,7 +38,7 @@ export default function GalleryMarquee() {
           transition={{ delay: 0.1 }}
           className="text-3xl sm:text-4xl font-heading font-bold text-slate-900 dark:text-white mb-3"
         >
-          Kegiatan Kami
+          Momen Spesial Kami
         </motion.h2>
         <motion.p
           initial={{ opacity: 0 }}
@@ -44,40 +47,55 @@ export default function GalleryMarquee() {
           transition={{ delay: 0.2 }}
           className="text-slate-500 dark:text-slate-400 max-w-xl mx-auto"
         >
-          Momen-momen terbaik dari berbagai kegiatan di MAN 1 Tasikmalaya.
+           Melihat lebih dekat perjalanan dan kegembiraan di MAN 1 Tasikmalaya.
         </motion.p>
       </div>
 
-      {/* Marquee Row 1 → kiri */}
-      <div ref={containerRef} className="relative mb-4">
-        <motion.div
-          animate={{ x: ['0%', '-50%'] }}
-          transition={{
-            x: { repeat: Infinity, repeatType: 'loop', duration: 40, ease: 'linear' },
-          }}
-          className="flex gap-4"
-        >
-          {duplicated.map((img, i) => (
-            <MarqueeCard key={`row1-${i}`} image={img} />
-          ))}
-        </motion.div>
-      </div>
-
-      {/* Marquee Row 2 → kanan (reverse) */}
-      {images.length > 3 && (
-        <div className="relative">
+      {/* Marquee Rows */}
+      <div className="space-y-6">
+        <div ref={containerRef} className="relative">
           <motion.div
-            animate={{ x: ['-50%', '0%'] }}
+            animate={{ x: ['0%', '-50%'] }}
             transition={{
-              x: { repeat: Infinity, repeatType: 'loop', duration: 45, ease: 'linear' },
+              x: { repeat: Infinity, repeatType: 'loop', duration: 50, ease: 'linear' },
             }}
             className="flex gap-4"
           >
-            {[...duplicated].reverse().map((img, i) => (
-              <MarqueeCard key={`row2-${i}`} image={img} />
+            {duplicated.map((img, i) => (
+              <MarqueeCard key={`row1-${i}`} image={img} />
             ))}
           </motion.div>
         </div>
+
+        {images.length > 4 && (
+          <div className="relative">
+            <motion.div
+              animate={{ x: ['-50%', '0%'] }}
+              transition={{
+                x: { repeat: Infinity, repeatType: 'loop', duration: 45, ease: 'linear' },
+              }}
+              className="flex gap-4"
+            >
+              {[...duplicated].reverse().map((img, i) => (
+                <MarqueeCard key={`row2-${i}`} image={img} />
+              ))}
+            </motion.div>
+          </div>
+        )}
+      </div>
+
+      {images.length > 0 && (
+         <div className="mt-16 text-center">
+            <Link 
+              href="/galeri" 
+              className="group inline-flex items-center gap-3 px-8 py-3.5 bg-white dark:bg-slate-950 text-slate-900 dark:text-white font-bold rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-primary-500 hover:shadow-xl hover:shadow-primary-500/10 transition-all duration-300 active:scale-95"
+            >
+              <span>Jelajahi Galeri Lengkap</span>
+              <div className="w-8 h-8 flex items-center justify-center bg-primary-500 text-white rounded-xl shadow-lg shadow-primary-500/20 group-hover:translate-x-1 transition-transform">
+                <ArrowRight size={16} />
+              </div>
+            </Link>
+         </div>
       )}
 
       {images.length === 0 && (

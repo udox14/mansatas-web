@@ -13,7 +13,7 @@ const NAV_LINKS = [
   { href: '/#program', label: 'Program' },
   { href: '/artikel', label: 'Artikel' },
   { href: '/gtk', label: 'GTK' },
-  { href: '/#galeri', label: 'Galeri' },
+  { href: '/galeri', label: 'Galeri' },
   { href: '/#kontak', label: 'Kontak' },
 ]
 

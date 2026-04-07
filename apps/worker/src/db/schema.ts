@@ -116,13 +116,30 @@ export const programs = sqliteTable('programs', {
 })
 
 /* ============================================
+   GALLERY CATEGORIES
+   ============================================ */
+export const galleryCategories = sqliteTable('gallery_categories', {
+  id: text('id').primaryKey(), // crypto.randomUUID()
+  name: text('name').notNull(),
+  slug: text('slug').notNull().unique(),
+  description: text('description'),
+  thumbnail_url: text('thumbnail_url'), // Folder cover
+  sort_order: integer('sort_order').notNull().default(0),
+  created_at: text('created_at')
+    .notNull()
+    .default(sql`(datetime('now'))`),
+})
+
+/* ============================================
    GALLERY — Foto kegiatan sekolah
    ============================================ */
 export const gallery = sqliteTable('gallery', {
   id: text('id').primaryKey(),
+  category_id: text('category_id').references(() => galleryCategories.id),
   image_url: text('image_url').notNull(),
   caption: text('caption'),
   sort_order: integer('sort_order').notNull().default(0),
+  is_featured: integer('is_featured', { mode: 'boolean' }).notNull().default(false), // Show on Home Marquee
   is_active: integer('is_active', { mode: 'boolean' }).notNull().default(true),
   created_at: text('created_at')
     .notNull()

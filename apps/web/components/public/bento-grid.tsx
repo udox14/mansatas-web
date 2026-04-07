@@ -115,10 +115,11 @@ export default function BentoGrid() {
                         alt={program.title}
                         className={cn(
                           "w-full h-full object-cover transition-transform duration-500 group-hover:scale-105",
-                          isLarge ? "opacity-20 dark:opacity-15" : "opacity-10 dark:opacity-5"
+                          isLarge ? "opacity-40 dark:opacity-30" : "opacity-30 dark:opacity-20"
                         )}
                       />
-                      <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent dark:from-slate-900/40 dark:to-transparent" />
+                      {/* Gradient to ensure text readability */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-white via-white/40 to-transparent dark:from-slate-950 dark:via-slate-950/40 dark:to-transparent" />
                     </div>
                   )}
 

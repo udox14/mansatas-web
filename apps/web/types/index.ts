@@ -142,11 +142,23 @@ export interface Program {
 /* ============================================
    Gallery
    ============================================ */
+export interface GalleryCategory {
+  id: string
+  name: string
+  slug: string
+  description: string | null
+  thumbnail_url: string | null
+  sort_order: number
+  created_at: string
+}
+
 export interface GalleryImage {
   id: string
+  category_id: string | null
   image_url: string
   caption: string | null
   sort_order: number
+  is_featured: boolean
   is_active: boolean
   created_at: string
 }
