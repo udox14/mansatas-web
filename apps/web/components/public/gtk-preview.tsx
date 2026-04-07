@@ -32,7 +32,7 @@ export default function GtkPreview() {
               viewport={{ once: true }}
               className="inline-block px-4 py-1.5 bg-primary-50 dark:bg-primary-950/50 text-primary-600 dark:text-primary-400 text-xs font-bold rounded-full mb-4 tracking-wider uppercase"
             >
-              Tenaga Pendidik
+              Staf Kependidikan
             </motion.span>
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
@@ -41,7 +41,7 @@ export default function GtkPreview() {
               transition={{ delay: 0.1 }}
               className="text-4xl md:text-5xl font-heading font-bold text-slate-900 dark:text-white mb-4"
             >
-              Guru & Staf Terbaik Kami
+              Guru & Staf Madrasah
             </motion.h2>
             <motion.p
               initial={{ opacity: 0 }}
@@ -50,7 +50,7 @@ export default function GtkPreview() {
               transition={{ delay: 0.2 }}
               className="text-lg text-slate-500 dark:text-slate-400"
             >
-              Dibimbing oleh tenaga pengajar yang kompeten dan berdedikasi tinggi untuk mencetak generasi unggul.
+              Didukung oleh jajaran pimpinan dan tenaga pendidik yang berdedikasi tinggi untuk kemajuan madrasah.
             </motion.p>
           </div>
           
