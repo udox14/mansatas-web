@@ -22,15 +22,15 @@ export default function RecentArticles() {
   if (!loading && articles.length === 0) return null
 
   return (
-    <section className="py-20 bg-slate-50 dark:bg-slate-900/50">
+    <section className="py-16 bg-slate-50 dark:bg-slate-900/50">
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-10">
           <motion.span
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-block px-4 py-1.5 bg-primary-50 dark:bg-primary-950/50 text-primary-600 dark:text-primary-400 text-xs font-semibold rounded-full mb-4"
+            className="inline-block px-3 py-1 bg-primary-50 dark:bg-primary-950/50 text-primary-600 dark:text-primary-400 text-xs font-semibold rounded-full mb-3"
           >
             Berita
           </motion.span>
@@ -39,7 +39,7 @@ export default function RecentArticles() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-3xl sm:text-4xl font-heading font-bold text-slate-900 dark:text-white mb-4"
+            className="text-2xl sm:text-3xl font-heading font-bold text-slate-900 dark:text-white mb-2"
           >
             Berita & Artikel Terkini
           </motion.h2>

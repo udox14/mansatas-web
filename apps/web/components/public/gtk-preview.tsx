@@ -21,16 +21,16 @@ export default function GtkPreview() {
   if (!loading && gtkList.length === 0) return null
 
   return (
-    <section id="gtk" className="py-24 bg-white dark:bg-slate-950 overflow-hidden scroll-mt-20">
+    <section id="gtk" className="py-16 bg-white dark:bg-slate-950 overflow-hidden scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
           <div className="max-w-2xl">
             <motion.span
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="inline-block px-4 py-1.5 bg-primary-50 dark:bg-primary-950/50 text-primary-600 dark:text-primary-400 text-xs font-bold rounded-full mb-4 tracking-wider uppercase"
+              className="inline-block px-3 py-1 bg-primary-50 dark:bg-primary-950/50 text-primary-600 dark:text-primary-400 text-xs font-bold rounded-full mb-3 tracking-wider uppercase"
             >
               Staf Kependidikan
             </motion.span>
@@ -39,7 +39,7 @@ export default function GtkPreview() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="text-4xl md:text-5xl font-heading font-bold text-slate-900 dark:text-white mb-4"
+              className="text-3xl md:text-4xl font-heading font-bold text-slate-900 dark:text-white mb-3"
             >
               Guru & Staf Madrasah
             </motion.h2>
@@ -48,7 +48,7 @@ export default function GtkPreview() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="text-lg text-slate-500 dark:text-slate-400"
+              className="text-base text-slate-500 dark:text-slate-400"
             >
               Didukung oleh jajaran pimpinan dan tenaga pendidik yang berdedikasi tinggi untuk kemajuan madrasah.
             </motion.p>

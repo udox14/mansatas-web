@@ -68,7 +68,7 @@ export default function GtkPage() {
         <div className="max-w-7xl mx-auto px-4">
           
           {/* Filter Bar */}
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 mb-12 shadow-sm sticky top-24 z-30 backdrop-blur-md bg-opacity-90">
+          <div className="bg-white/95 dark:bg-slate-900/95 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 md:p-6 mb-8 shadow-md sticky top-16 z-30 backdrop-blur-md">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
               
               {/* Search */}

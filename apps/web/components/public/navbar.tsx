@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Sun, Moon } from 'lucide-react'
 import { useDarkMode } from '@/hooks/use-dark-mode'
@@ -17,9 +18,14 @@ const NAV_LINKS = [
 ]
 
 export default function Navbar() {
+  const pathname = usePathname()
+  const isHome = pathname === '/'
   const { isDark, toggle, mounted } = useDarkMode()
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+
+  // Force solid style if not on home
+  const isSolid = scrolled || !isHome
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
@@ -31,7 +37,7 @@ export default function Navbar() {
     <header
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-        scrolled
+        isSolid
           ? 'bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl shadow-sm border-b border-primary-100/50 dark:border-slate-800/50'
           : 'bg-transparent'
       )}
@@ -44,13 +50,13 @@ export default function Navbar() {
             <div className="hidden sm:block">
               <p className={cn(
                 'font-heading font-bold text-sm leading-tight transition-colors',
-                scrolled ? 'text-slate-900 dark:text-white' : 'text-white'
+                isSolid ? 'text-slate-900 dark:text-white' : 'text-white'
               )}>
                 MAN 1 Tasikmalaya
               </p>
               <p className={cn(
                 'text-xs leading-tight transition-colors',
-                scrolled ? 'text-slate-500 dark:text-slate-400' : 'text-white/70'
+                isSolid ? 'text-slate-500 dark:text-slate-400' : 'text-white/70'
               )}>
                 Jawa Barat
               </p>
@@ -65,7 +71,7 @@ export default function Navbar() {
                   href={link.href}
                   className={cn(
                     'relative px-3 py-2 text-sm font-medium rounded-lg transition-colors',
-                    scrolled
+                    isSolid
                       ? 'text-slate-600 hover:text-primary-600 hover:bg-primary-50 dark:text-slate-300 dark:hover:text-primary-400 dark:hover:bg-slate-800'
                       : 'text-white/80 hover:text-white hover:bg-white/10'
                   )}
@@ -84,7 +90,7 @@ export default function Navbar() {
                 onClick={toggle}
                 className={cn(
                   'p-2 rounded-lg transition-colors',
-                  scrolled
+                  isSolid
                     ? 'text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'
                     : 'text-white/70 hover:bg-white/10'
                 )}
@@ -96,15 +102,15 @@ export default function Navbar() {
 
             {/* CTA Button */}
             <Link
-              href="/ppdb"
+              href="/pmb"
               className={cn(
                 'hidden sm:inline-flex items-center px-4 py-2 text-sm font-semibold rounded-lg transition-all',
-                scrolled
+                isSolid
                   ? 'bg-primary-500 text-white hover:bg-primary-600 shadow-sm hover:shadow-md'
                   : 'bg-white/15 text-white backdrop-blur-sm hover:bg-white/25 border border-white/20'
               )}
             >
-              Portal PPDB
+              Portal PMB
             </Link>
 
             {/* Mobile Menu Button */}
@@ -112,7 +118,7 @@ export default function Navbar() {
               onClick={() => setMobileOpen(!mobileOpen)}
               className={cn(
                 'md:hidden p-2 rounded-lg transition-colors',
-                scrolled
+                isSolid
                   ? 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
                   : 'text-white hover:bg-white/10'
               )}

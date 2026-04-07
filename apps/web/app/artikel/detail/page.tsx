@@ -190,7 +190,7 @@ function ArticleDetailContent() {
 
                 <div
                   className="prose prose-slate dark:prose-invert max-w-none 
-                    prose-p:text-lg prose-p:leading-relaxed prose-p:text-slate-600 dark:prose-p:text-slate-300
+                    prose-p:leading-relaxed prose-p:text-slate-600 dark:prose-p:text-slate-300
                     prose-headings:font-heading prose-headings:font-bold
                     prose-a:text-primary-600 dark:prose-a:text-primary-400 prose-a:no-underline hover:prose-a:underline
                     prose-img:rounded-2xl prose-img:shadow-lg

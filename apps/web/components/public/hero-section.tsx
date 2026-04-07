@@ -95,10 +95,10 @@ export default function HeroSection() {
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.6 }}
             >
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-heading font-bold text-white mb-4 drop-shadow-lg">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold text-white mb-3 drop-shadow-lg leading-tight">
                 {title || 'MAN 1 Tasikmalaya'}
               </h1>
-              <p className="text-lg sm:text-xl text-white/85 mb-8 max-w-2xl mx-auto leading-relaxed drop-shadow">
+              <p className="text-base sm:text-lg text-white/85 mb-6 max-w-2xl mx-auto leading-relaxed drop-shadow">
                 {description || 'Unggul dalam Iman, Ilmu, dan Amal'}
               </p>
               {btnText && btnUrl && (

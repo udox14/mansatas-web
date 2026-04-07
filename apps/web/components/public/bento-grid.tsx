@@ -50,15 +50,15 @@ export default function BentoGrid() {
   }, [])
 
   return (
-    <section id="program" className="py-20 px-4 scroll-mt-20">
+    <section id="program" className="py-16 px-4 scroll-mt-20">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-14">
+        <div className="text-center mb-10">
           <motion.span
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-block px-4 py-1.5 bg-primary-50 dark:bg-primary-950/50 text-primary-600 dark:text-primary-400 text-xs font-semibold rounded-full mb-4"
+            className="inline-block px-3 py-1 bg-primary-50 dark:bg-primary-950/50 text-primary-600 dark:text-primary-400 text-xs font-semibold rounded-full mb-3"
           >
             Program Kami
           </motion.span>
@@ -67,7 +67,7 @@ export default function BentoGrid() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-3xl sm:text-4xl font-heading font-bold text-slate-900 dark:text-white mb-3"
+            className="text-2xl sm:text-3xl font-heading font-bold text-slate-900 dark:text-white mb-2"
           >
             Program Unggulan
           </motion.h2>
