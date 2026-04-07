@@ -49,10 +49,8 @@ export default function BentoGrid() {
       .catch(() => {})
   }, [])
 
-  if (programs.length === 0) return null
-
   return (
-    <section id="program" className="py-20 px-4">
+    <section id="program" className="py-20 px-4 scroll-mt-20">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-14">
@@ -144,6 +142,12 @@ export default function BentoGrid() {
             )
           })}
         </div>
+
+        {programs.length === 0 && (
+          <div className="text-center py-10">
+            <p className="text-slate-400 text-sm italic">Daftar program akan segera diperbarui.</p>
+          </div>
+        )}
       </div>
     </section>
   )

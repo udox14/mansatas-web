@@ -15,13 +15,10 @@ export default function GalleryMarquee() {
       .catch(() => {})
   }, [])
 
-  if (images.length === 0) return null
-
-  // Duplikasi gambar untuk efek infinite
-  const duplicated = [...images, ...images]
+  const duplicated = images.length > 0 ? [...images, ...images] : []
 
   return (
-    <section id="galeri" className="py-20 bg-slate-50 dark:bg-slate-900 overflow-hidden">
+    <section id="galeri" className="py-20 bg-slate-50 dark:bg-slate-900 overflow-hidden scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 mb-14 text-center">
         <motion.span
           initial={{ opacity: 0, y: 10 }}
@@ -80,6 +77,12 @@ export default function GalleryMarquee() {
               <MarqueeCard key={`row2-${i}`} image={img} />
             ))}
           </motion.div>
+        </div>
+      )}
+
+      {images.length === 0 && (
+        <div className="text-center py-10">
+          <p className="text-slate-400 text-sm italic">Momen kegiatan akan segera hadir.</p>
         </div>
       )}
     </section>
