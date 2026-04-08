@@ -56,10 +56,10 @@ export default function GalleryPage() {
 
                     {/* Main Image */}
                     <div className="absolute inset-0 rounded-[2.5rem] overflow-hidden border-2 border-white dark:border-slate-800">
-                      {cat.thumbnail_url ? (
+                      {(cat.thumbnail_url || cat.fallback_url) ? (
                         <div className="w-full h-full relative">
                           <img 
-                            src={cat.thumbnail_url.startsWith('/') ? `${API_URL}${cat.thumbnail_url}` : cat.thumbnail_url} 
+                            src={(cat.thumbnail_url || cat.fallback_url || '').startsWith('/') ? `${API_URL}${cat.thumbnail_url || cat.fallback_url}` : (cat.thumbnail_url || cat.fallback_url || '')} 
                             alt={cat.name}
                             className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                           />

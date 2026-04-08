@@ -139,7 +139,9 @@ export default function AdminGalleryCategoriesPage() {
 
                 <div>
                   <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5 px-1">Cover Folder</label>
-                  <ImageUploader value={form.thumbnail_url} onChange={(v) => setForm({ ...form, thumbnail_url: v })} folder="gallery/covers" />
+                  <div className="h-40">
+                    <ImageUploader value={form.thumbnail_url} onChange={(v) => setForm({ ...form, thumbnail_url: v })} folder="gallery/covers" />
+                  </div>
                 </div>
 
                 <div className="flex gap-2 pt-2">

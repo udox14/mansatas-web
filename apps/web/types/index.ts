@@ -148,6 +148,7 @@ export interface GalleryCategory {
   slug: string
   description: string | null
   thumbnail_url: string | null
+  fallback_url?: string | null
   sort_order: number
   created_at: string
 }

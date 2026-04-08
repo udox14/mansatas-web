@@ -1,5 +1,5 @@
 import { Hono } from 'hono'
-import { eq, asc } from 'drizzle-orm'
+import { eq, asc, desc } from 'drizzle-orm'
 import { getDB } from '../db'
 import { gallery, galleryCategories } from '../db/schema'
 import type { AppEnv } from '../index'
@@ -20,11 +20,30 @@ galleryRoute.get('/', async (c) => {
 /* GET /api/gallery/categories — all folders */
 galleryRoute.get('/categories', async (c) => {
   const db = getDB(c.env.DB)
-  const rows = await db
+  
+  // Get categories
+  const categoriesList = await db
     .select()
     .from(galleryCategories)
     .orderBy(asc(galleryCategories.sort_order))
-  return c.json({ success: true, data: rows })
+
+  // For each category, if thumbnail_url is missing, get the latest photo
+  const categoriesWithThumb = await Promise.all(
+    categoriesList.map(async (cat) => {
+      if (cat.thumbnail_url) return { ...cat, fallback_url: null }
+
+      const [latestPhoto] = await db
+        .select({ url: gallery.image_url })
+        .from(gallery)
+        .where(eq(gallery.category_id, cat.id))
+        .orderBy(desc(gallery.created_at))
+        .limit(1)
+
+      return { ...cat, fallback_url: latestPhoto?.url || null }
+    })
+  )
+
+  return c.json({ success: true, data: categoriesWithThumb })
 })
 
 /* GET /api/gallery/photos/:categorySlug — photos in folder */
