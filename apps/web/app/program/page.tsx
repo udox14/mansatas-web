@@ -9,6 +9,7 @@ import {
 import PublicLayout from '@/components/public/public-layout'
 import { api, API_URL } from '@/lib/api'
 import type { Program, ApiResponse } from '@/types'
+import PageHero from '@/components/public/page-hero'
 
 const ICON_MAP: Record<string, React.ElementType> = {
   BookOpen, FlaskConical, Globe, Trophy, GraduationCap, 
@@ -28,25 +29,10 @@ export default function ProgramPage() {
 
   return (
     <PublicLayout>
-      <section className="pt-32 pb-20 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <motion.h1 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-5xl font-heading font-bold text-slate-900 dark:text-white mb-4"
-          >
-            Program & Fasilitas
-          </motion.h1>
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.1 }}
-            className="text-slate-500 dark:text-slate-400 max-w-2xl mx-auto"
-          >
-            Daftar lengkap program unggulan, ekstrakurikuler, dan fasilitas pendukung pendidikan di MAN 1 Tasikmalaya.
-          </motion.p>
-        </div>
-      </section>
+      <PageHero 
+        title="Program & Fasilitas"
+        description="Daftar lengkap program unggulan, ekstrakurikuler, dan fasilitas pendukung pendidikan di MAN 1 Tasikmalaya."
+      />
 
       <section className="py-20 bg-white dark:bg-slate-950">
         <div className="max-w-7xl mx-auto px-4">

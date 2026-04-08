@@ -71,6 +71,7 @@ import uploadRoutes from './routes/upload'
 import assetsRoutes from './routes/assets'
 import categoriesRoutes from './routes/categories'
 import gtkRoutes from './routes/gtk'
+import achievementsRoutes from './routes/achievements'
 
 app.route('/api/auth', authRoutes)
 app.route('/api/hero', heroRoutes)
@@ -81,6 +82,7 @@ app.route('/api/contact', contactRoutes)
 app.route('/api/upload', uploadRoutes)
 app.route('/api/categories', categoriesRoutes)
 app.route('/api/gtk', gtkRoutes)
+app.route('/api/achievements', achievementsRoutes)
 app.route('/assets', assetsRoutes)
 
 import adminHeroRoutes from './routes/admin-hero'
@@ -91,6 +93,7 @@ import adminInboxRoutes from './routes/admin-inbox'
 import adminCategoriesRoutes from './routes/admin-categories'
 import adminGtkRoutes from './routes/admin-gtk'
 import adminCommentsRoutes from './routes/admin-comments'
+import adminAchievementsRoutes from './routes/admin-achievements'
 
 app.route('/api/admin/hero', adminHeroRoutes)
 app.route('/api/admin/gtk', adminGtkRoutes)
@@ -100,6 +103,7 @@ app.route('/api/admin/gallery', adminGalleryRoutes)
 app.route('/api/admin/inbox', adminInboxRoutes)
 app.route('/api/admin/categories', adminCategoriesRoutes)
 app.route('/api/admin/comments', adminCommentsRoutes)
+app.route('/api/admin/achievements', adminAchievementsRoutes)
 
 import adminUsersRoutes from './routes/admin-users'
 app.route('/api/admin/users', adminUsersRoutes)

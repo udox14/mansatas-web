@@ -7,6 +7,7 @@ import PublicLayout from '@/components/public/public-layout'
 import { api, API_URL } from '@/lib/api'
 import type { Gtk, ApiResponse } from '@/types'
 import { cn } from '@/lib/utils'
+import PageHero from '@/components/public/page-hero'
 
 export default function GtkPage() {
   const [gtkList, setGtkList] = useState<Gtk[]>([])
@@ -43,25 +44,10 @@ export default function GtkPage() {
   return (
     <PublicLayout>
       {/* Hero Section */}
-      <section className="pt-32 pb-16 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-100 dark:border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <motion.h1 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-5xl font-heading font-bold text-slate-900 dark:text-white mb-4"
-          >
-            Guru & Tenaga Kependidikan
-          </motion.h1>
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.1 }}
-            className="text-slate-500 dark:text-slate-400 max-w-2xl mx-auto"
-          >
-            Mengenal lebih dekat para pendidik dan staf profesional yang berdedikasi tinggi di MAN 1 Tasikmalaya.
-          </motion.p>
-        </div>
-      </section>
+      <PageHero 
+        title="Guru & Tenaga Kependidikan"
+        description="Mengenal lebih dekat para pendidik dan staf profesional yang berdedikasi tinggi di MAN 1 Tasikmalaya."
+      />
 
       {/* Filters & Content */}
       <section className="py-12 bg-white dark:bg-black min-h-screen">

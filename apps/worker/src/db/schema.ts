@@ -202,6 +202,24 @@ export const articleComments = sqliteTable('article_comments', {
 })
 
 /* ============================================
+   ACHIEVEMENTS — Prestasi sekolah dengan timeline
+   ============================================ */
+export const achievements = sqliteTable('achievements', {
+  id: text('id').primaryKey(), // crypto.randomUUID()
+  title: text('title').notNull(), // Nama Lomba / Prestasi
+  rank: text('rank'), // Juara 1, Harapan 2, dsb
+  organizer: text('organizer'), // Penyelenggara
+  location: text('location'), // Tempat Pelaksanaan
+  date: text('date'), // Tanggal pelaksanaan (YYYY-MM-DD)
+  year: integer('year').notNull(), // Tahun (untuk filter)
+  image_url: text('image_url'),
+  article_id: text('article_id').references(() => articles.id), // Link ke berita terkait
+  created_at: text('created_at')
+    .notNull()
+    .default(sql`(datetime('now'))`),
+})
+
+/* ============================================
    Type exports for use across the app
    ============================================ */
 export type User = typeof users.$inferSelect
@@ -221,3 +239,5 @@ export type Gtk = typeof gtk.$inferSelect
 export type NewGtk = typeof gtk.$inferInsert
 export type ArticleComment = typeof articleComments.$inferSelect
 export type NewArticleComment = typeof articleComments.$inferInsert
+export type Achievement = typeof achievements.$inferSelect
+export type NewAchievement = typeof achievements.$inferInsert

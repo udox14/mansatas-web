@@ -200,3 +200,20 @@ export interface Gtk {
   created_at: string
   updated_at: string
 }
+
+/* ============================================
+   Achievements
+   ============================================ */
+export interface Achievement {
+  id: string
+  title: string
+  rank: string | null
+  organizer: string | null
+  location: string | null
+  date: string | null
+  year: number
+  image_url: string | null
+  article_id: string | null
+  article_slug?: string // For public link
+  created_at: string
+}

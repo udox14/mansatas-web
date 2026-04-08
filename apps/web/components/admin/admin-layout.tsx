@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation'
 import {
   LayoutDashboard, Image, FileText, Grid3X3, Images, Inbox,
   Users, LogOut, Menu, X, ChevronRight, Loader2, Tag, MessageSquare,
+  Trophy,
 } from 'lucide-react'
 import { useAuth } from '@/hooks/use-auth'
 import { cn } from '@/lib/utils'
@@ -17,6 +18,7 @@ const SIDEBAR_ITEMS = [
   { href: '/admin/kategori', label: 'Kategori', icon: Tag },
   { href: '/admin/program', label: 'Program', icon: Grid3X3 },
   { href: '/admin/gtk', label: 'Guru & Staf', icon: Users },
+  { href: '/admin/prestasi', label: 'Prestasi', icon: Trophy },
   { href: '/admin/galeri', label: 'Galeri', icon: Images },
   { href: '/admin/komentar', label: 'Komentar', icon: MessageSquare },
   { href: '/admin/inbox', label: 'Inbox', icon: Inbox },

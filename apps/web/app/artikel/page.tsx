@@ -7,6 +7,7 @@ import PublicLayout from '@/components/public/public-layout'
 import { api, API_URL } from '@/lib/api'
 import { cn, formatDate, truncate } from '@/lib/utils'
 import type { ArticleListItem, PaginatedResponse, Category } from '@/types'
+import PageHero from '@/components/public/page-hero'
 
 export default function ArticlesPage() {
   const [articles, setArticles] = useState<ArticleListItem[]>([])
@@ -56,17 +57,13 @@ export default function ArticlesPage() {
 
   return (
     <PublicLayout>
-      <div className="pt-24 pb-20 px-4">
+      <PageHero 
+        title="Berita & Artikel"
+        description="Informasi terkini dari Madrasah Aliyah Negeri 1 Tasikmalaya."
+      />
+
+      <div className="pt-10 pb-20 px-4">
         <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <div className="text-center mb-10">
-            <h1 className="text-3xl sm:text-4xl font-heading font-bold text-slate-900 dark:text-white mb-3">
-              Berita & Artikel
-            </h1>
-            <p className="text-slate-500 dark:text-slate-400">
-              Informasi terkini dari MAN 1 Tasikmalaya
-            </p>
-          </div>
 
           {/* Category Filter */}
           <div className="flex items-center justify-center gap-2 mb-10 overflow-x-auto pb-2 scrollbar-none no-scrollbar">

@@ -8,6 +8,7 @@ import PublicLayout from '@/components/public/public-layout'
 import { api, API_URL } from '@/lib/api'
 import type { GalleryCategory, ApiResponse } from '@/types'
 import { cn } from '@/lib/utils'
+import PageHero from '@/components/public/page-hero'
 
 export default function GalleryPage() {
   const [categories, setCategories] = useState<GalleryCategory[]>([])
@@ -22,40 +23,13 @@ export default function GalleryPage() {
 
   return (
     <PublicLayout>
-      {/* Header Section */}
-      <section className="relative pt-32 pb-20 overflow-hidden bg-slate-900 border-b border-slate-800">
-        <div className="absolute inset-0 opacity-20">
-           <div className="absolute top-0 -left-20 w-96 h-96 bg-primary-600 rounded-full blur-[120px] animate-pulse" />
-           <div className="absolute bottom-0 -right-20 w-96 h-96 bg-blue-600 rounded-full blur-[120px] animate-pulse delay-1000" />
-        </div>
-        <div className="relative max-w-7xl mx-auto px-4 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 backdrop-blur-md border border-white/10 rounded-full text-primary-400 text-xs font-black uppercase tracking-widest mb-6"
-          >
-             Daftar Dokumentasi
-          </motion.div>
-          <motion.h1 
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="text-5xl md:text-7xl font-heading font-black text-white mb-6 uppercase tracking-tight"
-          >
-            Galeri <span className="text-primary-500">Sekolah</span>
-          </motion.h1>
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="text-slate-400 max-w-2xl mx-auto text-lg leading-relaxed"
-          >
-            Menyimpan setiap jejak prestasi, kegiatan, dan transformasi MAN 1 Tasikmalaya dalam bingkai visual yang abadi.
-          </motion.p>
-        </div>
-      </section>
+      <PageHero 
+        title="Galeri Sekolah"
+        description="Menyimpan setiap jejak prestasi, kegiatan, dan transformasi MAN 1 Tasikmalaya dalam bingkai visual yang abadi."
+      />
 
       {/* Categories Grid Section */}
-      <section className="py-24 bg-slate-50 dark:bg-slate-950">
+      <section className="pt-10 pb-24 bg-slate-50 dark:bg-slate-950">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-14">
             {loading ? (
