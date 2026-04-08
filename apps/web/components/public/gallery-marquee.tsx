@@ -88,12 +88,10 @@ export default function GalleryMarquee() {
          <div className="mt-16 text-center">
             <Link 
               href="/galeri" 
-              className="group inline-flex items-center gap-3 px-8 py-3.5 bg-white dark:bg-slate-950 text-slate-900 dark:text-white font-bold rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-primary-500 hover:shadow-xl hover:shadow-primary-500/10 transition-all duration-300 active:scale-95"
+              className="group inline-flex items-center gap-3 px-8 py-3.5 bg-white dark:bg-slate-900 text-slate-900 dark:text-white font-bold rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-primary-500 hover:shadow-xl hover:shadow-primary-500/10 transition-all duration-300 active:scale-95"
             >
               <span>Jelajahi Galeri Lengkap</span>
-              <div className="w-8 h-8 flex items-center justify-center bg-primary-500 text-white rounded-xl shadow-lg shadow-primary-500/20 group-hover:translate-x-1 transition-transform">
-                <ArrowRight size={16} />
-              </div>
+              <ArrowRight size={18} className="text-primary-500 group-hover:translate-x-1 transition-transform" />
             </Link>
          </div>
       )}

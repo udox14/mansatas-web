@@ -24,53 +24,37 @@ export default function GtkPreview() {
     <section id="gtk" className="py-16 bg-white dark:bg-slate-950 overflow-hidden scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
-          <div className="max-w-2xl">
-            <motion.span
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="inline-block px-3 py-1 bg-primary-50 dark:bg-primary-950/50 text-primary-600 dark:text-primary-400 text-xs font-bold rounded-full mb-3 tracking-wider uppercase"
-            >
-              Staf Kependidikan
-            </motion.span>
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="text-3xl md:text-4xl font-heading font-bold text-slate-900 dark:text-white mb-3"
-            >
-              Guru & Staf Madrasah
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="text-base text-slate-500 dark:text-slate-400"
-            >
-              Didukung oleh jajaran pimpinan dan tenaga pendidik yang berdedikasi tinggi untuk kemajuan madrasah.
-            </motion.p>
-          </div>
-          
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+        <div className="text-center mb-10">
+          <motion.span
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            className="inline-block px-3 py-1 bg-primary-50 dark:bg-primary-950/50 text-primary-600 dark:text-primary-400 text-xs font-bold rounded-full mb-3 tracking-wider uppercase"
           >
-            <Link
-              href="/gtk"
-              className="group inline-flex items-center gap-2 text-primary-600 dark:text-primary-400 font-bold hover:gap-3 transition-all"
-            >
-              Lihat Semua GTK
-              <ArrowRight size={20} />
-            </Link>
-          </motion.div>
+            Staf Kependidikan
+          </motion.span>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-3xl md:text-4xl font-heading font-bold text-slate-900 dark:text-white mb-3"
+          >
+            Guru & Staf Madrasah
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="text-base text-slate-500 dark:text-slate-400 max-w-2xl mx-auto"
+          >
+            Didukung oleh jajaran pimpinan dan tenaga pendidik yang berdedikasi tinggi untuk kemajuan madrasah.
+          </motion.p>
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 mb-12">
           {loading
             ? Array.from({ length: 6 }).map((_, i) => (
                 <div key={i} className="aspect-[3/4] bg-slate-100 dark:bg-slate-900 rounded-3xl animate-pulse" />
@@ -116,6 +100,17 @@ export default function GtkPreview() {
                   </div>
                 </motion.div>
               ))}
+        </div>
+
+        {/* View All Button */}
+        <div className="text-center">
+          <Link
+            href="/gtk"
+            className="group inline-flex items-center gap-3 px-8 py-3.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white font-bold rounded-2xl hover:border-primary-500 hover:shadow-xl hover:shadow-primary-500/10 transition-all duration-300 active:scale-95"
+          >
+            <span>Lihat Semua GTK</span>
+            <ArrowRight size={18} className="text-primary-500 group-hover:translate-x-1 transition-transform" />
+          </Link>
         </div>
       </div>
     </section>

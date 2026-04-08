@@ -14,6 +14,7 @@ import {
   Users,
   Star,
   Laptop,
+  ArrowRight,
 } from 'lucide-react'
 import { api, API_URL } from '@/lib/api'
 import { cn } from '@/lib/utils'
@@ -145,14 +146,14 @@ export default function BentoGrid() {
             })}
         </div>
 
-        {/* View All Button */}
+
         <div className="text-center">
           <Link
             href="/program"
-            className="inline-flex items-center gap-2.5 px-7 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-bold rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 hover:shadow-lg transition-all"
+            className="group inline-flex items-center gap-3 px-8 py-3.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white font-bold rounded-2xl hover:border-primary-500 hover:shadow-xl hover:shadow-primary-500/10 transition-all duration-300 active:scale-95"
           >
-            Lihat Semua Program & Fasilitas
-            <Icon size={18} className="text-primary-500" />
+            <span>Lihat Semua Program & Fasilitas</span>
+            <ArrowRight size={18} className="text-primary-500 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
 

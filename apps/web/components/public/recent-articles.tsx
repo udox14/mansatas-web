@@ -128,14 +128,13 @@ export default function RecentArticles() {
               ))}
         </div>
 
-        {/* View All */}
         <div className="mt-12 text-center">
           <Link
             href="/artikel"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 text-sm font-semibold rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+            className="group inline-flex items-center gap-3 px-8 py-3.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white font-bold rounded-2xl hover:border-primary-500 hover:shadow-xl hover:shadow-primary-500/10 transition-all duration-300 active:scale-95"
           >
-            Lihat Semua Artikel
-            <ArrowRight size={16} />
+            <span>Lihat Semua Artikel</span>
+            <ArrowRight size={18} className="text-primary-500 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
       </div>
