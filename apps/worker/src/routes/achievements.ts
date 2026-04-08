@@ -23,6 +23,7 @@ achievementsRoute.get('/years', async (c) => {
 achievementsRoute.get('/', async (c) => {
   const db = getDB(c.env.DB)
   const year = c.req.query('year')
+  const limit = c.req.query('limit')
   
   const conditions = []
   if (year) {
@@ -31,7 +32,7 @@ achievementsRoute.get('/', async (c) => {
 
   const where = and(...conditions)
 
-  const rows = await db
+  let query = db
     .select({
       id: achievements.id,
       title: achievements.title,
@@ -47,6 +48,12 @@ achievementsRoute.get('/', async (c) => {
     .leftJoin(articles, eq(achievements.article_id, articles.id))
     .where(where)
     .orderBy(desc(achievements.date))
+
+  if (limit) {
+    query = query.limit(parseInt(limit, 10)) as any
+  }
+
+  const rows = await query
 
   return c.json({ success: true, data: rows })
 })

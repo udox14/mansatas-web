@@ -70,11 +70,7 @@ export default function AchievementsPage() {
         {/* Year Filter Section */}
         <section className="sticky top-20 z-30 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-100 dark:border-slate-800">
         <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center gap-4 overflow-x-auto pb-2 scrollbar-none no-scrollbar">
-            <div className="flex items-center gap-2 pr-4 border-r border-slate-200 dark:border-slate-800 shrink-0">
-               <Filter size={16} className="text-slate-400" />
-               <span className="text-xs font-black uppercase tracking-widest text-slate-500">Filter Tahun</span>
-            </div>
+          <div className="flex items-center justify-center gap-4 overflow-x-auto pb-2 scrollbar-none no-scrollbar">
             <button
               onClick={() => setSelectedYear(null)}
               className={cn(
