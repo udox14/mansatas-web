@@ -97,10 +97,23 @@ adminGtk.post('/batch', async (c) => {
     sort_order: 0,
   }))
 
-  // Batch insert
-  await db.insert(gtk).values(values)
+  try {
+    // Batch insert for Cloudflare D1 using db.batch()
+    const statements = values.map((val) => db.insert(gtk).values(val))
+    if (statements.length > 0) {
+      // D1 allows batching statements
+      const chunkSize = 50;
+      for (let i = 0; i < statements.length; i += chunkSize) {
+        const chunk = statements.slice(i, i + chunkSize);
+        await db.batch(chunk as any);
+      }
+    }
 
-  return c.json({ success: true, message: `${body.length} data GTK berhasil diimport secara batch.` })
+    return c.json({ success: true, message: `${body.length} data GTK berhasil diimport secara batch.` })
+  } catch (err: any) {
+    console.error('Batch Error:', err)
+    return c.json({ success: false, message: err.message || 'Gagal menyimpan data ke database.' }, 500)
+  }
 })
 
 /* ============================================

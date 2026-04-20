@@ -186,8 +186,8 @@ export default function AdminGtkImportPage() {
       await api.post('/api/admin/gtk/batch', items)
       toast.success(`${items.length} data GTK berhasil disimpan!`)
       router.push('/admin/gtk')
-    } catch {
-      toast.error('Gagal menyimpan data massal.')
+    } catch (err: any) {
+      toast.error(err.message || 'Gagal menyimpan data massal.')
     } finally {
       setSubmitting(false)
     }
