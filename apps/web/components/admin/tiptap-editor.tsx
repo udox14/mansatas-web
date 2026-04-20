@@ -22,9 +22,10 @@ interface Props {
   content: string
   onChange: (html: string) => void
   onUploadImage?: () => Promise<string | null>
+  editorKey?: string | number
 }
 
-export default function TiptapEditor({ content, onChange, onUploadImage }: Props) {
+export default function TiptapEditor({ content, onChange, onUploadImage, editorKey }: Props) {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -37,13 +38,14 @@ export default function TiptapEditor({ content, onChange, onUploadImage }: Props
       Placeholder.configure({ placeholder: 'Tulis konten artikel di sini...' }),
     ],
     content,
+    immediatelyRender: false,
     onUpdate: ({ editor: e }) => onChange(e.getHTML()),
     editorProps: {
       attributes: {
         class: 'prose prose-sm dark:prose-invert max-w-none focus:outline-none min-h-[300px] px-4 py-3',
       },
     },
-  })
+  }, [editorKey])
 
   if (!editor) return null
 

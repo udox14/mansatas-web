@@ -131,7 +131,7 @@ function EditArticleContent() {
           </div>
           <div>
             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Konten</label>
-            <TiptapEditor content={content} onChange={setContent} onUploadImage={handleUploadImage} />
+            <TiptapEditor content={content} onChange={setContent} onUploadImage={handleUploadImage} editorKey={id ?? undefined} />
           </div>
           <div className="flex items-center justify-between pt-2">
             <select value={status} onChange={(e) => setStatus(e.target.value as any)}
