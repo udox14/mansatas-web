@@ -62,7 +62,7 @@ auth.post('/setup', rateLimit({ max: 3, windowSec: 300 }), async (c) => {
     email: body.email.trim().toLowerCase(),
     password_hash,
     role: 'superadmin',
-    permissions: [],
+    permissions: JSON.stringify([]),
     is_active: true,
   })
 
@@ -136,7 +136,7 @@ auth.post('/login', rateLimit({ max: 5, windowSec: 60 }), async (c) => {
       name: user.name,
       email: user.email,
       role: user.role,
-      permissions: user.permissions || [],
+      permissions: user.permissions ? JSON.parse(user.permissions) : [],
     },
     c.env.JWT_SECRET
   )
@@ -150,7 +150,7 @@ auth.post('/login', rateLimit({ max: 5, windowSec: 60 }), async (c) => {
         name: user.name,
         email: user.email,
         role: user.role,
-        permissions: user.permissions || [],
+        permissions: user.permissions ? JSON.parse(user.permissions) : [],
       },
     },
   })
@@ -186,7 +186,8 @@ auth.get('/me', requireAuth, async (c) => {
     )
   }
 
-  return c.json({ success: true, data: dbUser })
+  const safePermissions = dbUser.permissions ? JSON.parse(dbUser.permissions) : []
+  return c.json({ success: true, data: { ...dbUser, permissions: safePermissions } })
 })
 
 /* ============================================
@@ -252,7 +253,7 @@ auth.post(
       email: body.email.trim().toLowerCase(),
       password_hash,
       role,
-      permissions: body.permissions || [],
+      permissions: JSON.stringify(body.permissions || []),
       is_active: true,
     })
 

@@ -26,7 +26,12 @@ adminUsers.get('/', async (c) => {
     .from(users)
     .orderBy(desc(users.created_at))
 
-  return c.json({ success: true, data: rows })
+  const mappedRows = rows.map((r) => ({
+    ...r,
+    permissions: r.permissions ? JSON.parse(r.permissions) : []
+  }))
+
+  return c.json({ success: true, data: mappedRows })
 })
 
 /* PATCH /:id/toggle — aktifkan/nonaktifkan user */
@@ -83,7 +88,7 @@ adminUsers.patch('/:id', async (c) => {
     name: body.name.trim(),
     email: body.email.trim().toLowerCase(),
     role: body.role,
-    permissions: body.permissions || [],
+    permissions: JSON.stringify(body.permissions || []),
     updated_at: new Date().toISOString()
   }
 
