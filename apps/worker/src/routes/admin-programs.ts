@@ -7,7 +7,7 @@ import type { AppEnv } from '../index'
 
 const adminPrograms = new Hono<AppEnv>()
 
-adminPrograms.use('*', requireAuth, requireRole('superadmin', 'admin'))
+adminPrograms.use('*', requireAuth, requireRole('superadmin', 'admin', 'editor'))
 
 /* GET — list semua (termasuk nonaktif) */
 adminPrograms.get('/', async (c) => {

@@ -3,11 +3,15 @@ import { drizzle } from 'drizzle-orm/d1'
 import { categories } from '../db/schema'
 import { eq, desc } from 'drizzle-orm'
 
+import { requireAuth, requireRole } from '../middleware/auth'
+
 type Bindings = {
   DB: D1Database
+  JWT_SECRET: string
 }
 
-const app = new Hono<{ Bindings: Bindings }>()
+const app = new Hono<{ Bindings: Bindings, Variables: any }>()
+app.use('*', requireAuth, requireRole('superadmin', 'admin', 'editor'))
 
 // List all categories
 app.get('/', async (c) => {

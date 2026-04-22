@@ -8,7 +8,7 @@ import type { AppEnv } from '../index'
 const adminHero = new Hono<AppEnv>()
 
 // Semua route butuh auth admin+
-adminHero.use('*', requireAuth, requireRole('superadmin', 'admin'))
+adminHero.use('*', requireAuth, requireRole('superadmin', 'admin', 'editor'))
 
 /* ============================================
    GET /api/admin/hero

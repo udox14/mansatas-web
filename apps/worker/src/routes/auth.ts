@@ -62,6 +62,7 @@ auth.post('/setup', rateLimit({ max: 3, windowSec: 300 }), async (c) => {
     email: body.email.trim().toLowerCase(),
     password_hash,
     role: 'superadmin',
+    permissions: [],
     is_active: true,
   })
 
@@ -71,6 +72,7 @@ auth.post('/setup', rateLimit({ max: 3, windowSec: 300 }), async (c) => {
       name: body.name.trim(),
       email: body.email.trim().toLowerCase(),
       role: 'superadmin',
+      permissions: [],
     },
     c.env.JWT_SECRET
   )
@@ -78,7 +80,7 @@ auth.post('/setup', rateLimit({ max: 3, windowSec: 300 }), async (c) => {
   return c.json({
     success: true,
     message: 'Superadmin berhasil dibuat.',
-    data: { token, user: { id, name: body.name.trim(), email: body.email.trim().toLowerCase(), role: 'superadmin' } },
+    data: { token, user: { id, name: body.name.trim(), email: body.email.trim().toLowerCase(), role: 'superadmin', permissions: [] } },
   })
 })
 
@@ -134,6 +136,7 @@ auth.post('/login', rateLimit({ max: 5, windowSec: 60 }), async (c) => {
       name: user.name,
       email: user.email,
       role: user.role,
+      permissions: user.permissions || [],
     },
     c.env.JWT_SECRET
   )
@@ -147,6 +150,7 @@ auth.post('/login', rateLimit({ max: 5, windowSec: 60 }), async (c) => {
         name: user.name,
         email: user.email,
         role: user.role,
+        permissions: user.permissions || [],
       },
     },
   })
@@ -167,6 +171,7 @@ auth.get('/me', requireAuth, async (c) => {
       name: users.name,
       email: users.email,
       role: users.role,
+      permissions: users.permissions,
       is_active: users.is_active,
       created_at: users.created_at,
     })
@@ -201,6 +206,7 @@ auth.post(
       email: string
       password: string
       role?: 'admin' | 'editor'
+      permissions?: string[]
     }>()
 
     if (!body.name?.trim() || !body.email?.trim() || !body.password) {
@@ -246,6 +252,7 @@ auth.post(
       email: body.email.trim().toLowerCase(),
       password_hash,
       role,
+      permissions: body.permissions || [],
       is_active: true,
     })
 
@@ -257,6 +264,7 @@ auth.post(
         name: body.name.trim(),
         email: body.email.trim().toLowerCase(),
         role,
+        permissions: body.permissions || [],
       },
     })
   }

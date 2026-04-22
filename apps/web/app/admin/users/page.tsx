@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Plus, UserCheck, UserX, Loader2 } from 'lucide-react'
+import { Plus, UserCheck, UserX, Loader2, Edit2 } from 'lucide-react'
 import AdminLayout from '@/components/admin/admin-layout'
 import { api } from '@/lib/api'
 import { formatDate, cn } from '@/lib/utils'
@@ -14,8 +14,20 @@ export default function AdminUsersPage() {
   const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
-  const [form, setForm] = useState({ name: '', email: '', password: '', role: 'editor' as 'admin' | 'editor' })
+  const [form, setForm] = useState({ id: '', name: '', email: '', password: '', role: 'editor' as 'superadmin' | 'admin' | 'editor', permissions: [] as string[] })
   const [saving, setSaving] = useState(false)
+
+  const AVAILABLE_FEATURES = [
+    { value: 'hero', label: 'Hero Slider' },
+    { value: 'artikel', label: 'Artikel' },
+    { value: 'kategori', label: 'Kategori' },
+    { value: 'program', label: 'Program Unggulan' },
+    { value: 'gtk', label: 'Guru & Staf' },
+    { value: 'prestasi', label: 'Prestasi' },
+    { value: 'galeri', label: 'Galeri' },
+    { value: 'komentar', label: 'Komentar' },
+    { value: 'inbox', label: 'Pesan / Inbox' }
+  ]
 
   const fetch = () => {
     api.get<{ data: User[] }>('/api/admin/users')
@@ -43,19 +55,33 @@ export default function AdminUsersPage() {
     }
   }
 
-  const createUser = async () => {
-    if (!form.name.trim() || !form.email.trim() || !form.password) return toast.error('Semua field wajib diisi.')
-    if (form.password.length < 8) return toast.error('Password minimal 8 karakter.')
+  const saveUser = async () => {
+    if (!form.name.trim() || !form.email.trim() || !form.role) return toast.error('Nama, Email, dan Role wajib diisi.')
+    if (!form.id && form.password.length < 8) return toast.error('Password baru minimal 8 karakter.')
     setSaving(true)
     try {
-      await api.post('/api/auth/register', form)
+      if (form.id) {
+        await api.patch(`/api/admin/users/${form.id}`, form)
+        toast.success('Pengguna berhasil diperbarui.')
+      } else {
+        await api.post('/api/auth/register', form)
+        toast.success('Pengguna berhasil dibuat.')
+      }
       setShowForm(false)
-      setForm({ name: '', email: '', password: '', role: 'editor' })
-      toast.success('Pengguna berhasil dibuat.')
+      setForm({ id: '', name: '', email: '', password: '', role: 'editor', permissions: [] })
       fetch()
     } catch (err: unknown) {
-      toast.error(err instanceof Error ? err.message : 'Gagal membuat user.')
+      toast.error(err instanceof Error ? err.message : 'Gagal menyimpan user.')
     } finally { setSaving(false) }
+  }
+
+  const togglePermission = (val: string) => {
+    setForm(prev => {
+      const perms = prev.permissions.includes(val) 
+        ? prev.permissions.filter(p => p !== val)
+        : [...prev.permissions, val]
+      return { ...prev, permissions: perms }
+    })
   }
 
   if (loading) return <AdminLayout><div className="flex justify-center py-20"><Loader2 className="animate-spin text-primary-500" size={32} /></div></AdminLayout>
@@ -65,7 +91,10 @@ export default function AdminUsersPage() {
       <div className="max-w-3xl space-y-6">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-heading font-bold text-slate-900 dark:text-white">Pengguna ({users.length})</h2>
-          <button onClick={() => setShowForm(!showForm)}
+          <button onClick={() => {
+            setForm({ id: '', name: '', email: '', password: '', role: 'editor', permissions: [] })
+            setShowForm(!showForm)
+          }}
             className="flex items-center gap-2 px-4 py-2.5 bg-primary-500 text-white text-sm font-semibold rounded-xl hover:bg-primary-600">
             <Plus size={16} /> Tambah User
           </button>
@@ -85,23 +114,39 @@ export default function AdminUsersPage() {
                   className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm" />
               </div>
               <div>
-                <label className="block text-xs font-medium text-slate-500 mb-1">Password</label>
-                <input type="password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })}
+                <label className="block text-xs font-medium text-slate-500 mb-1">{form.id ? 'Password Baru (Kosongkan jika tidak diganti)' : 'Password'}</label>
+                <input type="password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} placeholder={form.id ? '***' : ''}
                   className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm" />
               </div>
               <div>
                 <label className="block text-xs font-medium text-slate-500 mb-1">Role</label>
-                <select value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value as any })}
+                <select value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value as any, permissions: e.target.value === 'superadmin' ? [] : form.permissions })}
                   className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm">
                   <option value="editor">Editor</option>
                   <option value="admin">Admin</option>
+                  {form.role === 'superadmin' && <option value="superadmin">Superadmin</option>}
                 </select>
               </div>
             </div>
-            <div className="flex gap-3">
-              <button onClick={createUser} disabled={saving}
+
+            {form.role !== 'superadmin' && (
+              <div className="pt-2 border-t border-slate-100 dark:border-slate-800">
+                <label className="block text-xs font-medium text-slate-500 mb-3">Hak Akses Fitur</label>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {AVAILABLE_FEATURES.map(feat => (
+                    <label key={feat.value} className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300 select-none cursor-pointer">
+                      <input type="checkbox" checked={form.permissions.includes(feat.value)} onChange={() => togglePermission(feat.value)} className="rounded border-slate-300 text-primary-500 focus:ring-primary-500" />
+                      {feat.label}
+                    </label>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div className="flex gap-3 pt-2">
+              <button onClick={saveUser} disabled={saving}
                 className="flex items-center gap-2 px-5 py-2.5 bg-primary-500 text-white text-sm font-semibold rounded-xl hover:bg-primary-600 disabled:opacity-50">
-                {saving ? <Loader2 size={16} className="animate-spin" /> : <Plus size={16} />} Buat
+                {saving ? <Loader2 size={16} className="animate-spin" /> : <Plus size={16} />} Simpan
               </button>
               <button onClick={() => setShowForm(false)} className="px-4 py-2.5 text-sm text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl">Batal</button>
             </div>
@@ -124,11 +169,22 @@ export default function AdminUsersPage() {
                 </span>
                 <span className="text-xs text-slate-400 hidden sm:block">{formatDate(u.created_at)}</span>
                 {u.role !== 'superadmin' && (
-                  <button onClick={() => toggleUser(u)}
-                    className={cn('p-1.5 rounded-lg', u.is_active ? 'text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30' : 'text-green-500 hover:bg-green-50 dark:hover:bg-green-950/30')}
-                    title={u.is_active ? 'Nonaktifkan' : 'Aktifkan'}>
-                    {u.is_active ? <UserX size={16} /> : <UserCheck size={16} />}
-                  </button>
+                  <div className="flex items-center gap-1">
+                    <button onClick={() => {
+                        setForm({ id: u.id, name: u.name, email: u.email, password: '', role: u.role as any, permissions: u.permissions || [] })
+                        setShowForm(true)
+                        window.scrollTo({ top: 0, behavior: 'smooth' })
+                      }}
+                      className="p-1.5 rounded-lg text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-950/30"
+                      title="Edit Pengguna">
+                      <Edit2 size={16} />
+                    </button>
+                    <button onClick={() => toggleUser(u)}
+                      className={cn('p-1.5 rounded-lg', u.is_active ? 'text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30' : 'text-green-500 hover:bg-green-50 dark:hover:bg-green-950/30')}
+                      title={u.is_active ? 'Nonaktifkan' : 'Aktifkan'}>
+                      {u.is_active ? <UserX size={16} /> : <UserCheck size={16} />}
+                    </button>
+                  </div>
                 )}
               </div>
             ))}

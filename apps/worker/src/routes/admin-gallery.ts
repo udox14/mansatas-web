@@ -7,7 +7,7 @@ import type { AppEnv } from '../index'
 
 const adminGallery = new Hono<AppEnv>()
 
-adminGallery.use('*', requireAuth, requireRole('superadmin', 'admin'))
+adminGallery.use('*', requireAuth, requireRole('superadmin', 'admin', 'editor'))
 
 /* ============================================
    GALLERY CATEGORIES

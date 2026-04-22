@@ -7,7 +7,7 @@ import type { AppEnv } from '../index'
 
 const adminInbox = new Hono<AppEnv>()
 
-adminInbox.use('*', requireAuth, requireRole('superadmin', 'admin'))
+adminInbox.use('*', requireAuth, requireRole('superadmin', 'admin', 'editor'))
 
 /* ============================================
    GET /api/admin/inbox

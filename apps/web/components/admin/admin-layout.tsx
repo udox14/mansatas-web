@@ -13,15 +13,15 @@ import { cn } from '@/lib/utils'
 
 const SIDEBAR_ITEMS = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/admin/hero', label: 'Hero Slider', icon: Image },
-  { href: '/admin/artikel', label: 'Artikel', icon: FileText },
-  { href: '/admin/kategori', label: 'Kategori', icon: Tag },
-  { href: '/admin/program', label: 'Program', icon: Grid3X3 },
-  { href: '/admin/gtk', label: 'Guru & Staf', icon: Users },
-  { href: '/admin/prestasi', label: 'Prestasi', icon: Trophy },
-  { href: '/admin/galeri', label: 'Galeri', icon: Images },
-  { href: '/admin/komentar', label: 'Komentar', icon: MessageSquare },
-  { href: '/admin/inbox', label: 'Inbox', icon: Inbox },
+  { href: '/admin/hero', label: 'Hero Slider', icon: Image, feature: 'hero' },
+  { href: '/admin/artikel', label: 'Artikel', icon: FileText, feature: 'artikel' },
+  { href: '/admin/kategori', label: 'Kategori', icon: Tag, feature: 'kategori' },
+  { href: '/admin/program', label: 'Program', icon: Grid3X3, feature: 'program' },
+  { href: '/admin/gtk', label: 'Guru & Staf', icon: Users, feature: 'gtk' },
+  { href: '/admin/prestasi', label: 'Prestasi', icon: Trophy, feature: 'prestasi' },
+  { href: '/admin/galeri', label: 'Galeri', icon: Images, feature: 'galeri' },
+  { href: '/admin/komentar', label: 'Komentar', icon: MessageSquare, feature: 'komentar' },
+  { href: '/admin/inbox', label: 'Inbox', icon: Inbox, feature: 'inbox' },
   { href: '/admin/users', label: 'Pengguna', icon: Users, role: 'superadmin' },
 ];
 
@@ -47,9 +47,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   if (!user) return null
 
-  const filteredItems = SIDEBAR_ITEMS.filter(
-    (item) => !item.role || item.role === user.role
-  )
+  const filteredItems = SIDEBAR_ITEMS.filter((item) => {
+    if (item.role && item.role !== user.role) return false
+    if (user.role === 'superadmin') return true
+    if (item.feature) {
+      return user.permissions?.includes(item.feature)
+    }
+    return true // Dashboard is allowed for everyone
+  })
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950">

@@ -17,6 +17,7 @@ export type AuthUser = {
   name: string
   email: string
   role: 'superadmin' | 'admin' | 'editor'
+  permissions?: string[]
 }
 
 export type Variables = {

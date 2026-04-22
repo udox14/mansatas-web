@@ -5,6 +5,7 @@ export interface TokenPayload extends JWTPayload {
   name: string
   email: string
   role: 'superadmin' | 'admin' | 'editor'
+  permissions?: string[]
 }
 
 const TOKEN_EXPIRY = '7d'

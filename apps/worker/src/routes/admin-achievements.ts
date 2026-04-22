@@ -3,8 +3,10 @@ import { eq, desc, and, sql } from 'drizzle-orm'
 import { getDB } from '../db'
 import { achievements } from '../db/schema'
 import type { AppEnv } from '../index'
+import { requireAuth, requireRole } from '../middleware/auth'
 
 const adminAchievements = new Hono<AppEnv>()
+adminAchievements.use('*', requireAuth, requireRole('superadmin', 'admin', 'editor'))
 
 // GET /api/admin/achievements — List all for admin
 adminAchievements.get('/', async (c) => {

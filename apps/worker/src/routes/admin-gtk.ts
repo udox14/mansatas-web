@@ -7,7 +7,7 @@ import type { AppEnv } from '../index'
 
 const adminGtk = new Hono<AppEnv>()
 
-adminGtk.use('*', requireAuth, requireRole('superadmin', 'admin'))
+adminGtk.use('*', requireAuth, requireRole('superadmin', 'admin', 'editor'))
 
 /* ============================================
    GET /api/admin/gtk

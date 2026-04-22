@@ -12,6 +12,7 @@ export const users = sqliteTable('users', {
   role: text('role', { enum: ['superadmin', 'admin', 'editor'] })
     .notNull()
     .default('editor'),
+  permissions: text('permissions', { mode: 'json' }).$type<string[]>().default(sql`'[]'`),
   is_active: integer('is_active', { mode: 'boolean' }).notNull().default(true),
   created_at: text('created_at')
     .notNull()

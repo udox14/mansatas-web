@@ -24,6 +24,7 @@ export const optionalAuth = createMiddleware<AppEnv>(async (c, next) => {
       name: payload.name,
       email: payload.email,
       role: payload.role,
+      permissions: payload.permissions,
     })
   }
 
@@ -52,6 +53,7 @@ export const requireAuth = createMiddleware<AppEnv>(async (c, next) => {
     name: payload.name,
     email: payload.email,
     role: payload.role,
+    permissions: payload.permissions,
   })
 
   return next()

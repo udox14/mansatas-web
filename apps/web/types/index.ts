@@ -26,6 +26,7 @@ export interface User {
   name: string
   email: string
   role: 'superadmin' | 'admin' | 'editor'
+  permissions?: string[]
   is_active: boolean
   created_at: string
 }
