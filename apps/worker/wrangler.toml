@@ -23,4 +23,4 @@ bucket_name = "mansatas-media"
 # ============================================
 [vars]
 JWT_SECRET = "ef6281f25ef34a99abfd26a6e79750cf60abac36d9475bbd15df40b7de46fc4e"
-CORS_ORIGIN = "http://localhost:3000,https://mansatas.pages.dev"
+CORS_ORIGIN = "http://localhost:3000,https://mansatas.pages.dev,https://www.man1tasikmalaya.sch.id,https://man1tasikmalaya.sch.id"
