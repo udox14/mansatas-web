@@ -144,7 +144,7 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: '-100%' }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-[90] bg-white dark:bg-slate-950 flex flex-col justify-center overflow-y-auto transition-colors duration-500"
+            className="fixed inset-0 z-[90] bg-white dark:bg-slate-950 flex flex-col overflow-y-auto transition-colors duration-500"
           >
             {/* Background Cinematic glow */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
