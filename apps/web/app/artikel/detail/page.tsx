@@ -141,15 +141,15 @@ function ArticleDetailContent() {
 
   return (
     <PublicLayout>
-      <div className="pt-24 pb-20 px-4">
+      <div className="pt-28 pb-20 px-4 bg-white dark:bg-slate-950">
         <div className="max-w-7xl mx-auto">
           {/* Breadcrumb / Back */}
           <Link
             href="/artikel"
-            className="inline-flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 hover:text-primary-600 dark:hover:text-primary-400 mb-8 transition-colors"
+            className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-primary-600 dark:hover:text-primary-400 mb-8 transition-colors duration-300 group"
           >
-            <ArrowLeft size={16} />
-            Kembali ke Daftar Artikel
+            <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
+            <span>Kembali ke Daftar Artikel</span>
           </Link>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
@@ -157,7 +157,7 @@ function ArticleDetailContent() {
             <div className="lg:col-span-8">
               <article>
                 {article.thumbnail_url && (
-                  <div className="rounded-2xl overflow-hidden mb-8 aspect-[2/1] shadow-xl shadow-slate-200/50 dark:shadow-none">
+                  <div className="rounded-[2rem] overflow-hidden mb-8 aspect-[2/1] border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-100/50 dark:shadow-none bg-slate-50">
                     <img
                       src={article.thumbnail_url.startsWith('/') ? `${API_URL}${article.thumbnail_url}` : article.thumbnail_url}
                       alt={article.title}
@@ -166,35 +166,35 @@ function ArticleDetailContent() {
                   </div>
                 )}
 
-                <div className="flex flex-wrap items-center gap-4 text-sm text-slate-500 dark:text-slate-400 mb-4">
+                <div className="flex flex-wrap items-center gap-4 text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">
                   {article.category_name && (
-                    <span className="px-2.5 py-0.5 bg-primary-50 dark:bg-primary-950/30 text-primary-600 dark:text-primary-400 font-bold rounded-md text-xs uppercase tracking-wider">
+                    <span className="px-3 py-1 bg-primary-50 dark:bg-primary-950/30 text-primary-600 dark:text-primary-400 rounded-lg">
                       {article.category_name}
                     </span>
                   )}
                   {article.author_name && (
                     <span className="flex items-center gap-1.5 border-l border-slate-200 dark:border-slate-800 pl-4">
-                      <User size={14} />
+                      <User size={12} className="text-primary-500" />
                       {article.author_name}
                     </span>
                   )}
                   <span className="flex items-center gap-1.5 border-l border-slate-200 dark:border-slate-800 pl-4">
-                    <Calendar size={14} />
+                    <Calendar size={12} className="text-accent-500" />
                     {formatDate(article.created_at)}
                   </span>
                 </div>
 
-                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-slate-900 dark:text-white mb-10 leading-[1.2]">
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-slate-900 dark:text-white mb-10 leading-[1.2] tracking-tight">
                   {article.title}
                 </h1>
 
                 <div
                   className="prose prose-slate dark:prose-invert max-w-none 
-                    prose-p:leading-relaxed prose-p:text-slate-600 dark:prose-p:text-slate-300
-                    prose-headings:font-heading prose-headings:font-bold
-                    prose-a:text-primary-600 dark:prose-a:text-primary-400 prose-a:no-underline hover:prose-a:underline
-                    prose-img:rounded-2xl prose-img:shadow-lg
-                    prose-blockquote:border-primary-500 prose-blockquote:bg-slate-50 dark:prose-blockquote:bg-slate-900/50 prose-blockquote:py-1 prose-blockquote:px-6 prose-blockquote:rounded-r-xl
+                    prose-p:leading-relaxed prose-p:text-slate-600 dark:prose-p:text-slate-300 prose-p:font-medium
+                    prose-headings:font-heading prose-headings:font-bold prose-headings:text-slate-900 dark:prose-headings:text-white
+                    prose-a:text-primary-600 dark:prose-a:text-primary-400 prose-a:no-underline hover:prose-a:underline prose-a:font-bold
+                    prose-img:rounded-3xl prose-img:border prose-img:border-slate-100 dark:prose-img:border-slate-800
+                    prose-blockquote:border-primary-500 prose-blockquote:bg-slate-50 dark:prose-blockquote:bg-slate-900/50 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:rounded-r-2xl prose-blockquote:font-medium
                     [&_table]:w-full [&_table]:overflow-x-auto [&_table]:block [&_table]:max-w-full"
                   dangerouslySetInnerHTML={{
                     __html: DOMPurify.sanitize(article.content, {
@@ -205,65 +205,65 @@ function ArticleDetailContent() {
                 />
               </article>
 
-              <hr className="my-16 border-slate-100 dark:border-slate-800" />
+              <hr className="my-14 border-slate-100 dark:border-slate-800" />
 
               {/* Comments Section */}
               <section id="komentar" className="scroll-mt-32">
-                <div className="flex items-center gap-3 mb-10">
-                  <div className="p-2.5 bg-primary-100 dark:bg-primary-900/40 text-primary-600 dark:text-primary-400 rounded-xl">
-                    <MessageSquare size={24} />
+                <div className="flex items-center gap-3.5 mb-10">
+                  <div className="p-3 bg-primary-50 dark:bg-primary-950/40 text-primary-600 dark:text-primary-400 rounded-2xl">
+                    <MessageSquare size={20} />
                   </div>
                   <div>
-                    <h2 className="text-2xl font-heading font-bold text-slate-900 dark:text-white">Komentar</h2>
-                    <p className="text-sm text-slate-500 dark:text-slate-400">{comments.length} diskusi</p>
+                    <h2 className="text-2xl font-heading font-extrabold text-slate-900 dark:text-white leading-tight">Diskusi & Komentar</h2>
+                    <p className="text-xs font-bold uppercase tracking-wider text-slate-400">{comments.length} Komentar</p>
                   </div>
                 </div>
 
                 {/* Comment Form */}
-                <div className="bg-slate-50 dark:bg-slate-900/30 rounded-2xl p-6 md:p-8 border border-slate-100 dark:border-slate-800 mb-12">
-                  <h3 className="text-lg font-heading font-bold text-slate-900 dark:text-white mb-6">Tulis Komentar</h3>
+                <div className="bg-slate-50/70 dark:bg-slate-900/30 rounded-3xl p-6 md:p-8 border border-slate-200/60 dark:border-slate-850 mb-12">
+                  <h3 className="text-lg font-heading font-extrabold text-slate-900 dark:text-white mb-6">Tulis Komentar</h3>
                   <form onSubmit={handleSubmitComment} className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-1.5 ml-1">Nama *</label>
+                        <label className="block text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mb-1.5 ml-1">Nama Lengkap *</label>
                         <input
                           type="text"
                           value={commentName}
                           onChange={(e) => setCommentName(e.target.value)}
                           placeholder="Nama Anda"
-                          className="w-full px-4 py-3 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition-all"
+                          className="w-full px-4 py-3 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-primary-500/10 focus:border-primary-600 outline-none transition-all text-sm font-medium"
                           required
                         />
                       </div>
                       <div>
-                        <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-1.5 ml-1">Akun Instagram</label>
+                        <label className="block text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mb-1.5 ml-1">Akun Instagram</label>
                         <input
                           type="text"
                           value={commentIg}
                           onChange={(e) => setCommentIg(e.target.value)}
                           placeholder="@username"
-                          className="w-full px-4 py-3 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition-all"
+                          className="w-full px-4 py-3 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-primary-500/10 focus:border-primary-600 outline-none transition-all text-sm font-medium"
                         />
                       </div>
                     </div>
                     <div>
-                      <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-1.5 ml-1">Komentar *</label>
+                      <label className="block text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mb-1.5 ml-1">Pesan Komentar *</label>
                       <textarea
                         rows={4}
                         value={commentContent}
                         onChange={(e) => setCommentContent(e.target.value)}
-                        placeholder="Tulis pendapat atau pertanyaan Anda..."
-                        className="w-full px-4 py-3 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition-all resize-none"
+                        placeholder="Tulis pendapat atau pertanyaan Anda secara sopan..."
+                        className="w-full px-4 py-3 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-primary-500/10 focus:border-primary-600 outline-none transition-all text-sm font-medium resize-none"
                         required
                       />
                     </div>
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="inline-flex items-center gap-2 px-8 py-3 bg-primary-600 hover:bg-primary-700 disabled:bg-slate-400 text-white font-bold rounded-xl transition-all shadow-lg shadow-primary-600/20 active:scale-95"
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-primary-600 hover:bg-primary-700 disabled:bg-slate-450 text-white font-extrabold text-xs uppercase tracking-wider rounded-xl transition-all shadow active:scale-95 duration-300"
                     >
-                      {isSubmitting ? <Loader2 className="animate-spin" size={18} /> : <Send size={18} />}
-                      Kirim Komentar
+                      {isSubmitting ? <Loader2 className="animate-spin" size={14} /> : <Send size={14} />}
+                      <span>Kirim Komentar</span>
                     </button>
                   </form>
                 </div>
@@ -271,19 +271,19 @@ function ArticleDetailContent() {
                 {/* Comment List */}
                 <div className="space-y-6">
                   {comments.length === 0 ? (
-                    <div className="py-10 text-center border-2 border-dashed border-slate-100 dark:border-slate-800 rounded-3xl">
-                      <p className="text-slate-400 italic">Belum ada komentar. Jadilah yang pertama!</p>
+                    <div className="py-14 text-center border border-dashed border-slate-200 dark:border-slate-800 rounded-3xl bg-slate-50/40">
+                      <p className="text-slate-450 italic text-sm font-medium">Belum ada diskusi di artikel ini. Mari mulai berkomentar!</p>
                     </div>
                   ) : (
                     comments.map((comment) => (
-                      <div key={comment.id} className="group flex gap-4 p-5 rounded-2xl bg-white dark:bg-slate-950 border border-slate-100 dark:border-slate-800 transition-hover hover:border-primary-100 dark:hover:border-primary-900/50 hover:shadow-xl hover:shadow-slate-200/50 dark:hover:shadow-none">
-                        <div className="shrink-0 w-12 h-12 rounded-full bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 flex items-center justify-center font-heading font-bold text-lg">
+                      <div key={comment.id} className="flex gap-4 p-6 rounded-2xl bg-white dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800 transition-all hover:shadow-lg hover:shadow-primary-500/5 duration-300">
+                        <div className="shrink-0 w-11 h-11 rounded-full bg-primary-50 dark:bg-primary-950/40 text-primary-600 dark:text-primary-400 flex items-center justify-center font-heading font-extrabold text-lg border border-primary-100/30">
                           {comment.user_name.charAt(0).toUpperCase()}
                         </div>
                         <div className="flex-1">
                           <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
                             <div className="flex items-center gap-3">
-                              <h4 className="font-heading font-bold text-slate-900 dark:text-white">
+                              <h4 className="font-heading font-extrabold text-slate-900 dark:text-white text-sm md:text-base">
                                 {comment.user_name}
                               </h4>
                               {comment.user_ig && (
@@ -291,16 +291,16 @@ function ArticleDetailContent() {
                                   href={`https://instagram.com/${comment.user_ig.replace('@', '')}`}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="flex items-center gap-1 text-[10px] bg-slate-100 dark:bg-slate-900 px-2 py-0.5 rounded-full text-slate-500 hover:text-primary-600 transition-colors"
+                                  className="flex items-center gap-1 text-[9px] font-bold uppercase tracking-wider bg-slate-50 dark:bg-slate-900 px-2.5 py-1 rounded-lg text-slate-500 hover:text-primary-600 transition-colors border border-slate-100 dark:border-slate-800"
                                 >
                                   <Instagram size={10} />
                                   {comment.user_ig}
                                 </a>
                               )}
                             </div>
-                            <span className="text-[10px] text-slate-400">{formatDate(comment.created_at)}</span>
+                            <span className="text-[10px] font-bold text-slate-400">{formatDate(comment.created_at)}</span>
                           </div>
-                          <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-sm whitespace-pre-wrap">
+                          <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-sm font-medium whitespace-pre-wrap">
                             {comment.content}
                           </p>
                         </div>
@@ -313,14 +313,14 @@ function ArticleDetailContent() {
 
             {/* Sidebar (Right) */}
             <aside className="lg:col-span-4 h-fit sticky top-24">
-              <div className="bg-slate-50/50 dark:bg-slate-900/20 rounded-3xl p-6 border border-slate-100 dark:border-slate-800">
-                <h2 className="text-lg font-heading font-extrabold text-slate-900 dark:text-white mb-6 pl-2 border-l-4 border-primary-500">
+              <div className="bg-slate-50/50 dark:bg-slate-900/10 rounded-3xl p-6 border border-slate-200/80 dark:border-slate-800">
+                <h2 className="text-sm font-heading font-extrabold text-slate-900 dark:text-white uppercase tracking-wider mb-6 pl-2.5 border-l-2 border-primary-600">
                   Rekomendasi Artikel
                 </h2>
                 
                 <div className="space-y-6">
                   {recommendations.length === 0 ? (
-                    <p className="text-sm text-slate-400 italic">Tidak ada artikel terkait.</p>
+                    <p className="text-xs text-slate-400 italic">Tidak ada artikel terkait saat ini.</p>
                   ) : (
                     recommendations.map((rec) => (
                       <Link
@@ -328,34 +328,34 @@ function ArticleDetailContent() {
                         href={`/artikel/detail?slug=${rec.slug}`}
                         className="flex gap-4 group"
                       >
-                        <div className="shrink-0 w-24 h-20 rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-800">
+                        <div className="shrink-0 w-20 h-16 rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-800 border border-slate-200/20">
                           {rec.thumbnail_url ? (
                             <img
                               src={rec.thumbnail_url.startsWith('/') ? `${API_URL}${rec.thumbnail_url}` : rec.thumbnail_url}
                               alt={rec.title}
-                              className="w-full h-full object-cover group-hover:scale-110 transition-all duration-500"
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                             />
                           ) : (
-                            <div className="w-full h-full flex items-center justify-center text-slate-200 dark:text-slate-700">
-                              <span className="font-heading font-black opacity-20">M1</span>
+                            <div className="w-full h-full flex items-center justify-center text-slate-300 dark:text-slate-700 bg-slate-50 dark:bg-slate-850">
+                              <span className="font-heading font-black text-xs opacity-20">MAN1</span>
                             </div>
                           )}
                         </div>
-                        <div className="flex-1">
-                          <h3 className="text-sm font-heading font-bold text-slate-800 dark:text-slate-200 line-clamp-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors leading-snug mb-1.5">
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-xs md:text-sm font-heading font-bold text-slate-800 dark:text-slate-200 line-clamp-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors leading-snug mb-1">
                             {rec.title}
                           </h3>
-                          <span className="text-[10px] text-slate-400">{formatDate(rec.created_at)}</span>
+                          <span className="text-[10px] font-bold text-slate-450">{formatDate(rec.created_at)}</span>
                         </div>
                       </Link>
                     ))
                   )}
                 </div>
 
-                <div className="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800 text-center">
+                <div className="mt-8 pt-6 border-t border-slate-200/60 dark:border-slate-800 text-center">
                   <Link
                     href="/artikel"
-                    className="text-xs font-bold text-primary-600 dark:text-primary-400 hover:text-primary-700 transition-colors"
+                    className="text-xs font-bold uppercase tracking-wider text-primary-600 dark:text-primary-400 hover:text-primary-700 transition-colors"
                   >
                     Lihat Semua Artikel →
                   </Link>

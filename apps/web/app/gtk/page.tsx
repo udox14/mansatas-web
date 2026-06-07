@@ -54,18 +54,18 @@ export default function GtkPage() {
         <div className="max-w-7xl mx-auto px-4">
           
           {/* Filter Bar */}
-          <div className="bg-white/95 dark:bg-slate-900/95 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 md:p-6 mb-8 shadow-md sticky top-16 z-30 backdrop-blur-md">
+          <div className="bg-white/95 dark:bg-slate-900/95 border border-slate-200/60 dark:border-slate-800/80 rounded-2xl p-4 md:p-6 mb-12 shadow-sm sticky top-20 z-30 backdrop-blur-md">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
               
               {/* Search */}
               <div className="relative group lg:col-span-2">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary-500 transition-colors" size={18} />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary-650 transition-colors" size={16} />
                 <input
                   type="text"
                   placeholder="Cari nama atau NIP/PegID..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="w-full pl-11 pr-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all"
+                  className="w-full pl-11 pr-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/10 focus:border-primary-600 transition-all font-medium"
                 />
               </div>
 
@@ -73,7 +73,7 @@ export default function GtkPage() {
               <select
                 value={genderFilter}
                 onChange={(e) => setGenderFilter(e.target.value)}
-                className="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-primary-500 transition-all cursor-pointer"
+                className="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/10 focus:border-primary-600 transition-all cursor-pointer font-medium text-slate-700 dark:text-slate-350"
               >
                 <option value="">Semua Jenis Kelamin</option>
                 <option value="L">Laki-laki</option>
@@ -84,7 +84,7 @@ export default function GtkPage() {
               <select
                 value={positionFilter}
                 onChange={(e) => setPositionFilter(e.target.value)}
-                className="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-primary-500 transition-all cursor-pointer"
+                className="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/10 focus:border-primary-600 transition-all cursor-pointer font-medium text-slate-700 dark:text-slate-350"
               >
                 <option value="">Semua Jabatan</option>
                 {positions.map(p => <option key={p} value={p}>{p}</option>)}
@@ -94,7 +94,7 @@ export default function GtkPage() {
               <select
                 value={subjectFilter}
                 onChange={(e) => setSubjectFilter(e.target.value)}
-                className="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-primary-500 transition-all cursor-pointer"
+                className="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/10 focus:border-primary-600 transition-all cursor-pointer font-medium text-slate-700 dark:text-slate-350"
               >
                 <option value="">Semua Mapel</option>
                 {subjects.map(s => <option key={s} value={s}>{s}</option>)}
@@ -107,7 +107,7 @@ export default function GtkPage() {
             <AnimatePresence mode="popLayout">
               {loading ? (
                 Array.from({ length: 10 }).map((_, i) => (
-                  <div key={`skeleton-${i}`} className="aspect-[3/4] bg-slate-100 dark:bg-slate-900 rounded-3xl animate-pulse" />
+                  <div key={`skeleton-${i}`} className="aspect-[3/4] bg-slate-50 dark:bg-slate-900 rounded-[2rem] animate-pulse border border-slate-200/50" />
                 ))
               ) : filteredGtk.length > 0 ? (
                 filteredGtk.map((item, i) => (
@@ -118,7 +118,7 @@ export default function GtkPage() {
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.9 }}
                     transition={{ duration: 0.3 }}
-                    className="group relative aspect-[3/4] rounded-3xl overflow-hidden bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:-translate-y-2 hover:shadow-xl hover:shadow-primary-500/10 transition-all duration-300"
+                    className="group relative aspect-[3/4] rounded-[2rem] overflow-hidden bg-slate-50 dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-primary-500/5 hover:border-primary-500/30 transition-all duration-500"
                   >
                     {/* Photo */}
                     <div className="absolute inset-0">
@@ -126,28 +126,28 @@ export default function GtkPage() {
                         <img
                           src={item.image_url.startsWith('/') ? `${API_URL}${item.image_url}` : item.image_url}
                           alt={item.name}
-                          className="w-full h-full object-cover grayscale-0 transition-transform duration-500 group-hover:scale-110"
+                          className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-transform duration-700 scale-100 group-hover:scale-105"
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center text-slate-300 dark:text-slate-700 bg-slate-100 dark:bg-slate-900">
-                          <Users size={64} strokeWidth={1} />
+                        <div className="w-full h-full flex items-center justify-center text-slate-350 dark:text-slate-700 bg-slate-50 dark:bg-slate-850">
+                          <Users size={48} strokeWidth={1.2} />
                         </div>
                       )}
                     </div>
 
                     {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-60 transition-opacity" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-70 group-hover:opacity-85 transition-opacity duration-500" />
 
                     {/* Content Overlay */}
-                    <div className="absolute inset-x-0 bottom-0 p-5 pt-10 translate-y-1 group-hover:translate-y-0 transition-transform duration-500">
-                      <p className="text-[10px] font-bold text-primary-400 uppercase tracking-widest mb-1.5 drop-shadow-sm">
+                    <div className="absolute inset-x-0 bottom-0 p-5 translate-y-1 group-hover:translate-y-0 transition-transform duration-500">
+                      <p className="text-[9px] font-extrabold text-accent-400 uppercase tracking-widest mb-1.5 drop-shadow-sm">
                         {item.position}
                       </p>
                       <h3 className="text-sm font-heading font-extrabold text-white leading-tight mb-1">
                         {item.name}
                       </h3>
                       {item.subject && (
-                        <p className="text-[10px] text-white/60 line-clamp-1 italic">
+                        <p className="text-[10px] text-white/60 line-clamp-1 italic font-medium">
                           {item.subject}
                         </p>
                       )}

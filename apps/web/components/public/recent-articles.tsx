@@ -58,7 +58,7 @@ export default function RecentArticles() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {loading
             ? Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 p-4 h-[400px] animate-pulse" />
+                <div key={i} className="bg-white dark:bg-slate-900 rounded-[2rem] border border-slate-200/60 dark:border-slate-800 p-4 h-[420px] animate-pulse" />
               ))
             : articles.map((article, i) => (
                 <motion.div
@@ -70,10 +70,10 @@ export default function RecentArticles() {
                 >
                   <Link
                     href={`/artikel/detail?slug=${article.slug}`}
-                    className="group flex flex-col bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden hover:shadow-xl hover:shadow-primary-500/5 hover:-translate-y-1 transition-all duration-300 h-full"
+                    className="group flex flex-col bg-white dark:bg-slate-900 rounded-[2rem] border border-slate-200/80 dark:border-slate-800 overflow-hidden hover:shadow-xl hover:shadow-primary-500/5 hover:-translate-y-1.5 transition-all duration-500 h-full"
                   >
                     {/* Thumbnail */}
-                    <div className="aspect-[16/10] overflow-hidden bg-slate-100 dark:bg-slate-800 relative">
+                    <div className="aspect-[16/10] overflow-hidden bg-slate-50 dark:bg-slate-800 relative">
                       {article.thumbnail_url ? (
                         <img
                           src={article.thumbnail_url.startsWith('/') 
@@ -81,45 +81,48 @@ export default function RecentArticles() {
                             : article.thumbnail_url
                           }
                           alt={article.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center text-slate-300 dark:text-slate-700">
-                          <span className="text-5xl font-heading font-black opacity-20">M1</span>
+                        <div className="w-full h-full flex items-center justify-center text-slate-300 dark:text-slate-700 bg-slate-50 dark:bg-slate-850">
+                          <span className="text-4xl font-heading font-black opacity-10">MAN1</span>
                         </div>
                       )}
                       <div className="absolute top-4 left-4">
-                        <span className="px-3 py-1 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md text-[10px] font-bold text-primary-600 dark:text-primary-400 rounded-lg shadow-sm uppercase tracking-wider">
+                        <span className="px-3 py-1 bg-white/95 dark:bg-slate-950/95 text-primary-600 dark:text-primary-400 text-[9px] font-bold uppercase tracking-widest rounded-lg shadow-sm border border-slate-100 dark:border-slate-800">
                           {article.category_name || 'Informasi'}
                         </span>
                       </div>
                     </div>
 
                     {/* Content */}
-                    <div className="p-6 flex flex-col flex-1">
-                      <div className="flex items-center gap-4 text-[11px] text-slate-400 dark:text-slate-500 mb-3">
-                        <span className="flex items-center gap-1">
-                          <User size={12} />
-                          {article.author_name}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <Calendar size={12} />
-                          {formatDate(article.created_at)}
-                        </span>
+                    <div className="p-6 flex flex-col flex-1 justify-between">
+                      <div>
+                        <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-3">
+                          <span className="flex items-center gap-1">
+                            <User size={12} className="text-primary-500" />
+                            {article.author_name}
+                          </span>
+                          <span>•</span>
+                          <span className="flex items-center gap-1">
+                            <Calendar size={12} className="text-accent-500" />
+                            {formatDate(article.created_at)}
+                          </span>
+                        </div>
+                        
+                        <h3 className="font-heading font-extrabold text-slate-900 dark:text-white mb-3 text-lg md:text-xl line-clamp-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors leading-snug">
+                          {article.title}
+                        </h3>
+                        
+                        {article.excerpt && (
+                          <p className="text-sm text-slate-500 dark:text-slate-400 line-clamp-2 mb-6 font-medium leading-relaxed">
+                            {truncate(article.excerpt, 100)}
+                          </p>
+                        )}
                       </div>
-                      
-                      <h3 className="font-heading font-bold text-slate-900 dark:text-white mb-3 line-clamp-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
-                        {article.title}
-                      </h3>
-                      
-                      {article.excerpt && (
-                        <p className="text-sm text-slate-500 dark:text-slate-400 line-clamp-2 mb-6">
-                          {truncate(article.excerpt, 100)}
-                        </p>
-                      )}
 
-                      <div className="mt-auto flex items-center gap-2 text-xs font-bold text-primary-600 dark:text-primary-400 group/link">
-                        Baca Selengkapnya
+                      <div className="flex items-center gap-1.5 text-xs font-bold text-primary-600 dark:text-primary-400 uppercase tracking-widest group/link">
+                        <span>Baca Selengkapnya</span>
                         <ArrowRight size={14} className="group-hover/link:translate-x-1 transition-transform" />
                       </div>
                     </div>

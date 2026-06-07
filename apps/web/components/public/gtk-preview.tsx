@@ -66,35 +66,35 @@ export default function GtkPreview() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1 }}
-                  className="group relative aspect-[3/4] rounded-3xl overflow-hidden bg-slate-100 dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary-500/20"
+                  className="group relative aspect-[3/4] rounded-[2rem] overflow-hidden bg-slate-50 dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800/50 transition-all duration-500 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-primary-500/5 hover:border-primary-550/30"
                 >
                   {/* Photo */}
                   <div className="absolute inset-0">
                     {item.image_url ? (
-                      <img
-                        src={item.image_url.startsWith('/') ? `${API_URL}${item.image_url}` : item.image_url}
-                        alt={item.name}
-                        className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-110"
-                      />
+                       <img
+                         src={item.image_url.startsWith('/') ? `${API_URL}${item.image_url}` : item.image_url}
+                         alt={item.name}
+                         className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-100 group-hover:scale-105"
+                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-slate-300 dark:text-slate-700">
-                        <Users size={48} strokeWidth={1} />
+                      <div className="w-full h-full flex items-center justify-center text-slate-350 dark:text-slate-700 bg-slate-50 dark:bg-slate-850">
+                        <Users size={36} strokeWidth={1.2} />
                       </div>
                     )}
                   </div>
 
                   {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-70 group-hover:opacity-85 transition-opacity duration-500" />
 
                   {/* Content Overlay */}
-                  <div className="absolute inset-x-0 bottom-0 p-4 md:p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
-                    <p className="text-[10px] md:text-xs font-bold text-primary-400 uppercase tracking-widest mb-1 drop-shadow-sm">
+                  <div className="absolute inset-x-0 bottom-0 p-5 translate-y-1 group-hover:translate-y-0 transition-transform duration-500">
+                    <p className="text-[9px] font-extrabold text-accent-400 uppercase tracking-widest mb-1.5 drop-shadow-sm">
                       {item.position}
                     </p>
-                    <h3 className="text-sm md:text-md font-heading font-bold text-white leading-tight mb-1">
+                    <h3 className="text-sm font-heading font-extrabold text-white leading-tight mb-1">
                       {item.name}
                     </h3>
-                    <p className="text-[10px] md:text-xs text-white/70 line-clamp-1 italic">
+                    <p className="text-[10px] text-white/60 line-clamp-1 italic font-medium">
                       {item.subject || '-'}
                     </p>
                   </div>

@@ -55,27 +55,27 @@ export default function ProgramPage() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.1 }}
-                    className="group relative overflow-hidden rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:shadow-xl transition-all duration-300"
+                    className="group relative overflow-hidden rounded-[2rem] bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-850 hover:shadow-xl hover:shadow-primary-500/5 hover:-translate-y-1 transition-all duration-500"
                   >
                     {bgImage && (
-                      <div className="aspect-video overflow-hidden">
+                      <div className="aspect-video overflow-hidden border-b border-slate-100 dark:border-slate-850">
                         <img 
                           src={bgImage} 
                           alt={program.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-750"
                         />
                       </div>
                     )}
                     <div className="p-8">
                       <div className="flex items-center gap-4 mb-4">
-                        <div className="p-3 bg-primary-50 dark:bg-primary-950/50 text-primary-600 dark:text-primary-400 rounded-2xl">
-                          <Icon size={24} />
+                        <div className="p-3 bg-primary-50 dark:bg-primary-950/30 text-primary-600 dark:text-primary-400 rounded-2xl transition-all duration-300 group-hover:bg-primary-600 group-hover:text-white">
+                          <Icon size={20} strokeWidth={2} />
                         </div>
-                        <h3 className="text-xl font-heading font-bold text-slate-900 dark:text-white">
+                        <h3 className="text-xl font-heading font-extrabold text-slate-900 dark:text-white group-hover:text-primary-600 transition-colors">
                           {program.title}
                         </h3>
                       </div>
-                      <p className="text-slate-500 dark:text-slate-400 leading-relaxed text-sm">
+                      <p className="text-slate-500 dark:text-slate-400 leading-relaxed text-sm font-medium">
                         {program.description}
                       </p>
                     </div>

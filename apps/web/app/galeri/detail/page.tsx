@@ -91,22 +91,22 @@ function GalleryCategoryContent() {
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.05 }}
-                  className="group relative aspect-square rounded-3xl overflow-hidden bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:shadow-2xl transition-all cursor-zoom-in"
+                  className="group relative aspect-square rounded-[2rem] overflow-hidden bg-slate-50 dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary-500/5 hover:border-primary-500/20 transition-all duration-500 cursor-zoom-in"
                   onClick={() => setSelectedPhoto(photo)}
                 >
                   <img 
                     src={photo.image_url.startsWith('/') ? `${API_URL}${photo.image_url}` : photo.image_url} 
                     alt={photo.caption || 'Photo'}
-                    className="w-full h-full object-cover grayscale-0 group-hover:grayscale-0 transition-transform duration-700 group-hover:scale-110"
+                    className="w-full h-full object-cover transition-transform duration-750 group-hover:scale-105"
                   />
                   
                   {/* Overlay on hover */}
-                  <div className="absolute inset-x-3 bottom-3 p-4 bg-white/95 dark:bg-slate-950/95 backdrop-blur-md rounded-2xl border border-white/20 shadow-xl opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                    <p className="text-xs font-bold text-slate-900 dark:text-white line-clamp-1 mb-1">
+                  <div className="absolute inset-x-3 bottom-3 p-4 bg-white/95 dark:bg-slate-950/95 backdrop-blur-md rounded-2xl border border-slate-100 dark:border-slate-800 shadow-lg opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+                    <p className="text-xs font-heading font-extrabold text-slate-900 dark:text-white line-clamp-1 mb-1">
                       {photo.caption || 'Dokumentasi'}
                     </p>
-                    <div className="flex items-center gap-1.5 text-[10px] text-primary-600 dark:text-primary-400 font-extrabold uppercase tracking-widest">
-                      <Maximize2 size={12} />
+                    <div className="flex items-center gap-1.5 text-[9px] text-primary-600 dark:text-primary-400 font-extrabold uppercase tracking-widest">
+                      <Maximize2 size={10} />
                       <span>Perbesar</span>
                     </div>
                   </div>

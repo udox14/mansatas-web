@@ -115,7 +115,7 @@ export default function ContactSection() {
               <div>
                 <label
                   htmlFor="message"
-                  className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5"
+                  className="block text-xs font-bold uppercase tracking-wider text-slate-450 dark:text-slate-400 mb-2 ml-1"
                 >
                   Pesan
                 </label>
@@ -127,13 +127,13 @@ export default function ContactSection() {
                   onChange={handleChange}
                   required
                   maxLength={2000}
-                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-400 transition-colors resize-none"
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/10 focus:border-primary-600 transition-all resize-none font-medium"
                   placeholder="Tulis pesan Anda..."
                 />
               </div>
 
               {status === 'error' && (
-                <div className="flex items-center gap-2 text-sm text-red-600 dark:text-red-400">
+                <div className="flex items-center gap-2 text-sm text-red-650 dark:text-red-400">
                   <AlertCircle size={16} />
                   {errorMsg}
                 </div>
@@ -143,17 +143,17 @@ export default function ContactSection() {
                 type="submit"
                 disabled={status === 'loading'}
                 className={cn(
-                  'w-full flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold transition-all',
-                  'bg-primary-500 text-white hover:bg-primary-600 shadow-sm hover:shadow-md',
+                  'w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-xs font-extrabold uppercase tracking-wider transition-all duration-300 shadow-sm active:scale-95',
+                  'bg-primary-600 text-white hover:bg-primary-700 hover:shadow-md',
                   'disabled:opacity-60 disabled:cursor-not-allowed'
                 )}
               >
                 {status === 'loading' ? (
-                  <Loader2 size={18} className="animate-spin" />
+                  <Loader2 size={16} className="animate-spin" />
                 ) : (
-                  <Send size={16} />
+                  <Send size={14} />
                 )}
-                {status === 'loading' ? 'Mengirim...' : 'Kirim Pesan'}
+                <span>{status === 'loading' ? 'Mengirim...' : 'Kirim Pesan'}</span>
               </button>
             </form>
           )}
@@ -182,7 +182,7 @@ function InputField({
     <div>
       <label
         htmlFor={name}
-        className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5"
+        className="block text-xs font-bold uppercase tracking-wider text-slate-450 dark:text-slate-400 mb-2 ml-1"
       >
         {label}
       </label>
@@ -193,7 +193,7 @@ function InputField({
         value={value}
         onChange={onChange}
         required={required}
-        className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-400 transition-colors"
+        className="w-full px-4 py-3 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/10 focus:border-primary-600 transition-all font-medium"
         placeholder={label}
       />
     </div>

@@ -111,16 +111,16 @@ function MarqueeCard({ image }: { image: GalleryImage }) {
     : image.image_url
 
   return (
-    <div className="shrink-0 w-72 h-48 rounded-xl overflow-hidden group relative">
+    <div className="shrink-0 w-72 h-48 rounded-[1.5rem] overflow-hidden group relative border border-slate-200/50 dark:border-slate-800/80 bg-slate-50 dark:bg-slate-900 transition-all duration-300">
       <img
         src={src}
         alt={image.caption || 'Galeri'}
-        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
         loading="lazy"
       />
       {image.caption && (
-        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-3 opacity-0 group-hover:opacity-100 transition-opacity">
-          <p className="text-white text-xs">{image.caption}</p>
+        <div className="absolute inset-x-2 bottom-2 p-2.5 bg-white/95 dark:bg-slate-950/95 backdrop-blur-md rounded-xl border border-slate-100 dark:border-slate-800 shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <p className="text-slate-800 dark:text-slate-200 text-[10px] font-extrabold uppercase tracking-wider truncate">{image.caption}</p>
         </div>
       )}
     </div>

@@ -104,42 +104,49 @@ export default function BentoGrid() {
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1 }}
                   className={cn(
-                    'group relative overflow-hidden rounded-2xl border border-slate-100 dark:border-white/10 bg-white dark:bg-slate-900 transition-all duration-300 hover:shadow-xl hover:shadow-primary-500/10 hover:-translate-y-1',
+                    'group relative overflow-hidden rounded-[2rem] border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 transition-all duration-300 hover:shadow-xl hover:shadow-primary-500/5 hover:-translate-y-1',
                     gridClass
                   )}
                 >
-                  {/* Background photo (available for all now) */}
+                  {/* Background photo */}
                   {bgImage && (
                     <div className="absolute inset-0">
                       <img
                         src={bgImage}
                         alt={program.title}
-                        className={cn(
-                          "w-full h-full object-cover transition-transform duration-500 group-hover:scale-105",
-                          isLarge ? "opacity-40 dark:opacity-30" : "opacity-30 dark:opacity-20"
-                        )}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-20 dark:opacity-10"
                       />
-                      {/* Gradient to ensure text readability */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-white via-white/40 to-transparent dark:from-slate-950 dark:via-slate-950/40 dark:to-transparent" />
+                      {/* Gradient for text readability */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-white via-white/60 to-transparent dark:from-slate-900 dark:via-slate-900/60 dark:to-transparent" />
                     </div>
                   )}
 
-                  <div className={cn('relative p-6 lg:p-8 h-full flex flex-col', isLarge && 'justify-end')}>
-                    <div className="mb-4 text-primary-600 dark:text-primary-400">
-                      <Icon size={isLarge ? 32 : 24} strokeWidth={1.5} />
+                  <div className={cn('relative p-8 h-full flex flex-col justify-between', isLarge && 'justify-end gap-4')}>
+                    <div>
+                      <div className="mb-6 p-3 bg-primary-50 dark:bg-primary-950/30 text-primary-600 dark:text-primary-400 rounded-2xl w-fit transition-all duration-300 group-hover:bg-primary-600 group-hover:text-white">
+                        <Icon size={isLarge ? 28 : 22} strokeWidth={1.8} />
+                      </div>
+                      <h3 className={cn(
+                        'font-heading font-extrabold text-slate-900 dark:text-white mb-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors',
+                        isLarge ? 'text-2xl lg:text-3xl' : 'text-lg md:text-xl'
+                      )}>
+                        {program.title}
+                      </h3>
+                      <p className={cn(
+                        'text-slate-500 dark:text-slate-400 leading-relaxed font-medium',
+                        isLarge ? 'text-base' : 'text-sm'
+                      )}>
+                        {program.description}
+                      </p>
                     </div>
-                    <h3 className={cn(
-                      'font-heading font-bold text-slate-900 dark:text-white mb-2',
-                      isLarge ? 'text-xl lg:text-2xl' : 'text-lg'
-                    )}>
-                      {program.title}
-                    </h3>
-                    <p className={cn(
-                      'text-slate-500 dark:text-slate-400 leading-relaxed',
-                      isLarge ? 'text-base' : 'text-sm'
-                    )}>
-                      {program.description}
-                    </p>
+                    
+                    {/* Tiny decorative link in large cards */}
+                    {isLarge && (
+                      <div className="flex items-center gap-1 text-xs font-bold text-primary-600 dark:text-primary-400 uppercase tracking-widest mt-4">
+                        <span>Detail Program</span>
+                        <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                      </div>
+                    )}
                   </div>
                 </motion.div>
               )

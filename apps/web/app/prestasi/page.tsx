@@ -151,68 +151,64 @@ export default function AchievementsPage() {
 
                   {/* Main Card (Side 2) */}
                   <div className="flex-1 w-full pl-12 md:pl-0">
-                    <div className="group relative bg-white dark:bg-slate-900/50 p-6 md:p-8 rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none hover:shadow-2xl hover:shadow-primary-600/10 hover:border-primary-500/30 transition-all duration-500 overflow-hidden">
+                    <div className="group relative bg-white dark:bg-slate-900 p-6 md:p-8 rounded-[2rem] border border-slate-200/80 dark:border-slate-800 hover:shadow-xl hover:shadow-primary-600/5 hover:border-primary-500/20 transition-all duration-500 overflow-hidden">
                        
-                       {/* Background Icon Decoration */}
-                       <div className="absolute -right-4 -top-4 text-slate-50 dark:text-slate-800/20 group-hover:text-primary-500/10 transition-colors">
-                          <Trophy size={140} strokeWidth={1} />
-                       </div>
-
                        <div className="relative space-y-6">
                           <div className="flex items-start justify-between gap-4">
                              <div className="space-y-1">
-                                <div className="inline-flex px-3 py-1 bg-primary-50 dark:bg-primary-950/30 text-primary-600 dark:text-primary-400 text-[10px] font-black uppercase tracking-widest rounded-lg mb-2">
+                                <div className="inline-flex px-3 py-1 bg-primary-50 dark:bg-primary-950/30 text-primary-650 dark:text-primary-400 text-[9px] font-extrabold uppercase tracking-widest rounded-lg mb-2">
                                    {item.rank || 'Penghargaan'}
                                 </div>
-                                <h3 className="text-xl md:text-2xl font-heading font-black text-slate-900 dark:text-white uppercase tracking-tight leading-tight group-hover:text-primary-600 transition-colors">
+                                <h3 className="text-xl md:text-2xl font-heading font-extrabold text-slate-900 dark:text-white uppercase tracking-tight leading-tight group-hover:text-primary-600 transition-colors">
                                    {item.title}
                                 </h3>
                              </div>
-                             <div className="w-14 h-14 bg-slate-50 dark:bg-slate-800 rounded-2xl flex items-center justify-center shrink-0 border border-slate-100 dark:border-slate-800">
-                                {i % 3 === 0 ? <Medal size={28} className="text-yellow-500" /> : i % 3 === 1 ? <Award size={28} className="text-primary-500" /> : <Star size={28} className="text-blue-500" />}
-                             </div>
                           </div>
 
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-slate-100 dark:border-slate-800 pt-4">
                              <div className="flex items-center gap-3">
-                                <div className="p-2 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-500">
-                                   <Building2 size={16} />
+                                <div className="p-2 bg-slate-50 dark:bg-slate-800 rounded-xl text-primary-600">
+                                   <Building2 size={14} />
                                 </div>
                                 <div className="flex flex-col">
-                                   <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Penyelenggara</span>
+                                   <span className="text-[9px] font-extrabold text-slate-400 uppercase tracking-widest">Penyelenggara</span>
                                    <span className="text-xs font-bold text-slate-700 dark:text-slate-300">{item.organizer || '-'}</span>
                                 </div>
                              </div>
                              <div className="flex items-center gap-3">
-                                <div className="p-2 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-500">
-                                   <MapPin size={16} />
+                                <div className="p-2 bg-slate-50 dark:bg-slate-800 rounded-xl text-accent-500">
+                                   <MapPin size={14} />
                                 </div>
                                 <div className="flex flex-col">
-                                   <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Lokasi</span>
+                                   <span className="text-[9px] font-extrabold text-slate-400 uppercase tracking-widest">Lokasi</span>
                                    <span className="text-xs font-bold text-slate-700 dark:text-slate-300">{item.location || '-'}</span>
                                 </div>
                              </div>
                           </div>
 
                           {item.image_url && (
-                             <div className="rounded-2xl overflow-hidden aspect-video relative group/img">
+                             <div className="rounded-[1.5rem] overflow-hidden aspect-video relative group/img border border-slate-100 dark:border-slate-800">
                                 <img 
                                    src={item.image_url.startsWith('/') ? `${API_URL}${item.image_url}` : item.image_url} 
-                                   className="w-full h-full object-cover transition-transform duration-700 group-hover/img:scale-110"
+                                   className="w-full h-full object-cover transition-transform duration-700 group-hover/img:scale-105"
                                    alt={item.title}
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/20 to-transparent pointer-events-none" />
                              </div>
                           )}
 
-                          {item.article_slug && (
+                          {item.article_slug ? (
                              <Link 
                                 href={`/artikel/detail?slug=${item.article_slug}`}
-                                className="inline-flex items-center gap-2 group/btn"
+                                className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-primary-600 dark:text-primary-400 group/btn"
                              >
-                                <span className="text-xs font-black uppercase tracking-widest text-primary-600 dark:text-primary-400 group-hover/btn:mr-2 transition-all">Baca Berita Terkait</span>
-                                <ArrowRight size={14} className="text-primary-500" />
+                                <span>Baca Berita Terkait</span>
+                                <ArrowRight size={14} className="text-primary-500 group-hover/btn:translate-x-1 transition-transform" />
                              </Link>
+                          ) : (
+                             <div className="text-[9px] font-bold tracking-wider uppercase text-slate-400 block md:hidden">
+                                {item.date ? formatDate(item.date) : item.year}
+                             </div>
                           )}
                        </div>
                     </div>

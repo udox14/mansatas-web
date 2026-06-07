@@ -37,67 +37,92 @@ export default function Navbar() {
   return (
     <header
       className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-        isSolid
-          ? 'bg-white/70 dark:bg-slate-950/70 backdrop-blur-md shadow-sm border-b border-white/20 dark:border-white/10'
-          : 'bg-transparent'
+        'fixed left-0 right-0 z-50 transition-all duration-500',
+        scrolled ? 'top-3 px-4 sm:px-6 lg:px-8' : 'top-0'
       )}
     >
-      <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
+      <nav
+        className={cn(
+          'mx-auto max-w-7xl transition-all duration-500 px-4 sm:px-6 lg:px-8',
+          scrolled
+            ? 'bg-white/90 dark:bg-slate-950/90 backdrop-blur-md shadow-md rounded-2xl border border-slate-100 dark:border-slate-800/80 h-16'
+            : 'bg-transparent h-20 border-b border-transparent'
+        )}
+      >
+        <div className="flex h-full items-center justify-between">
           {/* Logo & Name */}
           <Link href="/" className="flex items-center gap-3 group">
-            <img src="/logokemenag.png" alt="Kemenag" className="w-12 h-12 object-contain" />
-            <div className="hidden sm:block">
+            <div className="relative flex items-center justify-center w-10 h-10 transition-transform group-hover:scale-105 duration-300">
+              <img src="/logokemenag.png" alt="Kemenag" className="w-full h-full object-contain" />
+            </div>
+            <div>
               <p className={cn(
-                'font-heading font-bold text-sm leading-tight transition-colors',
-                isSolid ? 'text-black dark:text-white' : 'text-white'
+                'font-heading font-extrabold text-sm leading-tight tracking-tight transition-colors duration-300',
+                isSolid ? 'text-slate-900 dark:text-white' : 'text-white'
               )}>
                 MAN 1 Tasikmalaya
               </p>
               <p className={cn(
-                'text-xs leading-tight transition-colors',
-                isSolid ? 'text-slate-600 dark:text-slate-400' : 'text-white/70'
+                'text-[10px] font-bold uppercase tracking-wider transition-colors duration-300',
+                isSolid ? 'text-primary-600 dark:text-primary-400' : 'text-accent-300'
               )}>
-                Jawa Barat
+                Unggul & Berkarakter
               </p>
             </div>
           </Link>
 
           {/* Desktop Nav Links */}
           <ul className="hidden md:flex items-center gap-1">
-            {NAV_LINKS.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className={cn(
-                    'relative px-3 py-2 text-sm font-medium rounded-lg transition-colors',
-                    isSolid
-                      ? 'text-slate-800 hover:text-primary-600 hover:bg-black/5 dark:text-slate-200 dark:hover:text-primary-400 dark:hover:bg-white/10'
-                      : 'text-white/80 hover:text-white hover:bg-white/10'
-                  )}
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
+            {NAV_LINKS.map((link) => {
+              const active = link.href === '/' 
+                ? pathname === '/' 
+                : link.href.startsWith('/#') 
+                  ? false 
+                  : pathname.startsWith(link.href)
+
+              return (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className={cn(
+                      'relative px-3.5 py-2 text-xs uppercase tracking-wider font-bold rounded-lg transition-all duration-300 flex flex-col items-center',
+                      active
+                        ? isSolid
+                          ? 'text-primary-600 dark:text-primary-400 bg-primary-50/50 dark:bg-primary-950/30'
+                          : 'text-white bg-white/10'
+                        : isSolid
+                          ? 'text-slate-700 hover:text-primary-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:text-primary-400 dark:hover:bg-slate-900'
+                          : 'text-white/80 hover:text-white hover:bg-white/10'
+                    )}
+                  >
+                    {link.label}
+                    {active && (
+                      <span className={cn(
+                        'absolute bottom-1 w-1.5 h-1.5 rounded-full',
+                        isSolid ? 'bg-primary-600 dark:bg-primary-400' : 'bg-white'
+                      )} />
+                    )}
+                  </Link>
+                </li>
+              )
+            })}
           </ul>
 
           {/* Right: Dark Mode + CTA + Mobile Menu */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             {/* Dark Mode Toggle */}
             {mounted && (
               <button
                 onClick={toggle}
                 className={cn(
-                  'p-2 rounded-lg transition-colors',
+                  'p-2 rounded-xl transition-all duration-300 border',
                   isSolid
-                    ? 'text-slate-600 hover:bg-black/5 dark:text-slate-400 dark:hover:bg-white/10'
-                    : 'text-white/70 hover:bg-white/10'
+                    ? 'text-slate-600 border-slate-100 hover:border-slate-200 hover:bg-slate-50 dark:text-slate-400 dark:border-slate-800 dark:hover:bg-slate-900'
+                    : 'text-white/80 border-white/10 hover:border-white/20 hover:bg-white/10'
                 )}
                 aria-label="Toggle dark mode"
               >
-                {isDark ? <Sun size={18} /> : <Moon size={18} />}
+                {isDark ? <Sun size={16} /> : <Moon size={16} />}
               </button>
             )}
 
@@ -105,10 +130,10 @@ export default function Navbar() {
             <Link
               href="/pmb"
               className={cn(
-                'hidden sm:inline-flex items-center px-4 py-2 text-sm font-semibold rounded-lg transition-all shadow-sm',
+                'hidden sm:inline-flex items-center px-5 py-2 text-xs uppercase tracking-wider font-extrabold rounded-xl transition-all duration-300 shadow-sm hover:shadow active:scale-95 border',
                 isSolid
-                  ? 'bg-primary-500 text-white hover:bg-primary-600'
-                  : 'bg-white/15 text-white backdrop-blur-sm hover:bg-white/25 border border-white/20'
+                  ? 'bg-primary-600 text-white border-primary-600 hover:bg-primary-700'
+                  : 'bg-white text-primary-700 border-white hover:bg-slate-50'
               )}
             >
               Portal PMB
@@ -118,14 +143,14 @@ export default function Navbar() {
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               className={cn(
-                'md:hidden p-2 rounded-lg transition-colors',
+                'md:hidden p-2 rounded-xl transition-all border duration-300',
                 isSolid
-                  ? 'text-slate-800 hover:bg-black/5 dark:text-slate-200 dark:hover:bg-white/10'
-                  : 'text-white hover:bg-white/10'
+                  ? 'text-slate-800 border-slate-100 hover:bg-slate-50 dark:text-slate-200 dark:border-slate-800 dark:hover:bg-slate-900'
+                  : 'text-white border-white/10 hover:bg-white/10'
               )}
               aria-label="Menu"
             >
-              {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+              {mobileOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
           </div>
         </div>
@@ -135,28 +160,44 @@ export default function Navbar() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white/90 dark:bg-slate-950/90 backdrop-blur-xl border-t border-black/5 dark:border-white/5"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className={cn(
+              'md:hidden mt-2 mx-auto max-w-7xl bg-white/95 dark:bg-slate-950/95 backdrop-blur-md rounded-2xl shadow-lg border border-slate-100 dark:border-slate-900 overflow-hidden',
+              !scrolled && 'mx-4'
+            )}
           >
             <ul className="px-4 py-3 space-y-1">
-              {NAV_LINKS.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    onClick={() => setMobileOpen(false)}
-                    className="block px-3 py-2.5 text-sm font-medium text-slate-800 dark:text-slate-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-black/5 dark:hover:bg-white/10 rounded-lg transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
+              {NAV_LINKS.map((link) => {
+                const active = link.href === '/' 
+                  ? pathname === '/' 
+                  : link.href.startsWith('/#') 
+                    ? false 
+                    : pathname.startsWith(link.href)
+
+                return (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      onClick={() => setMobileOpen(false)}
+                      className={cn(
+                        'block px-4 py-2.5 text-xs uppercase tracking-wider font-bold rounded-xl transition-all',
+                        active
+                          ? 'text-primary-600 bg-primary-50/70 dark:text-primary-400 dark:bg-primary-950/40'
+                          : 'text-slate-700 hover:text-primary-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:text-primary-400 dark:hover:bg-slate-900'
+                      )}
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                )
+              })}
               <li className="pt-2">
                 <Link
                   href="/pmb"
                   onClick={() => setMobileOpen(false)}
-                  className="block text-center px-6 py-2.5 bg-primary-500 text-white text-sm font-semibold rounded-xl hover:bg-primary-600 shadow-lg shadow-primary-500/20 active:scale-95 transition-all"
+                  className="block text-center px-6 py-3 bg-primary-600 text-white text-xs uppercase tracking-wider font-extrabold rounded-xl hover:bg-primary-700 shadow-sm active:scale-95 transition-all"
                 >
                   Portal PMB
                 </Link>

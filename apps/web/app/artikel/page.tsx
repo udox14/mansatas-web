@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
-import { Search, Loader2, ChevronLeft, ChevronRight, Tag } from 'lucide-react'
+import { Search, Loader2, ChevronLeft, ChevronRight, Tag, ArrowRight } from 'lucide-react'
 import PublicLayout from '@/components/public/public-layout'
 import { api, API_URL } from '@/lib/api'
 import { cn, formatDate, truncate } from '@/lib/utils'
@@ -66,14 +66,14 @@ export default function ArticlesPage() {
         <div className="max-w-7xl mx-auto">
 
           {/* Category Filter */}
-          <div className="flex items-center justify-center gap-2 mb-10 overflow-x-auto pb-2 scrollbar-none no-scrollbar">
+          <div className="flex items-center justify-center gap-2 mb-12 overflow-x-auto pb-3 scrollbar-none no-scrollbar">
             <button
               onClick={() => { setSelectedCategory(''); setPage(1); }}
               className={cn(
-                "px-4 py-2 rounded-full text-sm font-semibold transition-all whitespace-nowrap",
+                "px-5 py-2.5 rounded-full text-xs font-extrabold uppercase tracking-wider transition-all duration-300 whitespace-nowrap border active:scale-95",
                 selectedCategory === '' 
-                  ? "bg-primary-500 text-white shadow-lg shadow-primary-500/20" 
-                  : "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800"
+                  ? "bg-primary-600 border-primary-600 text-white shadow-md shadow-primary-500/10" 
+                  : "bg-white dark:bg-slate-900 border-slate-200/80 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800"
               )}
             >
               Semua
@@ -83,10 +83,10 @@ export default function ArticlesPage() {
                 key={cat.id}
                 onClick={() => { setSelectedCategory(cat.slug); setPage(1); }}
                 className={cn(
-                  "px-4 py-2 rounded-full text-sm font-semibold transition-all whitespace-nowrap",
+                  "px-5 py-2.5 rounded-full text-xs font-extrabold uppercase tracking-wider transition-all duration-300 whitespace-nowrap border active:scale-95",
                   selectedCategory === cat.slug 
-                    ? "bg-primary-500 text-white shadow-lg shadow-primary-500/20" 
-                    : "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800"
+                    ? "bg-primary-600 border-primary-600 text-white shadow-md shadow-primary-500/10" 
+                    : "bg-white dark:bg-slate-900 border-slate-200/80 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800"
                 )}
               >
                 {cat.name}
@@ -97,14 +97,14 @@ export default function ArticlesPage() {
           {/* Loading */}
           {loading && (
             <div className="flex justify-center py-20">
-              <Loader2 size={32} className="animate-spin text-primary-500" />
+              <Loader2 size={32} className="animate-spin text-primary-600" />
             </div>
           )}
 
           {/* Empty State */}
           {!loading && articles.length === 0 && (
             <div className="text-center py-20">
-              <p className="text-slate-400 dark:text-slate-500">
+              <p className="text-slate-400 dark:text-slate-500 font-medium">
                 {debouncedSearch
                   ? `Tidak ada artikel yang cocok dengan "${debouncedSearch}"`
                   : 'Belum ada artikel yang dipublikasikan.'}
@@ -115,7 +115,7 @@ export default function ArticlesPage() {
           {/* Article Grid */}
           {!loading && articles.length > 0 && (
             <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {articles.map((article) => {
                   const thumb = article.thumbnail_url
                     ? article.thumbnail_url.startsWith('/')
@@ -127,45 +127,52 @@ export default function ArticlesPage() {
                     <Link
                       key={article.id}
                       href={`/artikel/detail?slug=${article.slug}`}
-                      className="group bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden hover:shadow-lg hover:shadow-primary-500/5 hover:-translate-y-1 transition-all duration-300"
+                      className="group flex flex-col bg-white dark:bg-slate-900 rounded-[2rem] border border-slate-200/80 dark:border-slate-800 overflow-hidden hover:shadow-xl hover:shadow-primary-500/5 hover:-translate-y-1.5 transition-all duration-500 h-full"
                     >
                       {/* Thumbnail */}
-                      <div className="aspect-[16/10] overflow-hidden bg-slate-100 dark:bg-slate-800">
+                      <div className="aspect-[16/10] overflow-hidden bg-slate-50 dark:bg-slate-800 relative">
                         {thumb ? (
                           <img
                             src={thumb}
                             alt={article.title}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-750"
                             loading="lazy"
                           />
                         ) : (
-                          <div className="w-full h-full flex items-center justify-center text-slate-300 dark:text-slate-600">
-                            <span className="text-4xl font-heading font-bold">M1</span>
+                          <div className="w-full h-full flex items-center justify-center text-slate-300 dark:text-slate-700 bg-slate-50 dark:bg-slate-850">
+                            <span className="text-4xl font-heading font-black opacity-10">MAN1</span>
                           </div>
                         )}
+                        <div className="absolute top-4 left-4">
+                          <span className="px-3 py-1 bg-white/95 dark:bg-slate-950/95 text-primary-600 dark:text-primary-400 text-[9px] font-bold uppercase tracking-widest rounded-lg shadow-sm border border-slate-100 dark:border-slate-800">
+                            {article.category_name || 'Informasi'}
+                          </span>
+                        </div>
                       </div>
+                      
                       {/* Content */}
-                      <div className="p-5 flex flex-col flex-1">
-                        <div className="flex items-center justify-between mb-3">
-                          <div className="flex items-center gap-2 text-[10px] text-slate-400">
+                      <div className="p-6 flex flex-col flex-1 justify-between">
+                        <div>
+                          <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-3">
                             <span>{article.author_name}</span>
                             <span>•</span>
                             <time>{formatDate(article.created_at)}</time>
                           </div>
-                          {article.category_name && (
-                            <span className="px-2 py-0.5 bg-primary-50 dark:bg-primary-950/30 text-[9px] font-bold text-primary-600 dark:text-primary-400 rounded-lg">
-                              {article.category_name}
-                            </span>
+                          
+                          <h3 className="font-heading font-extrabold text-slate-900 dark:text-white mb-3 text-lg md:text-xl line-clamp-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors leading-snug">
+                            {article.title}
+                          </h3>
+                          {article.excerpt && (
+                            <p className="text-sm text-slate-500 dark:text-slate-400 line-clamp-2 font-medium leading-relaxed mb-6">
+                              {truncate(article.excerpt, 120)}
+                            </p>
                           )}
                         </div>
-                        <h3 className="font-heading font-semibold text-slate-900 dark:text-white mb-2 line-clamp-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
-                          {article.title}
-                        </h3>
-                        {article.excerpt && (
-                          <p className="text-sm text-slate-500 dark:text-slate-400 line-clamp-2">
-                            {truncate(article.excerpt, 120)}
-                          </p>
-                        )}
+
+                        <div className="flex items-center gap-1.5 text-xs font-bold text-primary-600 dark:text-primary-400 uppercase tracking-widest group/link">
+                          <span>Baca Selengkapnya</span>
+                          <ArrowRight size={14} className="group-hover/link:translate-x-1 transition-transform" />
+                        </div>
                       </div>
                     </Link>
                   )
