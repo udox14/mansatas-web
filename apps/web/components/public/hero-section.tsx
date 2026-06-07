@@ -12,6 +12,54 @@ interface HeroData {
   slides: HeroSlide[]
 }
 
+const PHRASES = [
+  "Mencetak generasi muslim yang cerdas dan berakhlak mulia.",
+  "Unggul dalam Iman, Ilmu, dan Amal di era global.",
+  "Membangun karakter Islami yang kuat dan inspiratif.",
+  "Madrasah Hebat, Bermartabat, Mandiri & Berprestasi.",
+  "Merajut asa dan meraih prestasi tiada henti.",
+  "Bangkit, Jaya, Juara!"
+]
+
+function Typewriter() {
+  const [text, setText] = useState('')
+  const [phraseIndex, setPhraseIndex] = useState(0)
+  const [isDeleting, setIsDeleting] = useState(false)
+
+  useEffect(() => {
+    const currentPhrase = PHRASES[phraseIndex]
+    let timeoutId: NodeJS.Timeout
+
+    if (!isDeleting) {
+      if (text.length < currentPhrase.length) {
+        timeoutId = setTimeout(() => {
+          setText(currentPhrase.slice(0, text.length + 1))
+        }, 40) // typing speed
+      } else {
+        timeoutId = setTimeout(() => setIsDeleting(true), 3000) // pause before deleting
+      }
+    } else {
+      if (text.length > 0) {
+        timeoutId = setTimeout(() => {
+          setText(currentPhrase.slice(0, text.length - 1))
+        }, 20) // deleting speed
+      } else {
+        setIsDeleting(false)
+        setPhraseIndex((prev) => (prev + 1) % PHRASES.length)
+      }
+    }
+
+    return () => clearTimeout(timeoutId)
+  }, [text, isDeleting, phraseIndex])
+
+  return (
+    <span className="inline-flex items-center min-h-[3rem] sm:min-h-[4rem]">
+      <span>{text}</span>
+      <span className="animate-pulse ml-1 inline-block w-1.5 h-6 sm:h-7 bg-primary-600 dark:bg-primary-400 opacity-80" />
+    </span>
+  )
+}
+
 export default function HeroSection() {
   const [data, setData] = useState<HeroData | null>(null)
   const [current, setCurrent] = useState(0)
@@ -45,11 +93,10 @@ export default function HeroSection() {
   const slide = slides[current]
   const isStatic = settings?.text_mode === 'static'
   const title = isStatic ? settings?.static_title : slide?.title
-  const description = isStatic ? settings?.static_description : slide?.description
   const btnText = isStatic ? settings?.static_button_text : slide?.button_text
   const btnUrl = isStatic ? settings?.static_button_url : slide?.button_url
 
-  const fullTitle = title || 'Madrasah Aliyah Negeri 1 Tasikmalaya'
+  const fullTitle = title || 'MAN 1 Tasikmalaya'
 
   return (
     <section className="relative min-h-[100dvh] w-full flex flex-col justify-end pb-12 sm:pb-24 overflow-hidden bg-slate-50 dark:bg-slate-950 transition-colors duration-500">
@@ -104,13 +151,10 @@ export default function HeroSection() {
       {/* Content Container */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-32">
         <div className="max-w-4xl space-y-6 sm:space-y-8">
-          <div className="flex items-center gap-4 mb-8">
-            <div className="w-12 h-12 sm:w-16 sm:h-16 shrink-0">
-              <img src="/logokemenag.png" alt="Kemenag" className="w-full h-full object-contain drop-shadow-sm dark:drop-shadow-md" />
+          <div className="mb-8">
+            <div className="w-24 h-24 sm:w-32 sm:h-32">
+              <img src="/logokemenag.png" alt="Kemenag" className="w-full h-full object-contain drop-shadow-md dark:drop-shadow-lg" />
             </div>
-            <p className="font-heading font-black text-2xl sm:text-3xl tracking-tighter text-slate-900 dark:text-white drop-shadow-sm dark:drop-shadow-md transition-colors">
-              MAN 1 Tasikmalaya
-            </p>
           </div>
           
           <div className="flex items-center gap-3">
@@ -122,7 +166,7 @@ export default function HeroSection() {
 
           <AnimatePresence mode="wait">
             <motion.div
-              key={`text-${current}`}
+              key={isStatic ? 'static-text' : `text-${current}`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
@@ -133,9 +177,9 @@ export default function HeroSection() {
                 {fullTitle}
               </h1>
               
-              <p className="text-lg sm:text-xl text-slate-700 dark:text-slate-200 max-w-2xl leading-relaxed font-medium drop-shadow-sm dark:drop-shadow-md transition-colors">
-                {description || 'Membentuk generasi muslim yang cerdas, berakhlak mulia, dan berwawasan global dalam lingkungan belajar yang inspiratif.'}
-              </p>
+              <div className="text-lg sm:text-xl text-slate-700 dark:text-slate-200 max-w-2xl leading-relaxed font-medium drop-shadow-sm dark:drop-shadow-md transition-colors">
+                <Typewriter />
+              </div>
               
               <div className="pt-4 flex flex-wrap gap-4">
                 {btnText && btnUrl && (
