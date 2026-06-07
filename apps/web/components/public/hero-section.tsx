@@ -93,6 +93,7 @@ export default function HeroSection() {
   const slide = slides[current]
   const isStatic = settings?.text_mode === 'static'
   const title = isStatic ? settings?.static_title : slide?.title
+  const description = isStatic ? settings?.static_description : slide?.description
   const btnText = isStatic ? settings?.static_button_text : slide?.button_text
   const btnUrl = isStatic ? settings?.static_button_url : slide?.button_url
 
@@ -150,18 +151,11 @@ export default function HeroSection() {
 
       {/* Content Container */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-32">
-        <div className="max-w-4xl space-y-6 sm:space-y-8">
-          <div className="mb-8">
-            <div className="w-24 h-24 sm:w-32 sm:h-32">
+        <div className="max-w-4xl space-y-4">
+          <div className="mb-2">
+            <div className="w-20 h-20 sm:w-24 sm:h-24">
               <img src="/logokemenag.png" alt="Kemenag" className="w-full h-full object-contain drop-shadow-md dark:drop-shadow-lg" />
             </div>
-          </div>
-          
-          <div className="flex items-center gap-3">
-            <span className="w-12 h-[2px] bg-primary-600 dark:bg-primary-400 transition-colors" />
-            <span className="text-xs sm:text-sm font-black uppercase tracking-[0.25em] text-primary-700 dark:text-primary-300 drop-shadow-sm dark:drop-shadow-md transition-colors">
-              Unggul & Berkarakter
-            </span>
           </div>
 
           <AnimatePresence mode="wait">
@@ -171,17 +165,21 @@ export default function HeroSection() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
-              className="space-y-6 sm:space-y-8"
+              className="space-y-4"
             >
-              <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[5rem] font-heading font-black text-slate-900 dark:text-white leading-[1.05] tracking-tighter drop-shadow-sm dark:drop-shadow-lg transition-colors">
+              <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-heading font-black text-slate-900 dark:text-white leading-[1.05] tracking-tighter drop-shadow-sm dark:drop-shadow-lg transition-colors">
                 {fullTitle}
               </h1>
               
-              <div className="text-lg sm:text-xl text-slate-700 dark:text-slate-200 max-w-2xl leading-relaxed font-medium drop-shadow-sm dark:drop-shadow-md transition-colors">
+              <div className="text-xl sm:text-3xl text-primary-700 dark:text-primary-400 font-bold tracking-tight drop-shadow-sm transition-colors">
                 <Typewriter />
               </div>
               
-              <div className="pt-4 flex flex-wrap gap-4">
+              <p className="text-sm sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl leading-relaxed font-medium drop-shadow-sm transition-colors">
+                {description || 'Portal informasi resmi Madrasah Aliyah Negeri 1 Tasikmalaya. Temukan ragam berita terbaru, program unggulan, profil pendidik, serta rentetan prestasi membanggakan dari peserta didik kami.'}
+              </p>
+              
+              <div className="pt-6 flex flex-wrap gap-4">
                 {btnText && btnUrl && (
                   <Link
                     href={btnUrl}

@@ -70,12 +70,12 @@ export default function Navbar() {
             <div className="relative flex items-center justify-center w-10 h-10 transition-transform group-hover:scale-105 duration-300">
               <img src="/logokemenag.png" alt="Kemenag" className="w-full h-full object-contain drop-shadow-sm dark:drop-shadow-md" />
             </div>
-            <div>
-              <p className={cn(
-                "font-heading font-extrabold text-lg leading-tight tracking-tight transition-colors duration-300",
-                isSolid ? "text-slate-900 dark:text-white" : "text-slate-900 dark:text-white"
-              )}>
+            <div className="flex flex-col justify-center">
+              <p className="font-heading font-extrabold text-lg leading-tight tracking-tight text-slate-900 dark:text-white transition-colors duration-300">
                 MAN 1 Tasikmalaya
+              </p>
+              <p className="text-[11px] sm:text-xs font-medium text-slate-500 dark:text-slate-400 tracking-wide transition-colors duration-300">
+                Kab. Tasikmalaya - Jawa Barat
               </p>
             </div>
           </Link>
@@ -91,9 +91,7 @@ export default function Navbar() {
                 rel="noopener noreferrer"
                 className={cn(
                   "inline-flex items-center px-6 py-2.5 text-xs uppercase tracking-widest font-extrabold rounded-full transition-all duration-300 active:scale-95 border backdrop-blur-sm",
-                  menuOpen 
-                    ? "bg-white/10 border-white/20 text-white hover:bg-white/20" 
-                    : "bg-white/50 dark:bg-white/10 border-slate-300 dark:border-white/20 text-slate-900 dark:text-white hover:bg-white dark:hover:bg-white/20"
+                  "bg-white/50 dark:bg-white/10 border-slate-300 dark:border-white/20 text-slate-900 dark:text-white hover:bg-white dark:hover:bg-white/20"
                 )}
               >
                 Aplikasi
@@ -114,9 +112,7 @@ export default function Navbar() {
                 onClick={toggle}
                 className={cn(
                   'p-2.5 rounded-full transition-all duration-300 border backdrop-blur-md',
-                  menuOpen
-                    ? 'text-white border-white/20 hover:bg-white/20'
-                    : 'text-slate-700 dark:text-white border-slate-300 dark:border-white/20 hover:bg-slate-100 dark:hover:bg-white/20'
+                  'text-slate-700 dark:text-white border-slate-300 dark:border-white/20 hover:bg-slate-100 dark:hover:bg-white/20'
                 )}
                 aria-label="Toggle dark mode"
               >
@@ -129,9 +125,7 @@ export default function Navbar() {
               onClick={() => setMenuOpen(!menuOpen)}
               className={cn(
                 'p-2.5 rounded-full transition-all duration-300 border backdrop-blur-md flex items-center gap-2',
-                menuOpen
-                  ? 'text-white border-white/20 hover:bg-white/20'
-                  : 'text-slate-700 dark:text-white border-slate-300 dark:border-white/20 hover:bg-slate-100 dark:hover:bg-white/20'
+                'text-slate-700 dark:text-white border-slate-300 dark:border-white/20 hover:bg-slate-100 dark:hover:bg-white/20'
               )}
               aria-label="Toggle menu"
             >
@@ -150,12 +144,12 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: '-100%' }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-[90] bg-slate-950 flex flex-col justify-center overflow-y-auto"
+            className="fixed inset-0 z-[90] bg-white dark:bg-slate-950 flex flex-col justify-center overflow-y-auto transition-colors duration-500"
           >
             {/* Background Cinematic glow */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
-              <div className="absolute top-1/4 -right-1/4 w-[80vw] h-[80vw] max-w-[800px] max-h-[800px] bg-primary-900/20 rounded-full blur-[120px]" />
-              <div className="absolute bottom-0 -left-1/4 w-[60vw] h-[60vw] max-w-[600px] max-h-[600px] bg-slate-900/50 rounded-full blur-[100px]" />
+              <div className="absolute top-1/4 -right-1/4 w-[80vw] h-[80vw] max-w-[800px] max-h-[800px] bg-primary-100 dark:bg-primary-900/20 rounded-full blur-[120px]" />
+              <div className="absolute bottom-0 -left-1/4 w-[60vw] h-[60vw] max-w-[600px] max-h-[600px] bg-slate-200 dark:bg-slate-900/50 rounded-full blur-[100px]" />
             </div>
 
             <div className="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-32 pb-24 flex flex-col lg:flex-row gap-12 lg:gap-24">
@@ -183,10 +177,10 @@ export default function Navbar() {
                           onClick={() => setMenuOpen(false)}
                           className={cn(
                             'group flex items-center gap-6 w-fit',
-                            active ? 'text-primary-400' : 'text-slate-300 hover:text-white'
+                            active ? 'text-primary-600 dark:text-primary-400' : 'text-slate-500 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
                           )}
                         >
-                          <span className="text-sm font-bold text-slate-600">0{i + 1}</span>
+                          <span className="text-sm font-bold text-slate-400 dark:text-slate-600 transition-colors">0{i + 1}</span>
                           <span className="text-4xl sm:text-5xl md:text-6xl font-heading font-black tracking-tighter transition-colors duration-300">
                             {link.label}
                           </span>
@@ -206,14 +200,14 @@ export default function Navbar() {
                 className="lg:w-1/3 flex flex-col justify-end space-y-8"
               >
                 <div>
-                  <h3 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">Informasi Kontak</h3>
-                  <p className="text-sm sm:text-base font-medium text-slate-300 leading-relaxed">
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4 transition-colors">Informasi Kontak</h3>
+                  <p className="text-sm sm:text-base font-medium text-slate-700 dark:text-slate-300 leading-relaxed transition-colors">
                     Jl. Pahlawan KHZ. Musthafa Sukamanah, Sukarapih, Kec. Sukarame, Kabupaten Tasikmalaya, Jawa Barat 46461
                   </p>
                 </div>
                 <div>
-                  <h3 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">Email & Telepon</h3>
-                  <p className="text-lg font-medium text-slate-300">
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4 transition-colors">Email & Telepon</h3>
+                  <p className="text-lg font-medium text-slate-700 dark:text-slate-300 transition-colors">
                     info@man1tasikmalaya.sch.id<br />
                     (0265) 331 445
                   </p>
@@ -234,7 +228,7 @@ export default function Navbar() {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => setMenuOpen(false)}
-                    className="inline-flex items-center justify-center w-full sm:w-auto px-8 py-4 bg-white/10 text-white text-sm uppercase tracking-widest font-extrabold rounded-full border border-white/20 hover:bg-white/20 active:scale-95 transition-all"
+                    className="inline-flex items-center justify-center w-full sm:w-auto px-8 py-4 bg-slate-100 dark:bg-white/10 text-slate-900 dark:text-white text-sm uppercase tracking-widest font-extrabold rounded-full border border-slate-200 dark:border-white/20 hover:bg-slate-200 dark:hover:bg-white/20 active:scale-95 transition-all"
                   >
                     Masuk ke Aplikasi
                   </a>
