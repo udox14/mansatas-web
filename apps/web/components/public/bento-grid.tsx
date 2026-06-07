@@ -20,7 +20,6 @@ import { api, API_URL } from '@/lib/api'
 import { cn } from '@/lib/utils'
 import type { Program } from '@/types'
 
-// Map icon name → component
 const ICON_MAP: Record<string, React.ElementType> = {
   BookOpen,
   FlaskConical,
@@ -34,7 +33,6 @@ const ICON_MAP: Record<string, React.ElementType> = {
   Laptop,
 }
 
-// Bento grid size pattern — item ke-0 dan ke-3 lebih besar
 const GRID_CLASSES = [
   'md:col-span-2 md:row-span-2',
   'md:col-span-1 md:row-span-1',
@@ -52,42 +50,50 @@ export default function BentoGrid() {
   }, [])
 
   return (
-    <section id="program" className="py-16 px-4 scroll-mt-20">
-      <div className="max-w-7xl mx-auto">
+    <section id="program" className="py-24 px-4 scroll-mt-20 bg-slate-950 relative overflow-hidden">
+      {/* Decorative Blur */}
+      <div className="absolute top-1/4 left-0 w-96 h-96 bg-primary-900/10 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-1/4 right-0 w-[500px] h-[500px] bg-slate-800/30 rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
-        <div className="text-center mb-10">
-          <motion.span
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="inline-block px-3 py-1 bg-primary-50 dark:bg-primary-950/50 text-primary-600 dark:text-primary-400 text-xs font-semibold rounded-full mb-3"
-          >
-            Program Kami
-          </motion.span>
-          <motion.h2
+        <div className="mb-16">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="w-12 h-[2px] bg-primary-500" />
+            <motion.span
+              initial={{ opacity: 0, x: -10 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="text-[10px] font-black uppercase tracking-[0.2em] text-primary-400"
+            >
+              Fasilitas & Program
+            </motion.span>
+          </div>
+          
+          <motion.div
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-2xl sm:text-3xl font-heading font-bold text-slate-900 dark:text-white mb-2"
+            className="flex flex-col md:flex-row md:items-end justify-between gap-6"
           >
-            Program Unggulan
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="text-slate-500 dark:text-slate-400 max-w-xl mx-auto"
-          >
-            Berbagai program unggulan untuk mengembangkan potensi peserta didik secara optimal.
-          </motion.p>
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-heading font-black text-white tracking-tighter max-w-2xl">
+              Program <span className="text-primary-500">Unggulan</span>
+            </h2>
+            <Link
+              href="/program"
+              className="group hidden md:inline-flex items-center gap-3 px-8 py-4 bg-white/5 border border-white/10 text-white font-bold rounded-full hover:bg-white/10 transition-all duration-300 active:scale-95"
+            >
+              <span className="text-xs uppercase tracking-widest">Semua Program</span>
+              <ArrowRight size={16} className="text-primary-400 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </motion.div>
         </div>
 
         {/* Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-5 mb-14">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6 mb-12">
           {programs
-            .filter(p => p.is_featured) // Only featured on home
+            .filter(p => p.is_featured)
             .map((program, i) => {
               const Icon = ICON_MAP[program.icon] || GraduationCap
               const gridClass = GRID_CLASSES[i % GRID_CLASSES.length]
@@ -104,90 +110,66 @@ export default function BentoGrid() {
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1 }}
                   className={cn(
-                    'group relative overflow-hidden rounded-[2rem] border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 transition-all duration-300 hover:shadow-xl hover:shadow-primary-500/5 hover:-translate-y-1',
+                    'group relative overflow-hidden bg-slate-900 transition-all duration-500 hover:-translate-y-1',
+                    'rounded-3xl border border-white/5 shadow-2xl',
                     gridClass
                   )}
                 >
                   {/* Background photo */}
-                  {bgImage && (
-                    <div className="absolute inset-0">
+                  {bgImage ? (
+                    <div className="absolute inset-0 z-0">
                       <img
                         src={bgImage}
                         alt={program.title}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-20 dark:opacity-10"
+                        className="w-full h-full object-cover transition-transform duration-1000 md:group-hover:scale-110 opacity-40 md:group-hover:opacity-50 grayscale-0 md:grayscale md:group-hover:grayscale-0"
                       />
-                      {/* Gradient for text readability */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-white via-white/60 to-transparent dark:from-slate-900 dark:via-slate-900/60 dark:to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/80 to-transparent" />
                     </div>
+                  ) : (
+                    <div className="absolute inset-0 z-0 bg-gradient-to-br from-slate-800/50 to-slate-900/50" />
                   )}
 
-                  <div className={cn('relative p-8 h-full flex flex-col justify-between', isLarge && 'justify-end gap-4')}>
+                  <div className={cn('relative z-10 p-8 sm:p-10 h-full flex flex-col justify-between', isLarge && 'justify-end gap-6')}>
                     <div>
-                      <div className="mb-6 p-3 bg-primary-50 dark:bg-primary-950/30 text-primary-600 dark:text-primary-400 rounded-2xl w-fit transition-all duration-300 group-hover:bg-primary-600 group-hover:text-white">
-                        <Icon size={isLarge ? 28 : 22} strokeWidth={1.8} />
+                      <div className="mb-6 w-14 h-14 bg-white/5 border border-white/10 text-primary-400 rounded-full flex items-center justify-center backdrop-blur-md transition-all duration-500 group-hover:bg-primary-600 group-hover:border-primary-500 group-hover:text-white group-hover:scale-110">
+                        <Icon size={24} strokeWidth={2} />
                       </div>
                       <h3 className={cn(
-                        'font-heading font-extrabold text-slate-900 dark:text-white mb-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors',
-                        isLarge ? 'text-2xl lg:text-3xl' : 'text-lg md:text-xl'
+                        'font-heading font-black text-white mb-3 tracking-tight transition-colors',
+                        isLarge ? 'text-3xl lg:text-4xl' : 'text-xl lg:text-2xl'
                       )}>
                         {program.title}
                       </h3>
                       <p className={cn(
-                        'text-slate-500 dark:text-slate-400 leading-relaxed font-medium',
-                        isLarge ? 'text-base' : 'text-sm'
+                        'text-slate-400 leading-relaxed font-medium',
+                        isLarge ? 'text-base max-w-md' : 'text-sm'
                       )}>
                         {program.description}
                       </p>
                     </div>
-                    
-                    {/* Tiny decorative link in large cards */}
-                    {isLarge && (
-                      <div className="flex items-center gap-1 text-xs font-bold text-primary-600 dark:text-primary-400 uppercase tracking-widest mt-4">
-                        <span>Detail Program</span>
-                        <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                      </div>
-                    )}
                   </div>
                 </motion.div>
               )
             })}
         </div>
 
-
-        <div className="text-center">
+        {/* Mobile View All Button */}
+        <div className="text-center md:hidden">
           <Link
             href="/program"
-            className="group inline-flex items-center gap-3 px-8 py-3.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white font-bold rounded-2xl hover:border-primary-500 hover:shadow-xl hover:shadow-primary-500/10 transition-all duration-300 active:scale-95"
+            className="group inline-flex items-center gap-3 px-8 py-4 bg-white/5 border border-white/10 text-white font-bold rounded-full hover:bg-white/10 transition-all duration-300 active:scale-95"
           >
-            <span>Lihat Semua Program & Fasilitas</span>
-            <ArrowRight size={18} className="text-primary-500 group-hover:translate-x-1 transition-transform" />
+            <span className="text-xs uppercase tracking-widest">Lihat Semua Program</span>
+            <ArrowRight size={16} className="text-primary-400 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
 
         {programs.length === 0 && (
           <div className="text-center py-10">
-            <p className="text-slate-400 text-sm italic">Daftar program akan segera diperbarui.</p>
+            <p className="text-slate-500 text-sm uppercase tracking-widest font-bold">Data program sedang diperbarui</p>
           </div>
         )}
       </div>
     </section>
-  )
-}
-
-function Icon({ size, className }: { size: number, className?: string }) {
-  return (
-    <svg 
-      width={size} 
-      height={size} 
-      viewBox="0 0 24 24" 
-      fill="none" 
-      stroke="currentColor" 
-      strokeWidth="2.5" 
-      strokeLinecap="round" 
-      strokeLinejoin="round" 
-      className={className}
-    >
-      <path d="M5 12h14m-7-7 7 7-7 7"/>
-    </svg>
   )
 }

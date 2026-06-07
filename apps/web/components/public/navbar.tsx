@@ -51,7 +51,7 @@ export default function Navbar() {
         className={cn(
           'fixed top-0 left-0 right-0 z-[100] transition-all duration-500 border-b',
           isSolid 
-            ? 'bg-white/95 dark:bg-slate-950/95 backdrop-blur-md border-slate-200 dark:border-slate-800 py-3 shadow-sm' 
+            ? 'bg-slate-950/95 backdrop-blur-md border-slate-900 py-3 shadow-md' 
             : 'bg-transparent border-transparent py-5'
         )}
       >
@@ -60,13 +60,10 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group z-[101]" onClick={() => setMenuOpen(false)}>
             <div className="relative flex items-center justify-center w-10 h-10 transition-transform group-hover:scale-105 duration-300">
-              <img src="/logokemenag.png" alt="Kemenag" className="w-full h-full object-contain" />
+              <img src="/logokemenag.png" alt="Kemenag" className="w-full h-full object-contain drop-shadow-md" />
             </div>
             <div>
-              <p className={cn(
-                'font-heading font-extrabold text-lg leading-tight tracking-tight transition-colors duration-300',
-                isSolid ? 'text-slate-900 dark:text-white' : 'text-white'
-              )}>
+              <p className="font-heading font-extrabold text-lg leading-tight tracking-tight text-white transition-colors duration-300 drop-shadow-md">
                 MAN 1 Tasikmalaya
               </p>
             </div>
@@ -74,18 +71,26 @@ export default function Navbar() {
 
           {/* Right Controls */}
           <div className="flex items-center gap-2 sm:gap-4 z-[101]">
-            {/* PMB CTA (Hidden on small screens) */}
-            <Link
-              href="/pmb"
-              className={cn(
-                'hidden sm:inline-flex items-center px-6 py-2.5 text-xs uppercase tracking-widest font-extrabold rounded-full transition-all duration-300 shadow hover:shadow-md active:scale-95 border',
-                isSolid
-                  ? 'bg-primary-600 text-white border-primary-600 hover:bg-primary-700'
-                  : 'bg-white text-primary-900 border-white hover:bg-slate-100'
-              )}
-            >
-              Portal PMB
-            </Link>
+            
+            {/* Apps & PMB CTA (Hidden on small screens) */}
+            <div className="hidden lg:flex items-center gap-2 mr-2">
+              <a
+                href="https://app.mansatas.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center px-6 py-2.5 text-xs uppercase tracking-widest font-extrabold rounded-full transition-all duration-300 active:scale-95 border border-white/20 bg-white/10 hover:bg-white/20 text-white backdrop-blur-sm"
+              >
+                Aplikasi
+              </a>
+              <a
+                href="https://pmb.man1tasikmalaya.sch.id"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center px-6 py-2.5 text-xs uppercase tracking-widest font-extrabold rounded-full transition-all duration-300 shadow-lg active:scale-95 border border-primary-500 bg-primary-600 hover:bg-primary-500 text-white"
+              >
+                Portal PMB
+              </a>
+            </div>
 
             {/* Dark Mode Toggle */}
             {mounted && (
@@ -94,7 +99,7 @@ export default function Navbar() {
                 className={cn(
                   'p-2.5 rounded-full transition-all duration-300 border backdrop-blur-md',
                   isSolid
-                    ? 'text-slate-600 border-slate-200 hover:bg-slate-100 dark:text-slate-300 dark:border-slate-800 dark:hover:bg-slate-900'
+                    ? 'text-slate-300 border-slate-800 hover:bg-slate-900'
                     : 'text-white border-white/20 hover:bg-white/20'
                 )}
                 aria-label="Toggle dark mode"
@@ -109,7 +114,7 @@ export default function Navbar() {
               className={cn(
                 'p-2.5 rounded-full transition-all duration-300 border backdrop-blur-md flex items-center gap-2',
                 isSolid
-                  ? 'text-slate-900 border-slate-200 hover:bg-slate-100 dark:text-white dark:border-slate-800 dark:hover:bg-slate-900'
+                  ? 'text-white border-slate-800 hover:bg-slate-900'
                   : 'text-white border-white/20 hover:bg-white/20'
               )}
               aria-label="Toggle menu"
@@ -129,12 +134,12 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: '-100%' }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-[90] bg-white dark:bg-slate-950 flex flex-col justify-center overflow-y-auto"
+            className="fixed inset-0 z-[90] bg-slate-950 flex flex-col justify-center overflow-y-auto"
           >
-            {/* Background Aesthetic element */}
+            {/* Background Cinematic glow */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
-              <div className="absolute top-1/4 -right-1/4 w-[80vw] h-[80vw] max-w-[800px] max-h-[800px] bg-primary-100/50 dark:bg-primary-900/10 rounded-full blur-[120px]" />
-              <div className="absolute bottom-0 -left-1/4 w-[60vw] h-[60vw] max-w-[600px] max-h-[600px] bg-accent-100/40 dark:bg-accent-900/10 rounded-full blur-[100px]" />
+              <div className="absolute top-1/4 -right-1/4 w-[80vw] h-[80vw] max-w-[800px] max-h-[800px] bg-primary-900/20 rounded-full blur-[120px]" />
+              <div className="absolute bottom-0 -left-1/4 w-[60vw] h-[60vw] max-w-[600px] max-h-[600px] bg-slate-900/50 rounded-full blur-[100px]" />
             </div>
 
             <div className="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-24 flex flex-col lg:flex-row gap-12 lg:gap-24">
@@ -162,11 +167,11 @@ export default function Navbar() {
                           onClick={() => setMenuOpen(false)}
                           className={cn(
                             'group flex items-center gap-6 w-fit',
-                            active ? 'text-primary-600 dark:text-primary-400' : 'text-slate-800 dark:text-white'
+                            active ? 'text-primary-400' : 'text-slate-300 hover:text-white'
                           )}
                         >
-                          <span className="text-sm font-bold text-slate-400 dark:text-slate-600">0{i + 1}</span>
-                          <span className="text-4xl sm:text-5xl md:text-6xl font-heading font-black tracking-tighter hover:text-primary-500 transition-colors duration-300">
+                          <span className="text-sm font-bold text-slate-600">0{i + 1}</span>
+                          <span className="text-4xl sm:text-5xl md:text-6xl font-heading font-black tracking-tighter transition-colors duration-300">
                             {link.label}
                           </span>
                         </Link>
@@ -185,29 +190,38 @@ export default function Navbar() {
                 className="lg:w-1/3 flex flex-col justify-end space-y-8"
               >
                 <div>
-                  <h3 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">Informasi Kontak</h3>
-                  <p className="text-lg font-medium text-slate-900 dark:text-slate-200">
-                    Jl. Awipari No. 12<br />
-                    Kota Tasikmalaya, Jawa Barat<br />
-                    Indonesia 46196
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">Informasi Kontak</h3>
+                  <p className="text-sm sm:text-base font-medium text-slate-300 leading-relaxed">
+                    Jl. Pahlawan KHZ. Musthafa Sukamanah, Sukarapih, Kec. Sukarame, Kabupaten Tasikmalaya, Jawa Barat 46461
                   </p>
                 </div>
                 <div>
-                  <h3 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">Email & Telepon</h3>
-                  <p className="text-lg font-medium text-slate-900 dark:text-slate-200">
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">Email & Telepon</h3>
+                  <p className="text-lg font-medium text-slate-300">
                     info@man1tasikmalaya.sch.id<br />
                     (0265) 331 445
                   </p>
                 </div>
                 
-                <div className="pt-4">
-                  <Link
-                    href="/pmb"
+                <div className="pt-4 flex flex-col gap-3">
+                  <a
+                    href="https://pmb.man1tasikmalaya.sch.id"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     onClick={() => setMenuOpen(false)}
-                    className="inline-flex items-center justify-center w-full sm:w-auto px-8 py-4 bg-primary-600 text-white text-sm uppercase tracking-widest font-extrabold rounded-full hover:bg-primary-700 shadow-xl shadow-primary-500/20 active:scale-95 transition-all"
+                    className="inline-flex items-center justify-center w-full sm:w-auto px-8 py-4 bg-primary-600 text-white text-sm uppercase tracking-widest font-extrabold rounded-full hover:bg-primary-500 shadow-xl shadow-primary-900/50 active:scale-95 transition-all"
                   >
                     Daftar PMB Sekarang
-                  </Link>
+                  </a>
+                  <a
+                    href="https://app.mansatas.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setMenuOpen(false)}
+                    className="inline-flex items-center justify-center w-full sm:w-auto px-8 py-4 bg-white/10 text-white text-sm uppercase tracking-widest font-extrabold rounded-full border border-white/20 hover:bg-white/20 active:scale-95 transition-all"
+                  >
+                    Masuk ke Aplikasi
+                  </a>
                 </div>
               </motion.div>
             </div>

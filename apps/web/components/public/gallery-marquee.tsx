@@ -21,43 +21,43 @@ export default function GalleryMarquee() {
   const duplicated = images.length > 0 ? [...images, ...images] : []
 
   return (
-    <section id="galeri" className="py-20 bg-slate-50 dark:bg-slate-900 overflow-hidden scroll-mt-20">
-      <div className="max-w-7xl mx-auto px-4 mb-14 text-center">
-        <motion.span
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="inline-block px-4 py-1.5 bg-primary-50 dark:bg-primary-950/50 text-primary-600 dark:text-primary-400 text-xs font-semibold rounded-full mb-4"
-        >
-          Galeri
-        </motion.span>
-        <motion.h2
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.1 }}
-          className="text-3xl sm:text-4xl font-heading font-bold text-slate-900 dark:text-white mb-3"
-        >
-          Momen Spesial Kami
-        </motion.h2>
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2 }}
-          className="text-slate-500 dark:text-slate-400 max-w-xl mx-auto"
-        >
-           Melihat lebih dekat perjalanan dan kegembiraan di MAN 1 Tasikmalaya.
-        </motion.p>
+    <section id="galeri" className="py-24 bg-slate-950 overflow-hidden relative">
+      <div className="max-w-7xl mx-auto px-4 mb-16 relative z-10">
+        <div className="flex flex-col items-center text-center">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="w-20 h-[2px] bg-primary-500 mb-8"
+          />
+          <motion.h2
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-4xl sm:text-5xl lg:text-6xl font-heading font-black text-white tracking-tighter mb-4"
+          >
+            Momen <span className="text-primary-500">Madrasah</span>
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="text-slate-400 font-medium max-w-xl text-lg"
+          >
+            Melihat lebih dekat perjalanan, kegiatan, dan kegembiraan di lingkungan MAN 1 Tasikmalaya.
+          </motion.p>
+        </div>
       </div>
 
-      {/* Marquee Rows */}
-      <div className="space-y-6">
-        <div ref={containerRef} className="relative">
+      {/* Marquee Rows - Edge to Edge Cinematic */}
+      <div className="space-y-4">
+        <div ref={containerRef} className="relative w-[150vw] -ml-[25vw] rotate-[-2deg]">
           <motion.div
             animate={{ x: ['0%', '-50%'] }}
             transition={{
-              x: { repeat: Infinity, repeatType: 'loop', duration: 50, ease: 'linear' },
+              x: { repeat: Infinity, repeatType: 'loop', duration: 40, ease: 'linear' },
             }}
             className="flex gap-4"
           >
@@ -68,7 +68,7 @@ export default function GalleryMarquee() {
         </div>
 
         {images.length > 4 && (
-          <div className="relative">
+          <div className="relative w-[150vw] -ml-[25vw] rotate-[2deg] mt-8">
             <motion.div
               animate={{ x: ['-50%', '0%'] }}
               transition={{
@@ -85,20 +85,20 @@ export default function GalleryMarquee() {
       </div>
 
       {images.length > 0 && (
-         <div className="mt-16 text-center">
+         <div className="mt-24 text-center relative z-10">
             <Link 
               href="/galeri" 
-              className="group inline-flex items-center gap-3 px-8 py-3.5 bg-white dark:bg-slate-900 text-slate-900 dark:text-white font-bold rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-primary-500 hover:shadow-xl hover:shadow-primary-500/10 transition-all duration-300 active:scale-95"
+              className="group inline-flex items-center gap-3 px-8 py-4 bg-white/5 text-white font-bold rounded-full border border-white/10 hover:bg-white/10 transition-all duration-300 active:scale-95"
             >
-              <span>Jelajahi Galeri Lengkap</span>
-              <ArrowRight size={18} className="text-primary-500 group-hover:translate-x-1 transition-transform" />
+              <span className="text-xs uppercase tracking-widest">Jelajahi Galeri Lengkap</span>
+              <ArrowRight size={16} className="text-primary-400 group-hover:translate-x-1 transition-transform" />
             </Link>
          </div>
       )}
 
       {images.length === 0 && (
         <div className="text-center py-10">
-          <p className="text-slate-400 text-sm italic">Momen kegiatan akan segera hadir.</p>
+          <p className="text-slate-500 text-sm uppercase font-bold tracking-widest">Momen kegiatan akan segera hadir</p>
         </div>
       )}
     </section>
@@ -111,16 +111,20 @@ function MarqueeCard({ image }: { image: GalleryImage }) {
     : image.image_url
 
   return (
-    <div className="shrink-0 w-72 h-48 rounded-[1.5rem] overflow-hidden group relative border border-slate-200/50 dark:border-slate-800/80 bg-slate-50 dark:bg-slate-900 transition-all duration-300">
+    <div className="shrink-0 w-80 h-56 md:w-96 md:h-64 rounded-xl overflow-hidden group relative bg-slate-900 transition-all duration-500">
       <img
         src={src}
         alt={image.caption || 'Galeri'}
-        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+        className="w-full h-full object-cover grayscale-0 md:grayscale opacity-100 md:opacity-60 md:group-hover:grayscale-0 md:group-hover:opacity-100 transition-all duration-700"
         loading="lazy"
       />
+      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80" />
+      
       {image.caption && (
-        <div className="absolute inset-x-2 bottom-2 p-2.5 bg-white/95 dark:bg-slate-950/95 backdrop-blur-md rounded-xl border border-slate-100 dark:border-slate-800 shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <p className="text-slate-800 dark:text-slate-200 text-[10px] font-extrabold uppercase tracking-wider truncate">{image.caption}</p>
+        <div className="absolute inset-x-0 bottom-0 p-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+          <p className="text-white text-xs font-black uppercase tracking-widest truncate drop-shadow-md">
+            {image.caption}
+          </p>
         </div>
       )}
     </div>

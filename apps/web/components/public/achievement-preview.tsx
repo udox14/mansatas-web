@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Trophy, ArrowRight, MapPin, Building2, Medal, Award, Star } from 'lucide-react'
+import { Trophy, ArrowRight, MapPin, Building2 } from 'lucide-react'
 import { api, API_URL } from '@/lib/api'
 import type { Achievement, ApiResponse } from '@/types'
 import { formatDate } from '@/lib/utils'
@@ -22,43 +22,46 @@ export default function AchievementPreview() {
   if (!loading && achievements.length === 0) return null
 
   return (
-    <section className="py-24 bg-white dark:bg-slate-950 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4">
+    <section className="py-24 bg-slate-950 overflow-hidden relative">
+      {/* Decorative Gold Glow for Achievements */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-accent-600/10 rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-4 relative z-10">
         {/* Header */}
-        <div className="text-center mb-16">
-          <motion.span
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
+        <div className="text-center mb-20">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="inline-block px-4 py-1.5 bg-primary-50 dark:bg-primary-950/30 text-primary-600 dark:text-primary-400 text-xs font-bold rounded-lg mb-4"
+            className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-accent-500/10 text-accent-400 mb-6 border border-accent-500/20 shadow-[0_0_30px_rgba(234,179,8,0.15)]"
           >
-            Prestasi Terbaru
-          </motion.span>
+            <Trophy size={32} strokeWidth={1.5} />
+          </motion.div>
           <motion.h2
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-3xl md:text-4xl font-heading font-bold text-slate-900 dark:text-white mb-4"
+            className="text-4xl md:text-5xl lg:text-6xl font-heading font-black text-white mb-6 tracking-tighter"
           >
-            Prestasi & Penghargaan
+            Prestasi & <span className="text-accent-400">Penghargaan</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="text-slate-500 dark:text-slate-400 max-w-2xl mx-auto text-lg"
+            className="text-slate-400 max-w-2xl mx-auto text-lg font-medium"
           >
             Bukti nyata dedikasi dan semangat juang siswa-siswi MAN 1 Tasikmalaya dalam mengukir prestasi.
           </motion.p>
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mb-16">
           {loading ? (
             Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} className="h-[450px] bg-slate-100 dark:bg-slate-900 rounded-[2.5rem] animate-pulse" />
+              <div key={i} className="h-[500px] bg-slate-900 rounded-3xl border border-white/5 animate-pulse" />
             ))
           ) : (
             achievements.map((item, i) => (
@@ -68,58 +71,62 @@ export default function AchievementPreview() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="group relative flex flex-col h-full bg-white dark:bg-slate-900 rounded-[2rem] border border-slate-200/80 dark:border-slate-800 overflow-hidden hover:shadow-xl hover:shadow-primary-500/5 transition-all duration-500"
+                className="group relative flex flex-col h-[500px] bg-slate-900 rounded-3xl border border-white/5 overflow-hidden hover:shadow-2xl hover:shadow-accent-500/10 transition-all duration-500 hover:-translate-y-2"
               >
                 {/* Photo Section */}
-                <div className="aspect-[4/3] overflow-hidden relative bg-slate-50 dark:bg-slate-800">
+                <div className="absolute inset-0 z-0">
                   {item.image_url ? (
                     <img 
                       src={item.image_url.startsWith('/') ? `${API_URL}${item.image_url}` : item.image_url} 
                       alt={item.title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      className="w-full h-full object-cover transition-transform duration-1000 md:group-hover:scale-110 opacity-40 md:group-hover:opacity-50 grayscale-0 md:grayscale md:group-hover:grayscale-0"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center">
-                      <Trophy size={48} className="text-slate-200 dark:text-slate-700" strokeWidth={1.2} />
+                    <div className="w-full h-full flex items-center justify-center bg-slate-800/50">
+                      <Trophy size={64} className="text-slate-800" strokeWidth={1} />
                     </div>
                   )}
-                  <div className="absolute top-4 left-4">
-                    <div className="px-3 py-1 bg-white/95 dark:bg-slate-950/95 border border-slate-100 dark:border-slate-850 rounded-lg shadow-sm text-[9px] font-bold uppercase tracking-wider text-primary-600 dark:text-primary-400">
-                       {item.rank || 'Juara'}
-                    </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent" />
+                </div>
+
+                <div className="absolute top-6 left-6 z-10">
+                  <div className="px-4 py-2 bg-accent-500 text-slate-950 text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg">
+                     {item.rank || 'Juara'}
                   </div>
                 </div>
 
                 {/* Content Section */}
-                <div className="p-6 flex flex-col flex-1 justify-between gap-6">
-                  <div>
-                    <h3 className="text-lg font-heading font-extrabold text-slate-900 dark:text-white mb-4 line-clamp-2 group-hover:text-primary-600 transition-colors leading-snug">
-                      {item.title}
-                    </h3>
-                    
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400">
-                        <Building2 size={13} className="text-primary-500 shrink-0" />
-                        <span className="text-xs font-bold truncate">{item.organizer}</span>
+                <div className="relative z-10 p-8 flex flex-col justify-end h-full">
+                  <h3 className="text-2xl font-heading font-black text-white mb-6 line-clamp-3 group-hover:text-accent-400 transition-colors leading-tight">
+                    {item.title}
+                  </h3>
+                  
+                  <div className="space-y-3 mb-6">
+                    <div className="flex items-center gap-3 text-slate-300">
+                      <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center shrink-0">
+                        <Building2 size={14} className="text-accent-400" />
                       </div>
-                      <div className="flex items-center gap-2 text-slate-400 dark:text-slate-500">
-                        <MapPin size={13} className="text-accent-500 shrink-0" />
-                        <span className="text-[11px] font-semibold truncate">{item.location}</span>
+                      <span className="text-sm font-bold truncate">{item.organizer}</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-slate-400">
+                      <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center shrink-0">
+                        <MapPin size={14} className="text-accent-400" />
                       </div>
+                      <span className="text-xs font-medium truncate">{item.location}</span>
                     </div>
                   </div>
 
-                  <div className="flex items-center">
+                  <div className="pt-6 border-t border-white/10 flex items-center justify-between">
                     {item.article_slug ? (
                       <Link 
                         href={`/artikel/detail?slug=${item.article_slug}`}
-                        className="inline-flex items-center gap-1.5 text-xs font-bold text-primary-600 dark:text-primary-400 uppercase tracking-widest group/btn cursor-pointer"
+                        className="inline-flex items-center gap-2 text-xs font-bold text-accent-400 uppercase tracking-widest group/btn cursor-pointer"
                       >
                         <span>Baca Detail</span>
-                        <ArrowRight size={14} className="text-primary-500 group-hover/btn:translate-x-1 transition-transform" />
+                        <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
                       </Link>
                     ) : (
-                      <div className="text-[10px] font-bold text-slate-400 tracking-wider uppercase">
+                      <div className="text-[10px] font-bold text-slate-500 tracking-widest uppercase">
                          {item.date ? formatDate(item.date) : item.year}
                       </div>
                     )}
@@ -130,14 +137,13 @@ export default function AchievementPreview() {
           )}
         </div>
 
-        {/* Standardized Button */}
         <div className="text-center">
           <Link
             href="/prestasi"
-            className="group inline-flex items-center gap-3 px-8 py-3.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white font-bold rounded-2xl hover:border-primary-500 hover:shadow-xl hover:shadow-primary-500/10 transition-all duration-300 active:scale-95"
+            className="group inline-flex items-center gap-3 px-8 py-4 bg-white/5 border border-white/10 text-white font-bold rounded-full hover:bg-white/10 transition-all duration-300 active:scale-95"
           >
-            <span>Lihat Semua Prestasi</span>
-            <ArrowRight size={18} className="text-primary-500 group-hover:translate-x-1 transition-transform" />
+            <span className="text-xs uppercase tracking-widest">Lihat Semua Prestasi</span>
+            <ArrowRight size={16} className="text-accent-400 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
       </div>
