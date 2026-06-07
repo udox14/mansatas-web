@@ -219,7 +219,7 @@ export default function Navbar() {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => setMenuOpen(false)}
-                    className="inline-flex items-center justify-center w-full sm:w-auto px-8 py-4 bg-primary-600 text-white text-sm uppercase tracking-widest font-extrabold rounded-full hover:bg-primary-500 shadow-xl shadow-primary-900/50 active:scale-95 transition-all"
+                    className="inline-flex items-center justify-center w-full sm:w-auto px-8 py-4 bg-primary-600 text-white text-sm uppercase tracking-widest font-extrabold rounded-full hover:bg-primary-500 active:scale-95 transition-all"
                   >
                     Daftar PMB Sekarang
                   </a>
