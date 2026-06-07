@@ -33,10 +33,10 @@ export default function ContactSection() {
   }
 
   return (
-    <section id="kontak" className="py-24 px-4 scroll-mt-20 bg-slate-950 relative overflow-hidden">
+    <section id="kontak" className="py-24 px-4 scroll-mt-20 bg-slate-50 dark:bg-slate-950 relative overflow-hidden transition-colors duration-500">
       {/* Background Cinematic */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#00000005_1px,transparent_1px),linear-gradient(to_bottom,#00000005_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none" />
       </div>
 
       <div className="max-w-4xl mx-auto relative z-10">
@@ -45,7 +45,7 @@ export default function ContactSection() {
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary-600/10 text-primary-500 mb-6 border border-primary-500/20"
+            className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary-100/50 dark:bg-primary-600/10 text-primary-600 dark:text-primary-500 mb-6 border border-primary-200 dark:border-primary-500/20 shadow-sm dark:shadow-none"
           >
             <Send size={24} className="ml-1" />
           </motion.div>
@@ -54,16 +54,16 @@ export default function ContactSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-heading font-black text-white mb-6 tracking-tighter"
+            className="text-4xl md:text-5xl lg:text-6xl font-heading font-black text-slate-900 dark:text-white mb-6 tracking-tighter"
           >
-            Mari <span className="text-primary-500">Terhubung</span>
+            Mari <span className="text-primary-600 dark:text-primary-500">Terhubung</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="text-slate-400 max-w-xl mx-auto text-lg font-medium"
+            className="text-slate-600 dark:text-slate-400 max-w-xl mx-auto text-lg font-medium"
           >
             Punya pertanyaan, saran, atau sekadar ingin menyapa? Jangan ragu untuk mengirimkan pesan kepada kami.
           </motion.p>
@@ -73,20 +73,20 @@ export default function ContactSection() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-slate-900/50 backdrop-blur-xl border border-white/10 rounded-3xl p-8 sm:p-12 shadow-2xl"
+          className="bg-white/80 dark:bg-slate-900/50 backdrop-blur-xl border border-slate-200 dark:border-white/10 rounded-3xl p-8 sm:p-12 shadow-xl dark:shadow-2xl shadow-slate-200/50 dark:shadow-none"
         >
           {status === 'success' ? (
             <div className="text-center py-16">
-              <CheckCircle size={64} className="text-primary-500 mx-auto mb-6 drop-shadow-[0_0_15px_rgba(34,197,94,0.3)]" />
-              <h3 className="text-2xl font-heading font-black text-white mb-4">
+              <CheckCircle size={64} className="text-primary-600 dark:text-primary-500 mx-auto mb-6 drop-shadow-sm dark:drop-shadow-[0_0_15px_rgba(34,197,94,0.3)]" />
+              <h3 className="text-2xl font-heading font-black text-slate-900 dark:text-white mb-4">
                 Pesan Terkirim!
               </h3>
-              <p className="text-slate-400 text-base mb-8 max-w-sm mx-auto font-medium">
+              <p className="text-slate-600 dark:text-slate-400 text-base mb-8 max-w-sm mx-auto font-medium">
                 Terima kasih telah menghubungi kami. Tim kami akan segera merespons pesan Anda.
               </p>
               <button
                 onClick={() => setStatus('idle')}
-                className="text-xs font-bold uppercase tracking-widest text-primary-400 hover:text-white transition-colors"
+                className="text-xs font-bold uppercase tracking-widest text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-white transition-colors"
               >
                 Kirim pesan lainnya
               </button>
@@ -132,13 +132,13 @@ export default function ContactSection() {
                   onChange={handleChange}
                   required
                   maxLength={2000}
-                  className="w-full px-5 py-4 rounded-2xl border border-white/5 bg-black/20 text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all resize-none font-medium text-sm"
+                  className="w-full px-5 py-4 rounded-2xl border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-black/20 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all resize-none font-medium text-sm"
                   placeholder="Ketik pesan Anda di sini..."
                 />
               </div>
 
               {status === 'error' && (
-                <div className="flex items-center gap-3 text-sm text-red-400 bg-red-400/10 p-4 rounded-xl border border-red-400/20">
+                <div className="flex items-center gap-3 text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-400/10 p-4 rounded-xl border border-red-200 dark:border-red-400/20">
                   <AlertCircle size={18} />
                   <span className="font-medium">{errorMsg}</span>
                 </div>
@@ -149,7 +149,7 @@ export default function ContactSection() {
                 disabled={status === 'loading'}
                 className={cn(
                   'w-full flex items-center justify-center gap-3 px-8 py-5 rounded-2xl text-xs font-black uppercase tracking-widest transition-all duration-300 active:scale-[0.98]',
-                  'bg-primary-600 text-white hover:bg-primary-500 shadow-xl shadow-primary-900/30',
+                  'bg-primary-600 text-white hover:bg-primary-500 shadow-lg shadow-primary-600/30 dark:shadow-xl dark:shadow-primary-900/30',
                   'disabled:opacity-50 disabled:cursor-not-allowed'
                 )}
               >
@@ -198,7 +198,7 @@ function InputField({
         value={value}
         onChange={onChange}
         required={required}
-        className="w-full px-5 py-4 rounded-2xl border border-white/5 bg-black/20 text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all font-medium text-sm"
+        className="w-full px-5 py-4 rounded-2xl border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-black/20 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all font-medium text-sm"
         placeholder={`Masukkan ${label.toLowerCase()}`}
       />
     </div>

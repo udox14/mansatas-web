@@ -18,10 +18,10 @@ const SOCIAL_LINKS = [
 
 export default function Footer() {
   return (
-    <footer className="bg-slate-950 text-slate-300 border-t border-slate-900 overflow-hidden relative">
+    <footer className="bg-slate-50 dark:bg-slate-950 text-slate-600 dark:text-slate-300 border-t border-slate-200 dark:border-slate-900 overflow-hidden relative transition-colors duration-500">
       {/* Subtle Background Glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[1px] bg-gradient-to-r from-transparent via-primary-500/50 to-transparent" />
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary-900/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[1px] bg-gradient-to-r from-transparent via-primary-500/30 dark:via-primary-500/50 to-transparent" />
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary-100/50 dark:bg-primary-900/10 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 lg:py-24">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16">
@@ -30,14 +30,14 @@ export default function Footer() {
           <div className="lg:col-span-1 space-y-6">
             <div className="flex items-center gap-4">
               <div className="w-14 h-14 flex items-center justify-center shrink-0">
-                <img src="/logokemenag.png" alt="Kemenag" className="w-full h-full object-contain drop-shadow-md" />
+                <img src="/logokemenag.png" alt="Kemenag" className="w-full h-full object-contain drop-shadow-sm dark:drop-shadow-md" />
               </div>
               <div>
-                <p className="font-heading font-black text-white text-lg tracking-tighter">MAN 1 Tasikmalaya</p>
-                <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-primary-400 mt-1">Jawa Barat</p>
+                <p className="font-heading font-black text-slate-900 dark:text-white text-lg tracking-tighter">MAN 1 Tasikmalaya</p>
+                <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-primary-600 dark:text-primary-400 mt-1">Jawa Barat</p>
               </div>
             </div>
-            <p className="text-sm text-slate-400 leading-relaxed font-medium">
+            <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
               Madrasah Aliyah Negeri 1 Tasikmalaya — Unggul dalam Iman, Ilmu, dan Amal. 
               Mencetak generasi yang berakhlak mulia dan berwawasan global.
             </p>
@@ -49,7 +49,7 @@ export default function Footer() {
                   href={s.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 hover:bg-primary-600 text-slate-400 hover:text-white transition-all duration-300 border border-white/5 shadow-md hover:scale-110"
+                  className="w-10 h-10 flex items-center justify-center rounded-full bg-slate-100 dark:bg-white/5 hover:bg-primary-600 dark:hover:bg-primary-600 text-slate-500 dark:text-slate-400 hover:text-white transition-all duration-300 border border-slate-200 dark:border-white/5 shadow-sm dark:shadow-md hover:scale-110"
                   aria-label={s.label}
                   title={s.label}
                 >
@@ -61,7 +61,7 @@ export default function Footer() {
 
           {/* Col 2: Link Cepat */}
           <div>
-            <h3 className="font-heading font-black text-white text-sm uppercase tracking-widest mb-6 pb-2 border-b border-white/10 w-fit">
+            <h3 className="font-heading font-black text-slate-900 dark:text-white text-sm uppercase tracking-widest mb-6 pb-2 border-b border-slate-200 dark:border-white/10 w-fit">
               Link Cepat
             </h3>
             <ul className="space-y-4">
@@ -69,9 +69,9 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm font-bold text-slate-400 hover:text-primary-400 transition-colors uppercase tracking-widest flex items-center gap-2 group"
+                    className="text-sm font-bold text-slate-500 dark:text-slate-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors uppercase tracking-widest flex items-center gap-2 group"
                   >
-                    <span className="w-1.5 h-1.5 rounded-full bg-slate-700 group-hover:bg-primary-500 transition-colors" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700 group-hover:bg-primary-500 transition-colors" />
                     {link.label}
                   </Link>
                 </li>
@@ -81,27 +81,27 @@ export default function Footer() {
 
           {/* Col 3: Kontak */}
           <div>
-            <h3 className="font-heading font-black text-white text-sm uppercase tracking-widest mb-6 pb-2 border-b border-white/10 w-fit">
+            <h3 className="font-heading font-black text-slate-900 dark:text-white text-sm uppercase tracking-widest mb-6 pb-2 border-b border-slate-200 dark:border-white/10 w-fit">
               Hubungi Kami
             </h3>
             <ul className="space-y-6">
-              <li className="flex gap-4 text-sm leading-relaxed text-slate-400 font-medium">
-                <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center shrink-0 border border-white/10">
-                  <MapPin size={14} className="text-primary-400" />
+              <li className="flex gap-4 text-sm leading-relaxed text-slate-500 dark:text-slate-400 font-medium">
+                <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-white/5 flex items-center justify-center shrink-0 border border-slate-200 dark:border-white/10">
+                  <MapPin size={14} className="text-primary-600 dark:text-primary-400" />
                 </div>
                 <span className="pt-1">
                   Jl. Pahlawan KHZ. Musthafa Sukamanah, Sukarapih, Kec. Sukarame, Kabupaten Tasikmalaya, Jawa Barat 46461
                 </span>
               </li>
-              <li className="flex gap-4 text-sm items-center text-slate-400 font-medium">
-                <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center shrink-0 border border-white/10">
-                  <Mail size={14} className="text-primary-400" />
+              <li className="flex gap-4 text-sm items-center text-slate-500 dark:text-slate-400 font-medium">
+                <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-white/5 flex items-center justify-center shrink-0 border border-slate-200 dark:border-white/10">
+                  <Mail size={14} className="text-primary-600 dark:text-primary-400" />
                 </div>
                 <span>info@man1tasikmalaya.sch.id</span>
               </li>
-              <li className="flex gap-4 text-sm items-center text-slate-400 font-medium">
-                <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center shrink-0 border border-white/10">
-                  <Clock size={14} className="text-primary-400" />
+              <li className="flex gap-4 text-sm items-center text-slate-500 dark:text-slate-400 font-medium">
+                <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-white/5 flex items-center justify-center shrink-0 border border-slate-200 dark:border-white/10">
+                  <Clock size={14} className="text-primary-600 dark:text-primary-400" />
                 </div>
                 <span>Senin — Sabtu, 07.00 — 15.30 WIB</span>
               </li>
@@ -110,11 +110,11 @@ export default function Footer() {
 
           {/* Col 4: Map */}
           <div>
-            <h3 className="font-heading font-black text-white text-sm uppercase tracking-widest mb-6 pb-2 border-b border-white/10 w-fit">
+            <h3 className="font-heading font-black text-slate-900 dark:text-white text-sm uppercase tracking-widest mb-6 pb-2 border-b border-slate-200 dark:border-white/10 w-fit">
               Lokasi Madrasah
             </h3>
-            <div className="rounded-2xl overflow-hidden border border-white/10 shadow-2xl relative group">
-              <div className="absolute inset-0 bg-primary-500/20 mix-blend-overlay group-hover:opacity-0 transition-opacity duration-500 pointer-events-none" />
+            <div className="rounded-2xl overflow-hidden border border-slate-200 dark:border-white/10 shadow-lg dark:shadow-2xl relative group">
+              <div className="absolute inset-0 bg-primary-500/10 dark:bg-primary-500/20 mix-blend-overlay group-hover:opacity-0 transition-opacity duration-500 pointer-events-none" />
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1233.2893755285368!2d108.13491956767561!3d-7.3777218326496685!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6f5683aaf0e91b%3A0x288e0a9b33915cff!2sMAN%201%20Tasikmalaya!5e0!3m2!1sen!2sid!4v1775534224933!5m2!1sen!2sid"
                 width="100%"
@@ -131,15 +131,15 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="mt-16 pt-8 border-t border-slate-200 dark:border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-xs uppercase font-bold tracking-widest text-slate-500">
             &copy; {new Date().getFullYear()} MAN 1 Tasikmalaya. Hak Cipta Dilindungi.
           </p>
           <div className="flex gap-6">
-            <Link href="/pmb" className="text-xs uppercase font-bold tracking-widest text-slate-500 hover:text-primary-400 transition-colors">
+            <Link href="/pmb" className="text-xs uppercase font-bold tracking-widest text-slate-500 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
               Portal PMB
             </Link>
-            <Link href="https://app.mansatas.com" className="text-xs uppercase font-bold tracking-widest text-slate-500 hover:text-primary-400 transition-colors">
+            <Link href="https://app.mansatas.com" className="text-xs uppercase font-bold tracking-widest text-slate-500 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
               Aplikasi
             </Link>
           </div>

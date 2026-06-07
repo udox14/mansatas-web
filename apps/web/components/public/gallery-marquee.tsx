@@ -21,7 +21,7 @@ export default function GalleryMarquee() {
   const duplicated = images.length > 0 ? [...images, ...images] : []
 
   return (
-    <section id="galeri" className="py-24 bg-slate-950 overflow-hidden relative">
+    <section id="galeri" className="py-24 bg-slate-50 dark:bg-slate-950 overflow-hidden relative transition-colors duration-500">
       <div className="max-w-7xl mx-auto px-4 mb-16 relative z-10">
         <div className="flex flex-col items-center text-center">
           <motion.div
@@ -35,16 +35,16 @@ export default function GalleryMarquee() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-4xl sm:text-5xl lg:text-6xl font-heading font-black text-white tracking-tighter mb-4"
+            className="text-4xl sm:text-5xl lg:text-6xl font-heading font-black text-slate-900 dark:text-white tracking-tighter mb-4"
           >
-            Momen <span className="text-primary-500">Madrasah</span>
+            Momen <span className="text-primary-600 dark:text-primary-500">Madrasah</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="text-slate-400 font-medium max-w-xl text-lg"
+            className="text-slate-600 dark:text-slate-400 font-medium max-w-xl text-lg"
           >
             Melihat lebih dekat perjalanan, kegiatan, dan kegembiraan di lingkungan MAN 1 Tasikmalaya.
           </motion.p>
@@ -88,10 +88,10 @@ export default function GalleryMarquee() {
          <div className="mt-24 text-center relative z-10">
             <Link 
               href="/galeri" 
-              className="group inline-flex items-center gap-3 px-8 py-4 bg-white/5 text-white font-bold rounded-full border border-white/10 hover:bg-white/10 transition-all duration-300 active:scale-95"
+              className="group inline-flex items-center gap-3 px-8 py-4 bg-white dark:bg-white/5 text-slate-900 dark:text-white font-bold rounded-full border border-slate-200 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-white/10 transition-all duration-300 active:scale-95 shadow-sm dark:shadow-none"
             >
               <span className="text-xs uppercase tracking-widest">Jelajahi Galeri Lengkap</span>
-              <ArrowRight size={16} className="text-primary-400 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight size={16} className="text-primary-600 dark:text-primary-400 group-hover:translate-x-1 transition-transform" />
             </Link>
          </div>
       )}
@@ -111,14 +111,14 @@ function MarqueeCard({ image }: { image: GalleryImage }) {
     : image.image_url
 
   return (
-    <div className="shrink-0 w-80 h-56 md:w-96 md:h-64 rounded-xl overflow-hidden group relative bg-slate-900 transition-all duration-500">
+    <div className="shrink-0 w-80 h-56 md:w-96 md:h-64 rounded-xl overflow-hidden group relative bg-slate-200 dark:bg-slate-900 transition-all duration-500 shadow-lg">
       <img
         src={src}
         alt={image.caption || 'Galeri'}
-        className="w-full h-full object-cover grayscale-0 md:grayscale opacity-100 md:opacity-60 md:group-hover:grayscale-0 md:group-hover:opacity-100 transition-all duration-700"
+        className="w-full h-full object-cover grayscale-0 md:grayscale opacity-100 dark:opacity-60 dark:md:group-hover:opacity-100 md:group-hover:grayscale-0 transition-all duration-700"
         loading="lazy"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80" />
+      <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-60 dark:opacity-80" />
       
       {image.caption && (
         <div className="absolute inset-x-0 bottom-0 p-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
