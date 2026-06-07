@@ -92,9 +92,9 @@ export default function HeroSection() {
 
       {/* Overlays to ensure text readability for both Light and Dark mode */}
       {/* Light Mode Overlays */}
-      <div className="absolute inset-0 z-0 bg-white/60 dark:opacity-0 transition-opacity duration-500 pointer-events-none" />
-      <div className="absolute inset-0 z-0 bg-gradient-to-t from-slate-50 via-slate-50/80 to-transparent dark:opacity-0 transition-opacity duration-500 pointer-events-none" />
-      <div className="absolute inset-0 z-0 bg-gradient-to-r from-slate-50/90 via-slate-50/50 to-transparent dark:opacity-0 transition-opacity duration-500 pointer-events-none" />
+      <div className="absolute inset-0 z-0 bg-white/40 dark:opacity-0 transition-opacity duration-500 pointer-events-none" />
+      <div className="absolute inset-0 z-0 bg-gradient-to-t from-slate-50 via-slate-50/60 to-transparent dark:opacity-0 transition-opacity duration-500 pointer-events-none" />
+      <div className="absolute inset-0 z-0 bg-gradient-to-r from-slate-50/80 via-slate-50/30 to-transparent dark:opacity-0 transition-opacity duration-500 pointer-events-none" />
       
       {/* Dark Mode Overlays */}
       <div className="absolute inset-0 z-0 bg-black/40 opacity-0 dark:opacity-100 transition-opacity duration-500 pointer-events-none" />
@@ -104,6 +104,14 @@ export default function HeroSection() {
       {/* Content Container */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-32">
         <div className="max-w-4xl space-y-6 sm:space-y-8">
+          <div className="flex items-center gap-4 mb-8">
+            <div className="w-12 h-12 sm:w-16 sm:h-16 shrink-0">
+              <img src="/logokemenag.png" alt="Kemenag" className="w-full h-full object-contain drop-shadow-sm dark:drop-shadow-md" />
+            </div>
+            <p className="font-heading font-black text-2xl sm:text-3xl tracking-tighter text-slate-900 dark:text-white drop-shadow-sm dark:drop-shadow-md transition-colors">
+              MAN 1 Tasikmalaya
+            </p>
+          </div>
           
           <div className="flex items-center gap-3">
             <span className="w-12 h-[2px] bg-primary-600 dark:bg-primary-400 transition-colors" />

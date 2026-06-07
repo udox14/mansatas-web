@@ -43,6 +43,7 @@ export default function Navbar() {
 
   // Top bar visibility logic
   const isSolid = scrolled || !isHome || menuOpen
+  const hideLogo = isHome && !scrolled && !menuOpen
 
   return (
     <>
@@ -51,19 +52,29 @@ export default function Navbar() {
         className={cn(
           'fixed top-0 left-0 right-0 z-[100] transition-all duration-500 border-b',
           isSolid 
-            ? 'bg-slate-950/95 backdrop-blur-md border-slate-900 py-3 shadow-md' 
+            ? 'bg-white/95 dark:bg-slate-950/95 backdrop-blur-md border-slate-200 dark:border-slate-900 py-3 shadow-sm dark:shadow-md' 
             : 'bg-transparent border-transparent py-5'
         )}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group z-[101]" onClick={() => setMenuOpen(false)}>
+          <Link 
+            href="/" 
+            className={cn(
+              "flex items-center gap-3 group z-[101] transition-all duration-500",
+              hideLogo ? "opacity-0 -translate-y-4 pointer-events-none" : "opacity-100 translate-y-0"
+            )} 
+            onClick={() => setMenuOpen(false)}
+          >
             <div className="relative flex items-center justify-center w-10 h-10 transition-transform group-hover:scale-105 duration-300">
-              <img src="/logokemenag.png" alt="Kemenag" className="w-full h-full object-contain drop-shadow-md" />
+              <img src="/logokemenag.png" alt="Kemenag" className="w-full h-full object-contain drop-shadow-sm dark:drop-shadow-md" />
             </div>
             <div>
-              <p className="font-heading font-extrabold text-lg leading-tight tracking-tight text-white transition-colors duration-300 drop-shadow-md">
+              <p className={cn(
+                "font-heading font-extrabold text-lg leading-tight tracking-tight transition-colors duration-300",
+                isSolid ? "text-slate-900 dark:text-white" : "text-slate-900 dark:text-white"
+              )}>
                 MAN 1 Tasikmalaya
               </p>
             </div>
@@ -78,7 +89,12 @@ export default function Navbar() {
                 href="https://app.mansatas.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-6 py-2.5 text-xs uppercase tracking-widest font-extrabold rounded-full transition-all duration-300 active:scale-95 border border-white/20 bg-white/10 hover:bg-white/20 text-white backdrop-blur-sm"
+                className={cn(
+                  "inline-flex items-center px-6 py-2.5 text-xs uppercase tracking-widest font-extrabold rounded-full transition-all duration-300 active:scale-95 border backdrop-blur-sm",
+                  menuOpen 
+                    ? "bg-white/10 border-white/20 text-white hover:bg-white/20" 
+                    : "bg-white/50 dark:bg-white/10 border-slate-300 dark:border-white/20 text-slate-900 dark:text-white hover:bg-white dark:hover:bg-white/20"
+                )}
               >
                 Aplikasi
               </a>
@@ -86,7 +102,7 @@ export default function Navbar() {
                 href="https://pmb.man1tasikmalaya.sch.id"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-6 py-2.5 text-xs uppercase tracking-widest font-extrabold rounded-full transition-all duration-300 shadow-lg active:scale-95 border border-primary-500 bg-primary-600 hover:bg-primary-500 text-white"
+                className="inline-flex items-center px-6 py-2.5 text-xs uppercase tracking-widest font-extrabold rounded-full transition-all duration-300 shadow-md dark:shadow-lg active:scale-95 border border-primary-500 bg-primary-600 hover:bg-primary-500 text-white"
               >
                 Portal PMB
               </a>
@@ -98,9 +114,9 @@ export default function Navbar() {
                 onClick={toggle}
                 className={cn(
                   'p-2.5 rounded-full transition-all duration-300 border backdrop-blur-md',
-                  isSolid
-                    ? 'text-slate-300 border-slate-800 hover:bg-slate-900'
-                    : 'text-white border-white/20 hover:bg-white/20'
+                  menuOpen
+                    ? 'text-white border-white/20 hover:bg-white/20'
+                    : 'text-slate-700 dark:text-white border-slate-300 dark:border-white/20 hover:bg-slate-100 dark:hover:bg-white/20'
                 )}
                 aria-label="Toggle dark mode"
               >
@@ -113,9 +129,9 @@ export default function Navbar() {
               onClick={() => setMenuOpen(!menuOpen)}
               className={cn(
                 'p-2.5 rounded-full transition-all duration-300 border backdrop-blur-md flex items-center gap-2',
-                isSolid
-                  ? 'text-white border-slate-800 hover:bg-slate-900'
-                  : 'text-white border-white/20 hover:bg-white/20'
+                menuOpen
+                  ? 'text-white border-white/20 hover:bg-white/20'
+                  : 'text-slate-700 dark:text-white border-slate-300 dark:border-white/20 hover:bg-slate-100 dark:hover:bg-white/20'
               )}
               aria-label="Toggle menu"
             >
@@ -142,7 +158,7 @@ export default function Navbar() {
               <div className="absolute bottom-0 -left-1/4 w-[60vw] h-[60vw] max-w-[600px] max-h-[600px] bg-slate-900/50 rounded-full blur-[100px]" />
             </div>
 
-            <div className="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-24 flex flex-col lg:flex-row gap-12 lg:gap-24">
+            <div className="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-32 pb-24 flex flex-col lg:flex-row gap-12 lg:gap-24">
               
               {/* Navigation Links */}
               <div className="flex-1">
