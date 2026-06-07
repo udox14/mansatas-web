@@ -94,7 +94,7 @@ export default function Navbar() {
                   "bg-white/50 dark:bg-white/10 border-slate-300 dark:border-white/20 text-slate-900 dark:text-white hover:bg-white dark:hover:bg-white/20"
                 )}
               >
-                Aplikasi
+                MANSATAS App
               </a>
               <a
                 href="https://pmb.man1tasikmalaya.sch.id"
@@ -102,7 +102,7 @@ export default function Navbar() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center px-6 py-2.5 text-xs uppercase tracking-widest font-extrabold rounded-full transition-all duration-300 shadow-md dark:shadow-lg active:scale-95 border border-primary-500 bg-primary-600 hover:bg-primary-500 text-white"
               >
-                Portal PMB
+                PMB {new Date().getFullYear()}
               </a>
             </div>
 
@@ -221,7 +221,7 @@ export default function Navbar() {
                     onClick={() => setMenuOpen(false)}
                     className="inline-flex items-center justify-center w-full sm:w-auto px-8 py-4 bg-primary-600 text-white text-sm uppercase tracking-widest font-extrabold rounded-full hover:bg-primary-500 active:scale-95 transition-all"
                   >
-                    Daftar PMB Sekarang
+                    Daftar PMB {new Date().getFullYear()}
                   </a>
                   <a
                     href="https://app.mansatas.com"
@@ -230,7 +230,7 @@ export default function Navbar() {
                     onClick={() => setMenuOpen(false)}
                     className="inline-flex items-center justify-center w-full sm:w-auto px-8 py-4 bg-slate-100 dark:bg-white/10 text-slate-900 dark:text-white text-sm uppercase tracking-widest font-extrabold rounded-full border border-slate-200 dark:border-white/20 hover:bg-slate-200 dark:hover:bg-white/20 active:scale-95 transition-all"
                   >
-                    Masuk ke Aplikasi
+                    Buka MANSATAS App
                   </a>
                 </div>
               </motion.div>

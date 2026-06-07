@@ -138,10 +138,10 @@ export default function Footer() {
           </p>
           <div className="flex gap-6">
             <Link href="/pmb" className="text-xs uppercase font-bold tracking-widest text-slate-500 hover:text-primary-400 transition-colors">
-              Portal PMB
+              PMB {new Date().getFullYear()}
             </Link>
             <Link href="https://app.mansatas.com" className="text-xs uppercase font-bold tracking-widest text-slate-500 hover:text-primary-400 transition-colors">
-              Aplikasi
+              MANSATAS App
             </Link>
           </div>
         </div>
