@@ -176,7 +176,7 @@ export default function HeroSection() {
               </div>
               
               <p className="text-sm sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl leading-relaxed font-medium drop-shadow-sm transition-colors">
-                {description || 'Portal informasi resmi Madrasah Aliyah Negeri 1 Tasikmalaya. Temukan ragam berita terbaru, program unggulan, profil pendidik, serta rentetan prestasi membanggakan dari peserta didik kami.'}
+                Portal informasi resmi Madrasah Aliyah Negeri 1 Tasikmalaya. Temukan ragam berita terbaru, program unggulan, profil pendidik, serta rentetan prestasi membanggakan dari peserta didik kami.
               </p>
               
               <div className="pt-6 flex flex-wrap gap-4">
