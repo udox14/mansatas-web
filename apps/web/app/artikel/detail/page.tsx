@@ -157,11 +157,11 @@ function ArticleDetailContent() {
             <div className="lg:col-span-8">
               <article>
                 {article.thumbnail_url && (
-                  <div className="rounded-[2rem] overflow-hidden mb-8 aspect-[2/1] border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-100/50 dark:shadow-none bg-slate-50">
+                  <div className="rounded-[2rem] overflow-hidden mb-8 border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-100/50 dark:shadow-none bg-slate-50 dark:bg-slate-900">
                     <img
                       src={article.thumbnail_url.startsWith('/') ? `${API_URL}${article.thumbnail_url}` : article.thumbnail_url}
                       alt={article.title}
-                      className="w-full h-full object-cover"
+                      className="w-full max-h-[680px] object-contain"
                     />
                   </div>
                 )}
@@ -193,13 +193,13 @@ function ArticleDetailContent() {
                     prose-p:leading-relaxed prose-p:text-slate-600 dark:prose-p:text-slate-300 prose-p:font-medium
                     prose-headings:font-heading prose-headings:font-bold prose-headings:text-slate-900 dark:prose-headings:text-white
                     prose-a:text-primary-600 dark:prose-a:text-primary-400 prose-a:no-underline hover:prose-a:underline prose-a:font-bold
-                    prose-img:rounded-3xl prose-img:border prose-img:border-slate-100 dark:prose-img:border-slate-800
+                    prose-img:rounded-3xl prose-img:border prose-img:border-slate-100 dark:prose-img:border-slate-800 prose-img:bg-slate-50 dark:prose-img:bg-slate-900
                     prose-blockquote:border-primary-500 prose-blockquote:bg-slate-50 dark:prose-blockquote:bg-slate-900/50 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:rounded-r-2xl prose-blockquote:font-medium
                     [&_table]:w-full [&_table]:overflow-x-auto [&_table]:block [&_table]:max-w-full"
                   dangerouslySetInnerHTML={{
                     __html: DOMPurify.sanitize(article.content, {
                       ADD_TAGS: ['iframe'],
-                      ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling', 'target'],
+                      ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling', 'target', 'class', 'style'],
                     }),
                   }}
                 />

@@ -10,12 +10,20 @@ import { api } from '@/lib/api'
 import { toast } from 'sonner'
 import type { Category } from '@/types'
 
+const todayInputValue = () => {
+  const now = new Date()
+  const offsetDate = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
+  return offsetDate.toISOString().slice(0, 10)
+}
+const inputDateToCreatedAt = (date: string) => `${date} 00:00:00`
+
 export default function NewArticlePage() {
   const [title, setTitle] = useState('')
   const [excerpt, setExcerpt] = useState('')
   const [content, setContent] = useState('')
   const [thumbnail, setThumbnail] = useState('')
   const [status, setStatus] = useState<'draft' | 'published'>('draft')
+  const [publishDate, setPublishDate] = useState(todayInputValue)
   const [categories, setCategories] = useState<Category[]>([])
   const [categoryId, setCategoryId] = useState<string | null>(null)
   const [saving, setSaving] = useState(false)
@@ -55,7 +63,13 @@ export default function NewArticlePage() {
     setSaving(true)
     try {
       const res = await api.post<{ data: { id: string; slug: string } }>('/api/admin/articles', {
-        title, excerpt, content, thumbnail_url: thumbnail || null, status, category_id: categoryId,
+        title,
+        excerpt,
+        content,
+        thumbnail_url: thumbnail || null,
+        status,
+        category_id: categoryId,
+        created_at: inputDateToCreatedAt(publishDate),
       })
       toast.success('Artikel berhasil disimpan!')
       window.location.href = `/admin/artikel/edit?id=${res.data.id}`
@@ -109,6 +123,16 @@ export default function NewArticlePage() {
             <p className="text-[10px] text-slate-400 mt-1.5 ml-1">
               Kategori bisa dikelola di menu <Link href="/admin/kategori" className="text-primary-500 hover:underline">Manajemen Kategori</Link>.
             </p>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Tanggal Publish</label>
+            <input
+              type="date"
+              value={publishDate}
+              onChange={(e) => setPublishDate(e.target.value)}
+              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/30"
+            />
           </div>
 
           <div>

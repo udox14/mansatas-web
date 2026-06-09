@@ -21,6 +21,26 @@ function slugify(text: string): string {
     .trim()
 }
 
+function normalizeCreatedAt(value: unknown): string | null {
+  if (typeof value !== 'string') return null
+  const date = value.trim()
+  if (!date) return null
+  if (!/^\d{4}-\d{2}-\d{2}(?:[ T]\d{2}:\d{2}(?::\d{2})?)?(?:\.\d{3})?(?:Z|[+-]\d{2}:\d{2})?$/.test(date)) {
+    return null
+  }
+  const [year, month, day] = date.slice(0, 10).split('-').map(Number)
+  const parsedDate = new Date(Date.UTC(year, month - 1, day))
+  if (
+    parsedDate.getUTCFullYear() !== year ||
+    parsedDate.getUTCMonth() !== month - 1 ||
+    parsedDate.getUTCDate() !== day
+  ) {
+    return null
+  }
+  if (Number.isNaN(new Date(date.replace(' ', 'T')).getTime())) return null
+  return date
+}
+
 /* ============================================
    GET /api/admin/articles
    List semua artikel (termasuk draft & deleted)
@@ -142,10 +162,16 @@ adminArticles.post('/', async (c) => {
     thumbnail_url?: string
     status?: 'draft' | 'published'
     category_id?: string
+    created_at?: string
   }>()
 
   if (!body.title?.trim()) {
     return c.json({ success: false, message: 'Judul wajib diisi.' }, 400)
+  }
+
+  const createdAt = body.created_at === undefined ? undefined : normalizeCreatedAt(body.created_at)
+  if (body.created_at !== undefined && !createdAt) {
+    return c.json({ success: false, message: 'Tanggal publish tidak valid.' }, 400)
   }
 
   // Generate unique slug
@@ -175,6 +201,7 @@ adminArticles.post('/', async (c) => {
     status: body.status || 'draft',
     author_id: user.id,
     category_id: body.category_id || null,
+    ...(createdAt ? { created_at: createdAt } : {}),
   })
 
   return c.json({
@@ -209,10 +236,16 @@ adminArticles.put('/:id', async (c) => {
     thumbnail_url?: string
     status?: 'draft' | 'published'
     category_id?: string
+    created_at?: string
   }>()
 
   const updates: Record<string, unknown> = {
     updated_at: new Date().toISOString(),
+  }
+
+  const createdAt = body.created_at === undefined ? undefined : normalizeCreatedAt(body.created_at)
+  if (body.created_at !== undefined && !createdAt) {
+    return c.json({ success: false, message: 'Tanggal publish tidak valid.' }, 400)
   }
 
   if (body.title !== undefined) {
@@ -235,6 +268,7 @@ adminArticles.put('/:id', async (c) => {
   if (body.thumbnail_url !== undefined) updates.thumbnail_url = body.thumbnail_url?.trim() || null
   if (body.status !== undefined) updates.status = body.status
   if (body.category_id !== undefined) updates.category_id = body.category_id || null
+  if (createdAt) updates.created_at = createdAt
 
   await db.update(articles).set(updates).where(eq(articles.id, id))
 

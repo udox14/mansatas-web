@@ -8,11 +8,14 @@ import {
   Edit2, 
   Trash2, 
   Loader2, 
-  Calendar, 
   MapPin, 
   Building2, 
-  ExternalLink,
-  ChevronDown
+  ChevronDown,
+  Download,
+  FileSpreadsheet,
+  Upload,
+  X,
+  Save
 } from 'lucide-react'
 import { toast } from 'sonner'
 import AdminLayout from '@/components/admin/admin-layout'
@@ -22,6 +25,106 @@ import ImageUploader from '@/components/admin/image-uploader'
 import { useConfirm } from '@/hooks/use-confirm'
 import { cn } from '@/lib/utils'
 
+interface ImportAchievement {
+  id: string
+  title: string
+  rank: string
+  organizer: string
+  location: string
+  date: string
+  year: number
+  image_url: string
+  article_slug: string
+  article_id: string
+}
+
+async function downloadTemplate() {
+  const XLSX = await import('xlsx')
+  const header = [
+    'Nama Lomba / Prestasi *',
+    'Peringkat',
+    'Penyelenggara',
+    'Tempat Pelaksanaan',
+    'Tanggal (YYYY-MM-DD)',
+    'Tahun *',
+    'URL Foto',
+    'Slug Artikel Terkait',
+  ]
+  const examples = [
+    ['Juara 1 Olimpiade Matematika Tingkat Kabupaten', 'Juara 1', 'Kementerian Agama Kabupaten Tasikmalaya', 'Tasikmalaya', '2024-05-21', 2024, '', 'juara-olimpiade-matematika-2024'],
+    ['Medali Perak KSM Fisika', 'Medali Perak', 'Kementerian Agama Provinsi Jawa Barat', 'Bandung', '2023-08-12', 2023, 'https://contoh.sch.id/foto-prestasi.jpg', ''],
+  ]
+
+  const ws = XLSX.utils.aoa_to_sheet([header, ...examples])
+  ws['!cols'] = [
+    { wch: 45 },
+    { wch: 18 },
+    { wch: 38 },
+    { wch: 28 },
+    { wch: 20 },
+    { wch: 12 },
+    { wch: 36 },
+    { wch: 32 },
+  ]
+  ws['!freeze'] = { xSplit: 0, ySplit: 1 }
+
+  const wb = XLSX.utils.book_new()
+  XLSX.utils.book_append_sheet(wb, ws, 'Data Prestasi')
+  XLSX.writeFile(wb, 'template_import_prestasi.xlsx')
+}
+
+function formatExcelDate(value: unknown): string {
+  if (!value) return ''
+  if (value instanceof Date && !Number.isNaN(value.getTime())) {
+    return value.toISOString().slice(0, 10)
+  }
+  if (typeof value === 'number') {
+    const date = new Date(Math.round((value - 25569) * 86400 * 1000))
+    return Number.isNaN(date.getTime()) ? '' : date.toISOString().slice(0, 10)
+  }
+  const text = String(value).trim()
+  if (!text) return ''
+  const normalized = text.replace(/\//g, '-')
+  if (/^\d{4}-\d{1,2}-\d{1,2}$/.test(normalized)) {
+    const [year, month, day] = normalized.split('-')
+    return `${year.padStart(4, '0')}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+  }
+  return ''
+}
+
+async function parseExcelFile(file: File, articles: ArticleListItem[]): Promise<ImportAchievement[]> {
+  const XLSX = await import('xlsx')
+  const data = await file.arrayBuffer()
+  const wb = XLSX.read(data, { type: 'array', cellDates: true })
+  const ws = wb.Sheets[wb.SheetNames[0]]
+  const rows = XLSX.utils.sheet_to_json<unknown[]>(ws, { header: 1, defval: '' })
+  const articlesBySlug = new Map(articles.map((article) => [article.slug, article.id]))
+
+  const items: ImportAchievement[] = []
+  for (const row of rows.slice(1)) {
+    const title = String(row[0] ?? '').trim()
+    const year = parseInt(String(row[5] ?? ''), 10)
+    if (!title && !String(row[1] ?? '').trim() && !String(row[2] ?? '').trim()) continue
+    if (!title || !Number.isInteger(year)) continue
+
+    const articleSlug = String(row[7] ?? '').trim()
+    items.push({
+      id: crypto.randomUUID(),
+      title,
+      rank: String(row[1] ?? '').trim(),
+      organizer: String(row[2] ?? '').trim(),
+      location: String(row[3] ?? '').trim(),
+      date: formatExcelDate(row[4]),
+      year,
+      image_url: String(row[6] ?? '').trim(),
+      article_slug: articleSlug,
+      article_id: articleSlug ? articlesBySlug.get(articleSlug) || '' : '',
+    })
+  }
+
+  return items
+}
+
 export default function AdminAchievementsPage() {
   const [achievements, setAchievements] = useState<Achievement[]>([])
   const [articles, setArticles] = useState<ArticleListItem[]>([])
@@ -29,6 +132,11 @@ export default function AdminAchievementsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [editing, setEditing] = useState<Achievement | null>(null)
   const [search, setSearch] = useState('')
+  const [importOpen, setImportOpen] = useState(false)
+  const [importItems, setImportItems] = useState<ImportAchievement[]>([])
+  const [importing, setImporting] = useState(false)
+  const [parsing, setParsing] = useState(false)
+  const [fileName, setFileName] = useState('')
   const confirm = useConfirm()
 
   const [form, setForm] = useState({
@@ -121,6 +229,79 @@ export default function AdminAchievementsPage() {
     }
   }
 
+  const handleImportFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    e.target.value = ''
+    if (!file) return
+    if (!file.name.match(/\.(xlsx|xls)$/i)) {
+      toast.error('Format file harus Excel (.xlsx atau .xls).')
+      return
+    }
+
+    setParsing(true)
+    setFileName(file.name)
+    try {
+      const parsed = await parseExcelFile(file, articles)
+      if (parsed.length === 0) {
+        toast.error('Tidak ada data valid. Pastikan memakai template prestasi.')
+        return
+      }
+      setImportItems(parsed)
+      setImportOpen(true)
+      toast.success(`${parsed.length} data prestasi berhasil dibaca.`)
+    } catch (err) {
+      console.error(err)
+      toast.error('Gagal membaca file Excel.')
+    } finally {
+      setParsing(false)
+    }
+  }
+
+  const updateImportItem = (id: string, field: keyof ImportAchievement, value: string | number) => {
+    setImportItems(prev => prev.map(item => {
+      if (item.id !== id) return item
+      const next = { ...item, [field]: value }
+      if (field === 'article_slug') {
+        next.article_id = articles.find((article) => article.slug === value)?.id || ''
+      }
+      return next
+    }))
+  }
+
+  const removeImportItem = (id: string) => {
+    setImportItems(prev => prev.filter(item => item.id !== id))
+  }
+
+  const submitImport = async () => {
+    const validItems = importItems.filter(item => item.title.trim() && Number.isInteger(item.year))
+    if (validItems.length === 0) {
+      toast.error('Tidak ada data valid untuk disimpan.')
+      return
+    }
+
+    setImporting(true)
+    try {
+      await api.post('/api/admin/achievements/batch', validItems.map(item => ({
+        title: item.title,
+        rank: item.rank,
+        organizer: item.organizer,
+        location: item.location,
+        date: item.date || null,
+        year: item.year,
+        image_url: item.image_url,
+        article_id: item.article_id,
+      })))
+      toast.success(`${validItems.length} data prestasi berhasil diimport.`)
+      setImportOpen(false)
+      setImportItems([])
+      fetchData()
+    } catch (err: any) {
+      toast.error(err.message || 'Gagal import prestasi.')
+    } finally {
+      setImporting(false)
+    }
+  }
+
   const filtered = achievements.filter(a => 
     a.title.toLowerCase().includes(search.toLowerCase()) ||
     a.organizer?.toLowerCase().includes(search.toLowerCase())
@@ -140,26 +321,41 @@ export default function AdminAchievementsPage() {
               className="w-full pl-10 pr-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition-all"
             />
           </div>
-          <button
-            onClick={() => {
-              setEditing(null)
-              setForm({
-                title: '',
-                rank: '',
-                organizer: '',
-                location: '',
-                date: '',
-                year: new Date().getFullYear(),
-                image_url: '',
-                article_id: ''
-              })
-              setIsModalOpen(true)
-            }}
-            className="flex items-center justify-center gap-2 px-5 py-2.5 bg-primary-600 hover:bg-primary-700 text-white font-bold rounded-xl transition-all shadow-lg shadow-primary-600/20 active:scale-95 whitespace-nowrap"
-          >
-            <Plus size={18} />
-            Tambah Prestasi
-          </button>
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={downloadTemplate}
+              className="flex items-center justify-center gap-2 px-4 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 font-bold rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-all whitespace-nowrap"
+            >
+              <Download size={17} />
+              Template
+            </button>
+            <label className="flex items-center justify-center gap-2 px-4 py-2.5 bg-accent-500 hover:bg-accent-600 text-white font-bold rounded-xl transition-all shadow-lg shadow-accent-500/20 active:scale-95 whitespace-nowrap cursor-pointer">
+              {parsing ? <Loader2 size={17} className="animate-spin" /> : <Upload size={17} />}
+              Import Excel
+              <input type="file" accept=".xlsx,.xls" className="hidden" onChange={handleImportFile} disabled={parsing} />
+            </label>
+            <button
+              onClick={() => {
+                setEditing(null)
+                setForm({
+                  title: '',
+                  rank: '',
+                  organizer: '',
+                  location: '',
+                  date: '',
+                  year: new Date().getFullYear(),
+                  image_url: '',
+                  article_id: ''
+                })
+                setIsModalOpen(true)
+              }}
+              className="flex items-center justify-center gap-2 px-5 py-2.5 bg-primary-600 hover:bg-primary-700 text-white font-bold rounded-xl transition-all shadow-lg shadow-primary-600/20 active:scale-95 whitespace-nowrap"
+            >
+              <Plus size={18} />
+              Tambah Prestasi
+            </button>
+          </div>
         </div>
 
         {/* Desktop Table View */}
@@ -365,6 +561,107 @@ export default function AdminAchievementsPage() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {importOpen && (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm">
+          <div className="bg-white dark:bg-slate-900 w-full max-w-6xl rounded-[2rem] overflow-hidden shadow-2xl border border-white/20">
+            <div className="px-6 py-5 bg-slate-50/50 dark:bg-slate-800/30 border-b border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <h2 className="text-lg font-heading font-black text-slate-900 dark:text-white">Review Import Prestasi</h2>
+                <p className="text-xs text-slate-500 mt-1">{importItems.length} data dari {fileName}</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setImportOpen(false)}
+                className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            <div className="max-h-[65vh] overflow-auto">
+              <table className="w-full text-left text-sm">
+                <thead className="sticky top-0 bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 z-10">
+                  <tr>
+                    <th className="px-4 py-3 text-[10px] font-black text-slate-400 uppercase tracking-widest">#</th>
+                    <th className="px-4 py-3 text-[10px] font-black text-slate-400 uppercase tracking-widest min-w-[260px]">Prestasi</th>
+                    <th className="px-4 py-3 text-[10px] font-black text-slate-400 uppercase tracking-widest min-w-[140px]">Peringkat</th>
+                    <th className="px-4 py-3 text-[10px] font-black text-slate-400 uppercase tracking-widest min-w-[180px]">Penyelenggara</th>
+                    <th className="px-4 py-3 text-[10px] font-black text-slate-400 uppercase tracking-widest min-w-[150px]">Tempat</th>
+                    <th className="px-4 py-3 text-[10px] font-black text-slate-400 uppercase tracking-widest min-w-[140px]">Tanggal</th>
+                    <th className="px-4 py-3 text-[10px] font-black text-slate-400 uppercase tracking-widest min-w-[90px]">Tahun</th>
+                    <th className="px-4 py-3 text-[10px] font-black text-slate-400 uppercase tracking-widest min-w-[190px]">Slug Artikel</th>
+                    <th className="px-4 py-3 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Hapus</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-50 dark:divide-slate-800">
+                  {importItems.map((item, idx) => (
+                    <tr key={item.id} className="group hover:bg-slate-50/70 dark:hover:bg-slate-800/30">
+                      <td className="px-4 py-3 text-xs text-slate-400 font-mono">{idx + 1}</td>
+                      <td className="px-4 py-3">
+                        <input value={item.title} onChange={(e) => updateImportItem(item.id, 'title', e.target.value)}
+                          className="w-full bg-transparent border-b border-transparent group-hover:border-slate-200 focus:border-primary-400 outline-none px-2 py-1 font-semibold text-slate-900 dark:text-white rounded" />
+                      </td>
+                      <td className="px-4 py-3">
+                        <input value={item.rank} onChange={(e) => updateImportItem(item.id, 'rank', e.target.value)}
+                          className="w-full bg-transparent border-b border-transparent group-hover:border-slate-200 focus:border-primary-400 outline-none px-2 py-1 text-slate-600 dark:text-slate-300 rounded" />
+                      </td>
+                      <td className="px-4 py-3">
+                        <input value={item.organizer} onChange={(e) => updateImportItem(item.id, 'organizer', e.target.value)}
+                          className="w-full bg-transparent border-b border-transparent group-hover:border-slate-200 focus:border-primary-400 outline-none px-2 py-1 text-slate-600 dark:text-slate-300 rounded" />
+                      </td>
+                      <td className="px-4 py-3">
+                        <input value={item.location} onChange={(e) => updateImportItem(item.id, 'location', e.target.value)}
+                          className="w-full bg-transparent border-b border-transparent group-hover:border-slate-200 focus:border-primary-400 outline-none px-2 py-1 text-slate-600 dark:text-slate-300 rounded" />
+                      </td>
+                      <td className="px-4 py-3">
+                        <input type="date" value={item.date} onChange={(e) => updateImportItem(item.id, 'date', e.target.value)}
+                          className="w-full bg-transparent border-b border-transparent group-hover:border-slate-200 focus:border-primary-400 outline-none px-2 py-1 text-slate-600 dark:text-slate-300 rounded" />
+                      </td>
+                      <td className="px-4 py-3">
+                        <input type="number" value={item.year} onChange={(e) => updateImportItem(item.id, 'year', parseInt(e.target.value, 10) || new Date().getFullYear())}
+                          className="w-full bg-transparent border-b border-transparent group-hover:border-slate-200 focus:border-primary-400 outline-none px-2 py-1 text-slate-600 dark:text-slate-300 rounded" />
+                      </td>
+                      <td className="px-4 py-3">
+                        <input value={item.article_slug} onChange={(e) => updateImportItem(item.id, 'article_slug', e.target.value)}
+                          className={cn(
+                            'w-full bg-transparent border-b border-transparent group-hover:border-slate-200 focus:border-primary-400 outline-none px-2 py-1 rounded',
+                            item.article_slug && !item.article_id ? 'text-red-500' : 'text-slate-600 dark:text-slate-300'
+                          )}
+                          title={item.article_slug && !item.article_id ? 'Slug artikel tidak ditemukan' : undefined}
+                        />
+                      </td>
+                      <td className="px-4 py-3 text-center">
+                        <button type="button" onClick={() => removeImportItem(item.id)}
+                          className="p-1.5 text-slate-300 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 rounded-lg transition-all">
+                          <Trash2 size={14} />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <div className="px-6 py-4 bg-slate-50/70 dark:bg-slate-800/30 border-t border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <p className="text-xs text-slate-500">
+                Slug artikel yang merah berarti tidak cocok, data tetap bisa disimpan tanpa link artikel.
+              </p>
+              <div className="flex items-center gap-2">
+                <button type="button" onClick={() => setImportOpen(false)}
+                  className="px-4 py-2.5 text-sm font-bold text-slate-500 hover:text-slate-700 dark:hover:text-white border border-slate-200 dark:border-slate-700 rounded-xl">
+                  Batal
+                </button>
+                <button type="button" onClick={submitImport} disabled={importing || importItems.length === 0}
+                  className="inline-flex items-center gap-2 px-6 py-2.5 bg-primary-600 hover:bg-primary-700 text-white text-sm font-bold rounded-xl disabled:opacity-50">
+                  {importing ? <Loader2 className="animate-spin" size={16} /> : <Save size={16} />}
+                  Simpan {importItems.length} Data
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}

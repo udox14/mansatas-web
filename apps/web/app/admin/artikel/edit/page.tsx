@@ -11,6 +11,9 @@ import { api } from '@/lib/api'
 import { toast } from 'sonner'
 import type { Category } from '@/types'
 
+const createdAtToInputDate = (createdAt: string) => createdAt.slice(0, 10)
+const inputDateToCreatedAt = (date: string) => `${date} 00:00:00`
+
 export default function EditArticlePage() {
   return (
     <Suspense fallback={<AdminLayout><div className="flex justify-center py-20"><Loader2 className="animate-spin text-primary-500" size={32} /></div></AdminLayout>}>
@@ -27,6 +30,7 @@ function EditArticleContent() {
   const [content, setContent] = useState('')
   const [thumbnail, setThumbnail] = useState('')
   const [status, setStatus] = useState<'draft' | 'published'>('draft')
+  const [publishDate, setPublishDate] = useState('')
   const [categories, setCategories] = useState<Category[]>([])
   const [categoryId, setCategoryId] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
@@ -47,6 +51,7 @@ function EditArticleContent() {
         setContent(a.content)
         setThumbnail(a.thumbnail_url || '')
         setStatus(a.status)
+        setPublishDate(createdAtToInputDate(a.created_at))
         setCategoryId(a.category_id || null)
         setCategories(catRes.data)
       })
@@ -78,7 +83,13 @@ function EditArticleContent() {
     setSaving(true)
     try {
       await api.put(`/api/admin/articles/${id}`, {
-        title, excerpt, content, thumbnail_url: thumbnail || null, status, category_id: categoryId,
+        title,
+        excerpt,
+        content,
+        thumbnail_url: thumbnail || null,
+        status,
+        category_id: categoryId,
+        created_at: inputDateToCreatedAt(publishDate),
       })
       toast.success('Artikel berhasil diperbarui!')
     } catch (err: unknown) {
@@ -128,6 +139,15 @@ function EditArticleContent() {
             <p className="text-[10px] text-slate-400 mt-1.5 ml-1">
               Kategori bisa dikelola di menu <Link href="/admin/kategori" className="text-primary-500 hover:underline">Manajemen Kategori</Link>.
             </p>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Tanggal Publish</label>
+            <input
+              type="date"
+              value={publishDate}
+              onChange={(e) => setPublishDate(e.target.value)}
+              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/30"
+            />
           </div>
           <div>
             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Konten</label>
